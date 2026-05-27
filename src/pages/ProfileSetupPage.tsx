@@ -58,7 +58,16 @@ export default function ProfileSetupPage() {
       showToast('관심 분야를 1개 이상 선택해주세요.');
       return;
     }
-    await saveProfile(formData);
+
+    const payload: any = {};
+    if (formData.birthYear) payload.birthYear = Number(formData.birthYear);
+    if (formData.region) payload.region = formData.region;
+    if (formData.employmentStatus) payload.employmentStatus = formData.employmentStatus;
+    if (Array.isArray(formData.interests) && formData.interests.length > 0) payload.interests = formData.interests;
+    if (formData.incomeLevel) payload.incomeLevel = formData.incomeLevel;
+    if (formData.householdType) payload.householdType = formData.householdType;
+
+    await saveProfile(payload);
     navigate('/ai-recommendation');
   };
 

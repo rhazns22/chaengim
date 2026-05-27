@@ -3,6 +3,7 @@ import { profileApi } from '../api/profileApi';
 import { aiApi } from '../api/aiApi';
 import type { UserProfile, AiRecommendation } from '../types/aiRecommendation';
 import { useToastStore } from './useToastStore';
+import { useAuthStore } from './useAuthStore';
 
 interface AiRecommendationState {
   profile: UserProfile | null;
@@ -35,6 +36,7 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set) => (
   needsProfileSetup: false,
 
   fetchProfile: async () => {
+    if (!useAuthStore.getState().accessToken) return;
     set({ isProfileLoading: true, error: null, needsProfileSetup: false });
     try {
       const data = await profileApi.getProfile();
@@ -48,6 +50,11 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set) => (
   },
 
   saveProfile: async (profile: UserProfile) => {
+    if (!useAuthStore.getState().accessToken) {
+      useToastStore.getState().showToast('로그인이 필요합니다.');
+      window.location.href = '/auth/login';
+      return;
+    }
     set({ isSavingProfile: true, error: null });
     try {
       const data = await profileApi.updateProfile(profile);
@@ -62,6 +69,7 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set) => (
   },
 
   fetchRecommendations: async () => {
+    if (!useAuthStore.getState().accessToken) return;
     set({ isGenerating: true, error: null });
     try {
       const data = await aiApi.getRecommendations();
@@ -75,6 +83,11 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set) => (
   },
 
   generateRecommendations: async () => {
+    if (!useAuthStore.getState().accessToken) {
+      useToastStore.getState().showToast('로그인이 필요합니다.');
+      window.location.href = '/auth/login';
+      return;
+    }
     set({ isGenerating: true, error: null, needsProfileSetup: false });
     try {
       const data = await aiApi.createRecommendations();
