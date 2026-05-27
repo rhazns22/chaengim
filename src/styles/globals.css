@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    min-height: 100%;
+    margin: 0;
+  }
+  body {
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-weight: 500;
+    color: #33384A;
+    background: #F7F8FC;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+@layer components {
+  .text-app-hero {
+    @apply text-[26px] sm:text-[28px] leading-tight font-extrabold text-white;
+  }
+  .text-app-page-title {
+    @apply text-[24px] leading-snug font-extrabold;
+  }
+  .text-app-section {
+    @apply text-[20px] sm:text-[24px] leading-snug font-extrabold;
+  }
+  .text-app-card {
+    @apply text-[17px] sm:text-[20px] leading-snug font-bold;
+  }
+  .text-app-body {
+    @apply text-[14px] sm:text-[15px] leading-relaxed font-medium;
+  }
+  .text-app-caption {
+    @apply text-[12px] sm:text-[13px] leading-normal font-medium;
+  }
+  .text-app-button {
+    @apply text-[15px] sm:text-[16px] leading-tight font-bold;
+  }
+  .text-app-tab {
+    @apply text-[11px] sm:text-[12px] font-bold;
+  }
+  .text-app-chip {
+    @apply text-[13px] sm:text-[14px] font-bold;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+* { box-sizing: border-box; }
