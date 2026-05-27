@@ -1,0 +1,32 @@
+[2m오전 11:16:52[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mAxiosError: Request failed with status code 401
+    at settle (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:1738:14)
+    at XMLHttpRequest.onloadend (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2091:4)
+    at Axios$1.request (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2792:37)
+    at async Object.getProfile (http://127.0.0.1:5173/src/api/profileApi.ts:4:20)
+    at async fetchProfile (http://127.0.0.1:5173/src/store/useAiRecommendationStore.ts:25:17)
+[2m오전 11:16:52[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mAxiosError: Request failed with status code 401
+    at settle (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:1738:14)
+    at XMLHttpRequest.onloadend (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2091:4)
+    at Axios$1.request (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2792:37)
+    at async Object.getProfile (http://127.0.0.1:5173/src/api/profileApi.ts:4:20)
+    at async fetchProfile (http://127.0.0.1:5173/src/store/useAiRecommendationStore.ts:25:17)
+[2m오전 11:18:07[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mAxiosError: Request failed with status code 401
+    at settle (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:1738:14)
+    at XMLHttpRequest.onloadend (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2091:4)
+    at Axios$1.request (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2792:37)
+    at async Object.updateProfile (http://127.0.0.1:5173/src/api/profileApi.ts:8:20)
+    at async saveProfile (http://127.0.0.1:5173/src/store/useAiRecommendationStore.ts:43:17)
+    at async handleSubmit (http://127.0.0.1:5173/src/pages/ProfileSetupPage.tsx:40:3)
+[2m오전 11:18:07[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mAxiosError: Request failed with status code 401
+    at settle (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:1738:14)
+    at XMLHttpRequest.onloadend (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2091:4)
+    at Axios$1.request (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2792:37)
+    at async Object.getProfile (http://127.0.0.1:5173/src/api/profileApi.ts:4:20)
+    at async fetchProfile (http://127.0.0.1:5173/src/store/useAiRecommendationStore.ts:25:17)
+[2m오전 11:18:07[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mAxiosError: Request failed with status code 401
+    at settle (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:1738:14)
+    at XMLHttpRequest.onloadend (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2091:4)
+    at Axios$1.request (http://127.0.0.1:5173/node_modules/.vite/deps/axios.js?v=97094e6d:2792:37)
+    at async Object.getProfile (http://127.0.0.1:5173/src/api/profileApi.ts:4:20)
+    at async fetchProfile (http://127.0.0.1:5173/src/store/useAiRecommendationStore.ts:25:17)
+[2m오전 11:20:48[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22m[vite] Failed to reload /src/pages/MyPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
