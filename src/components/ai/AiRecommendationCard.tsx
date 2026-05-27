@@ -25,7 +25,7 @@ export default function AiRecommendationCard({ recommendation }: Props) {
 
       <div className="rounded-xl bg-gray-50 p-4 text-sm font-medium leading-relaxed text-textMain">
         <span className="mr-2 font-bold text-primary">추천 이유</span>
-        {recommendation.reason}
+        {recommendation.reason === 'NO_MATCHED_BENEFITS' ? '가장 많이 조회된 기본 추천 혜택입니다.' : recommendation.reason}
       </div>
 
       {recommendation.matchedTags && recommendation.matchedTags.length > 0 && (

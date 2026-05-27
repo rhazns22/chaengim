@@ -115,6 +115,12 @@ export default function AiRecommendationPage() {
               </p>
             </div>
 
+            {recommendations.some(r => r.reason === 'NO_MATCHED_BENEFITS') && (
+              <div className="mb-6 rounded-2xl bg-blue-50 p-5 text-sm font-bold leading-relaxed text-blue-600">
+                조건에 딱 맞는 추천은 아직 없지만, 많이 찾는 혜택을 먼저 보여드릴게요.
+              </div>
+            )}
+
             <div className="mb-4 flex justify-end">
               <button
                 type="button"
