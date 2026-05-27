@@ -52,7 +52,7 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set, get)
   saveProfile: async (profile: UserProfile) => {
     if (!useAuthStore.getState().accessToken) {
       useToastStore.getState().showToast('로그인이 필요합니다.');
-      window.location.href = '/auth/login';
+      window.location.href = '/login';
       return;
     }
     set({ isSavingProfile: true, error: null });
@@ -85,7 +85,7 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set, get)
   generateRecommendations: async () => {
     if (!useAuthStore.getState().accessToken) {
       useToastStore.getState().showToast('로그인이 필요합니다.');
-      window.location.href = '/auth/login';
+      window.location.href = '/login';
       return;
     }
     const state = get();

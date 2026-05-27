@@ -68,7 +68,7 @@ export default function ProfileSetupPage() {
     if (formData.householdType) payload.householdType = formData.householdType;
 
     await saveProfile(payload);
-    navigate('/ai-recommendation');
+    navigate('/', { replace: true });
   };
 
   const isFormValid = formData.interests.length > 0;
