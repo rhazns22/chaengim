@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, ChevronLeft, Sparkles } from 'lucide-react';
 import PageTransition from '../components/layout/PageTransition';
@@ -21,12 +21,15 @@ export default function AiRecommendationPage() {
     isProfileLoading,
   } = useAiRecommendationStore();
 
+  const hasRequestedRef = useRef(false);
+
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
 
   useEffect(() => {
-    if (profile && recommendations.length === 0 && !isGenerating && !error) {
+    if (profile && recommendations.length === 0 && !isGenerating && !error && !hasRequestedRef.current) {
+      hasRequestedRef.current = true;
       generateRecommendations();
     }
   }, [profile, recommendations.length, isGenerating, error, generateRecommendations]);
@@ -88,7 +91,7 @@ export default function AiRecommendationPage() {
               icon={<AlertCircle size={32} />}
               title="추천을 불러오지 못했습니다"
               description={error}
-              action={<PrimaryButton onClick={() => generateRecommendations()}>다시 추천받기</PrimaryButton>}
+              action={<PrimaryButton onClick={() => generateRecommendations()} disabled={isGenerating}>{isGenerating ? '추천 생성 중...' : '다시 추천받기'}</PrimaryButton>}
             />
           </div>
         ) : recommendations.length === 0 ? (
@@ -116,9 +119,10 @@ export default function AiRecommendationPage() {
               <button
                 type="button"
                 onClick={() => generateRecommendations()}
-                className="rounded-full bg-chipBg px-4 py-2 text-sm font-extrabold text-primary"
+                disabled={isGenerating}
+                className="rounded-full bg-chipBg px-4 py-2 text-sm font-extrabold text-primary disabled:opacity-50"
               >
-                다시 추천받기
+                {isGenerating ? '추천 생성 중...' : '다시 추천받기'}
               </button>
             </div>
 

@@ -26,7 +26,7 @@ const normalizeErrorMessage = (err: any) => {
   return '알 수 없는 오류가 발생했습니다.';
 };
 
-export const useAiRecommendationStore = create<AiRecommendationState>((set) => ({
+export const useAiRecommendationStore = create<AiRecommendationState>((set, get) => ({
   profile: null,
   recommendations: [],
   isProfileLoading: false,
@@ -88,6 +88,9 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set) => (
       window.location.href = '/auth/login';
       return;
     }
+    const state = get();
+    if (state.isGenerating) return;
+
     set({ isGenerating: true, error: null, needsProfileSetup: false });
     try {
       const data = await aiApi.createRecommendations();
@@ -96,6 +99,9 @@ export const useAiRecommendationStore = create<AiRecommendationState>((set) => (
       console.error(err);
       if (err.response?.status === 404) {
         set({ error: null, needsProfileSetup: true });
+      } else if (err.response?.status === 429) {
+        set({ error: '요청이 많습니다. 잠시 후 다시 시도해 주세요.' });
+        useToastStore.getState().showToast('요청이 많습니다. 잠시 후 다시 시도해 주세요.');
       } else {
         set({ error: normalizeErrorMessage(err) });
         useToastStore.getState().showToast('추천을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
