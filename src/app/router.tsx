@@ -11,6 +11,92 @@ import RegisterPasswordPage from '../pages/RegisterPasswordPage';
 import RegisterCompletePage from '../pages/RegisterCompletePage';
 import ProfileSetupPage from '../pages/ProfileSetupPage';
 import { SkeletonCard } from '../components/common/Skeleton';
+import { useAuthStore } from '../store/useAuthStore';
+import { useAiRecommendationStore } from '../store/useAiRecommendationStore';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+function AuthGuard() {
+  const [isReady, setIsReady] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { accessToken, isGuest } = useAuthStore();
+  const { fetchProfile } = useAiRecommendationStore();
+
+  useEffect(() => {
+    let isMounted = true;
+    const checkAuthAndRoute = async () => {
+      // 1. Minimum splash time 1.5s only on first load
+      const splashDelay = new Promise(resolve => setTimeout(resolve, 1500));
+
+      const isAuthenticated = !!accessToken;
+
+      if (!isAuthenticated && !isGuest) {
+        await splashDelay;
+        if (!isMounted) return;
+        setIsReady(true);
+        const isAuthRoute = location.pathname.startsWith('/login') || location.pathname.startsWith('/register');
+        if (!isAuthRoute) {
+          navigate('/login', { replace: true });
+        }
+        return;
+      }
+
+      if (isAuthenticated) {
+        try {
+          // If already ready, no need to fetch profile on every route change unless we are checking
+          if (!isReady) {
+            await fetchProfile();
+          }
+          await splashDelay;
+          if (!isMounted) return;
+          
+          const hasCompletedProfile = !useAiRecommendationStore.getState().needsProfileSetup;
+          setIsReady(true);
+
+          if (!hasCompletedProfile) {
+            if (location.pathname !== '/profile-setup') {
+              navigate('/profile-setup', { replace: true });
+            }
+          } else {
+            if (['/login', '/splash', '/register/complete'].includes(location.pathname)) {
+              navigate('/', { replace: true });
+            }
+          }
+        } catch (err) {
+          await splashDelay;
+          if (!isMounted) return;
+          useAuthStore.getState().logout();
+          setIsReady(true);
+          navigate('/login', { replace: true });
+        }
+      } else {
+        await splashDelay;
+        if (!isMounted) return;
+        setIsReady(true);
+      }
+    };
+
+    checkAuthAndRoute();
+    
+    return () => { isMounted = false; };
+  }, []); // Run only on mount
+
+  // Handle logout separately
+  useEffect(() => {
+    if (isReady && !accessToken && !isGuest) {
+      if (!location.pathname.startsWith('/login') && !location.pathname.startsWith('/register')) {
+        navigate('/login', { replace: true });
+      }
+    }
+  }, [accessToken, isGuest, isReady, location.pathname, navigate]);
+
+  if (!isReady) {
+    return <SplashPage />;
+  }
+
+  return <MobileShell />;
+}
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
@@ -47,7 +133,7 @@ const lazyPage = (element: ReactNode) => (
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <MobileShell />,
+    element: <AuthGuard />,
     children: [
       { path: 'splash', element: <SplashPage /> },
       { path: 'onboarding', element: <OnboardingPage /> },

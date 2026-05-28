@@ -16,10 +16,10 @@ export default function OnboardingPage() {
         <PrimaryButton onClick={() => window.location.href = '/register/terms'} className="w-full">
           3초만에 시작하기
         </PrimaryButton>
-        <div className="flex gap-4 mt-2">
-          <Link to="/" className="text-app-body text-textSub hover:text-textMain font-bold">비회원으로 둘러보기</Link>
-          <span className="text-divider">|</span>
-          <Link to="/login" className="text-app-body text-textSub hover:text-textMain font-bold">로그인하기</Link>
+        <div className="flex w-full items-center justify-center gap-4 py-4">
+          <Link to="/" className="text-app-body font-bold text-textSub transition-colors active:text-textMain md:hover:text-textMain">비회원으로 둘러보기</Link>
+          <div className="h-3 w-px bg-divider" />
+          <Link to="/login" className="text-app-body font-bold text-textSub transition-colors active:text-textMain md:hover:text-textMain">로그인하기</Link>
         </div>
       </div>
     </PageTransition>

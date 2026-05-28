@@ -110,8 +110,7 @@ export default function AiRecommendationPage() {
                 지금 확인하면 좋은 혜택입니다
               </h2>
               <p className="text-sm font-medium leading-relaxed text-textSub">
-                AI 추천은 참고용 안내입니다.
-                최종 자격과 신청 가능 여부는 공식 기관 사이트에서 확인해주세요.
+                입력한 프로필과 혜택 조건의 일치도를 기준으로 계산한 참고 점수입니다. 최종 자격은 공식 기관에서 확인하세요.
               </p>
             </div>
 

@@ -84,7 +84,7 @@ export default function BenefitDetailPage() {
           >
             공식 사이트 열기
           </PrimaryButton>
-          <PrimaryButton className="w-full bg-chipBg text-textMain shadow-none hover:bg-divider" onClick={closeSheet}>
+          <PrimaryButton className="w-full bg-chipBg text-textMain shadow-none active:bg-divider md:hover:bg-divider" onClick={closeSheet}>
             취소
           </PrimaryButton>
         </div>
@@ -93,7 +93,7 @@ export default function BenefitDetailPage() {
   };
 
   return (
-    <PageTransition className="relative flex flex-col bg-primary pb-[100px]">
+    <PageTransition className="relative flex flex-col bg-primary pb-[calc(160px+env(safe-area-inset-bottom))]">
       <div className="sticky top-0 z-10 flex h-14 items-center justify-between px-4 text-white">
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="flex h-11 w-11 items-center justify-center p-2">
           <ChevronLeft size={28} />
@@ -115,20 +115,30 @@ export default function BenefitDetailPage() {
       <div className="flex-1 rounded-t-[44px] bg-white px-6 pt-10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
         <div className="mb-8 space-y-6">
           <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">지원 내용</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.supportContent}</p>
+            <h3 className="mb-2 text-app-card text-primary">이 혜택은 뭔가요?</h3>
+            <p className="text-app-body text-textMain">{selectedBenefit.description || selectedBenefit.title}</p>
           </section>
           <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">지원 대상</h3>
+            <h3 className="mb-2 text-app-card text-primary">내가 대상인가요?</h3>
             <p className="text-app-body text-textMain">{selectedBenefit.target}</p>
           </section>
           <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">필요 서류</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.documents}</p>
+            <h3 className="mb-2 text-app-card text-primary">무엇을 지원받나요?</h3>
+            <p className="text-app-body text-textMain">{selectedBenefit.supportContent}</p>
           </section>
           <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">신청 방법</h3>
+            <h3 className="mb-2 text-app-card text-primary">언제까지 신청하나요?</h3>
+            <p className="text-app-body text-textMain">{selectedBenefit.deadline || '상시 신청 (공식 사이트 확인 필요)'}</p>
+          </section>
+          <section className="rounded-[24px] bg-background p-5">
+            <h3 className="mb-2 text-app-card text-primary">어디서 신청하나요?</h3>
             <p className="text-app-body text-textMain">{selectedBenefit.applyMethod}</p>
+            {selectedBenefit.documents && (
+              <div className="mt-4 pt-4 border-t border-divider">
+                <h4 className="mb-2 text-[14px] font-bold text-textSub">필요 서류</h4>
+                <p className="text-[14px] font-medium text-textMain">{selectedBenefit.documents}</p>
+              </div>
+            )}
           </section>
           <section className="rounded-[24px] bg-background p-5">
             <h3 className="mb-2 text-app-card text-primary">데이터 출처</h3>
@@ -142,13 +152,13 @@ export default function BenefitDetailPage() {
               마지막 업데이트: {formatDate(selectedBenefit.updatedAt)}
             </p>
             <p className="mt-3 text-[13px] leading-relaxed text-textSub">
-              본 정보는 참고용이며, 실제 신청 가능 여부와 최신 조건은 공식 기관 사이트에서 확인해주세요.
+              챙김은 신청을 대행하지 않습니다. 실제 지급 여부와 최신 조건은 반드시 공식 기관 사이트에서 확인하세요.
             </p>
           </section>
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[32px] border-t border-divider bg-white p-6 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+      <div className="fixed bottom-0 inset-x-0 z-50 mx-auto w-full max-w-[430px] rounded-t-[32px] border-t border-divider bg-white p-6 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <PrimaryButton onClick={handleApply} disabled={!selectedBenefit.applyUrl} className={!selectedBenefit.applyUrl ? 'bg-divider text-textMuted' : ''}>
           {selectedBenefit.applyUrl ? '공식 신청 페이지로 이동' : '공식 링크 준비 중'}
         </PrimaryButton>

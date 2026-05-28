@@ -11,11 +11,13 @@ import heroIcon from '../assets/icons/hero-calendar-gift-check.png';
 import PageTransition from '../components/layout/PageTransition';
 import { SkeletonCard } from '../components/common/Skeleton';
 import type { Benefit } from '../types/benefit';
+import { calculateDDay, formatDDay } from '../utils/date';
+import AnimatedNumber from '../components/common/AnimatedNumber';
 
 export default function HomePage() {
   const { recommendedBenefits, deadlineSoonBenefits, savedBenefits, isLoading, fetchRecommendedBenefits, fetchSavedBenefits } = useBenefitStore();
   const { user } = useAuthStore();
-  const { recommendations: aiRecommendations, fetchRecommendations } = useAiRecommendationStore();
+  const { recommendations: aiRecommendations, fetchRecommendations, needsProfileSetup } = useAiRecommendationStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,42 +69,91 @@ export default function HomePage() {
           <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between px-2">
             <div className="flex items-center gap-1.5">
               <span className="text-[14px] font-semibold text-white/85">추천혜택</span>
-              <span className="text-[18px] font-extrabold text-white">{recommendedBenefits.length}건</span>
+              <AnimatedNumber value={recommendedBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-[14px] font-semibold text-white/85">마감임박</span>
-              <span className="text-[18px] font-extrabold text-white">{deadlineSoonBenefits.length}건</span>
+              <AnimatedNumber value={deadlineSoonBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-[14px] font-semibold text-white/85">내 보드</span>
-              <span className="text-[18px] font-extrabold text-white">{savedBenefits.length}건</span>
+              <AnimatedNumber value={savedBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />
             </div>
           </div>
         </div>
 
-        <div className="flex-1 rounded-t-[44px] bg-white px-5 pb-[calc(120px+env(safe-area-inset-bottom))] pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            onClick={() => navigate('/ai-recommendation')}
-            className="mb-10 flex h-[56px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[16px] font-bold text-white shadow-soft transition-transform duration-150"
-          >
-            AI 맞춤 추천 받기
-          </motion.button>
+        <div className="flex-1 rounded-t-[44px] bg-white px-5 pb-[calc(128px+env(safe-area-inset-bottom))] pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+          <div className="mb-10 flex gap-3">
+            {user ? (
+              !needsProfileSetup && aiRecommendations.length > 0 ? (
+                <>
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/ai-recommendation')}
+                    className="flex h-[56px] flex-1 items-center justify-center rounded-full bg-primary text-[15px] font-bold text-white shadow-soft"
+                  >
+                    맞춤 추천 다시 보기
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/benefits')}
+                    className="flex h-[56px] flex-1 items-center justify-center rounded-full bg-chipBg text-[15px] font-bold text-primary"
+                  >
+                    새 혜택 둘러보기
+                  </motion.button>
+                </>
+              ) : (
+                <>
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/profile-setup')}
+                    className="flex h-[56px] flex-1 items-center justify-center rounded-full bg-primary text-[15px] font-bold text-white shadow-soft"
+                  >
+                    내 조건으로 혜택 추천받기
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/benefits')}
+                    className="flex h-[56px] flex-1 items-center justify-center rounded-full bg-chipBg text-[15px] font-bold text-primary"
+                  >
+                    전체 혜택 둘러보기
+                  </motion.button>
+                </>
+              )
+            ) : (
+              <>
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/benefits')}
+                  className="flex h-[56px] flex-1 items-center justify-center rounded-full bg-primary text-[15px] font-bold text-white shadow-soft"
+                >
+                  혜택 둘러보기
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/login')}
+                  className="flex h-[56px] flex-1 items-center justify-center rounded-full bg-chipBg text-[15px] font-bold text-primary"
+                >
+                  로그인하고 저장하기
+                </motion.button>
+              </>
+            )}
+          </div>
 
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="text-[22px] font-extrabold text-textMain">{aiRecommendations.length > 0 ? '맞춤 추천' : '추천 혜택'}</h2>
-              <div className="flex h-7 items-center justify-center rounded-full bg-chipBg px-3 text-[14px] font-bold text-primary">
-                {homeRecommendations.length}
-              </div>
+              <AnimatedNumber
+                value={homeRecommendations.length}
+                className="flex h-7 items-center justify-center rounded-full bg-chipBg px-3 text-[14px] font-bold text-primary"
+              />
             </div>
-            <Link to="/benefits" className="text-[14px] font-semibold text-textSub hover:text-textMain">전체보기</Link>
+            <Link to="/benefits" className="text-[14px] font-semibold text-textSub transition-colors active:text-textMain md:hover:text-textMain">전체보기</Link>
           </div>
 
           {aiRecommendations.length > 0 && (
             <p className="mb-5 rounded-[18px] bg-background px-4 py-3 text-[12px] font-semibold leading-relaxed text-textSub">
-              AI 추천은 참고용 안내입니다.
-              최종 자격과 신청 가능 여부는 공식 기관 사이트에서 확인해주세요.
+              입력한 프로필과 혜택 조건의 일치도를 기준으로 계산한 참고 점수입니다. 최종 자격은 공식 기관에서 확인하세요.
             </p>
           )}
 
@@ -115,8 +166,8 @@ export default function HomePage() {
               </>
             ) : homeRecommendations.length > 0 ? (
               homeRecommendations.map((benefit) => (
-                <motion.div key={benefit.id} whileTap={{ scale: 0.98 }}>
-                  <Link to={`/benefits/${benefit.id}`} className="flex min-h-[96px] items-center gap-4 border-b border-divider/50 py-2 last:border-0">
+                <motion.div key={benefit.id} whileTap={{ scale: 0.985 }} transition={{ duration: 0.16 }}>
+                  <Link to={`/benefits/${benefit.id}`} className="flex min-h-[96px] items-center gap-4 border-b border-divider/50 py-2 transition-colors active:bg-slate-50/50 last:border-0">
                     <BenefitIcon iconType={benefit.iconType} className="h-[60px] w-[60px] rounded-[20px]" />
                     <div className="flex min-w-0 flex-1 flex-col justify-center py-1">
                       <div className="mb-1.5 flex items-center gap-2">
@@ -126,7 +177,12 @@ export default function HomePage() {
                         <span className="truncate text-[12px] font-semibold text-textSub">{benefit.agency}</span>
                       </div>
                       <h3 className="mb-1 line-clamp-2 text-[16px] font-bold leading-snug text-textMain">{benefit.title}</h3>
-                      <p className="truncate text-[13px] font-medium text-textSub">{benefit.description}</p>
+                      <p className="truncate text-[13px] font-medium text-textSub mb-1">{benefit.description}</p>
+                      <p className="text-[12px] font-bold text-primary">
+                        {calculateDDay(benefit.deadline || null) !== null 
+                          ? `${formatDDay(calculateDDay(benefit.deadline || null)!)} 마감 · 온라인 신청 가능` 
+                          : '상시 신청 · 공식 사이트 확인 필요'}
+                      </p>
                     </div>
                   </Link>
                 </motion.div>

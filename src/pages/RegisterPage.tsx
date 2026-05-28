@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, Check } from 'lucide-react';
 import PrimaryButton from '../components/common/PrimaryButton';
+import Input from '../components/common/Input';
 import { useAuthStore } from '../store/useAuthStore';
 import { useToastStore } from '../store/useToastStore';
+import AppLogo from '../components/common/AppLogo';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { register, isLoading } = useAuthStore();
+  const { register, guestLogin, isLoading } = useAuthStore();
   const showToast = useToastStore(state => state.showToast);
 
   const [form, setForm] = useState({
@@ -17,36 +19,56 @@ export default function RegisterPage() {
     passwordConfirm: ''
   });
 
+  const [termsAgreed, setTermsAgreed] = useState(false);
+  const [privacyAgreed, setPrivacyAgreed] = useState(false);
+
+  // Validation
+  const errors = useMemo(() => {
+    const err: Record<string, string> = {};
+    if (form.name && form.name.length < 2) err.name = '이름은 2자 이상이어야 해요.';
+    
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      err.email = '올바른 이메일 형식이 아니에요.';
+    }
+
+    if (form.password) {
+      if (form.password.length < 8) {
+        err.password = '비밀번호는 8자 이상이어야 해요.';
+      } else if (!/(?=.*[a-zA-Z])(?=.*[0-9])/.test(form.password)) {
+        err.password = '영문과 숫자를 모두 포함해야 해요.';
+      }
+    }
+
+    if (form.passwordConfirm && form.password !== form.passwordConfirm) {
+      err.passwordConfirm = '비밀번호가 일치하지 않아요.';
+    }
+
+    return err;
+  }, [form]);
+
+  const isValid = 
+    form.name.length >= 2 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) &&
+    form.password.length >= 8 &&
+    /(?=.*[a-zA-Z])(?=.*[0-9])/.test(form.password) &&
+    form.password === form.passwordConfirm &&
+    termsAgreed &&
+    privacyAgreed;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleGuestLogin = () => {
+    guestLogin();
+    navigate('/', { replace: true });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, password, passwordConfirm } = form;
+    if (!isValid) return;
 
-    if (!name || !email || !password || !passwordConfirm) {
-      showToast('모든 항목을 입력해주세요.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      showToast('올바른 이메일 형식이 아닙니다.');
-      return;
-    }
-
-    if (password.length < 8) {
-      showToast('비밀번호는 8자 이상이어야 합니다.');
-      return;
-    }
-
-    if (password !== passwordConfirm) {
-      showToast('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
-    await register({ name, email, password });
+    await register({ name: form.name, email: form.email, password: form.password });
     
     const state = useAuthStore.getState();
     if (state.isLoggedIn && !state.error) {
@@ -58,59 +80,102 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-full min-h-[100dvh] bg-white flex flex-col relative pb-24">
-      <div className="flex items-center h-14 px-4 sticky top-0 bg-white z-10">
-        <button onClick={() => navigate(-1)} className="p-2 -ml-2">
+    <div className="flex min-h-[100dvh] w-full flex-col bg-white pb-[140px]">
+      <div className="sticky top-0 z-10 flex h-14 items-center bg-white/90 px-4 backdrop-blur-md">
+        <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 transition-colors active:bg-gray-100">
           <ChevronLeft size={28} className="text-textMain" />
         </button>
       </div>
 
-      <div className="px-6 flex-1 pt-6">
-        <h1 className="text-[26px] font-extrabold text-textMain mb-2 leading-[1.3]">
+      <div className="flex-1 px-6 pt-4">
+        <div className="mb-4">
+          <AppLogo size="md" />
+        </div>
+        <h1 className="mb-2 text-[26px] font-extrabold leading-[1.3] text-textMain">
           챙김에 오신 것을<br />환영합니다!
         </h1>
-        <p className="text-[15px] font-semibold text-textSub mb-8">기본 정보를 입력해주세요.</p>
+        <p className="mb-8 text-[15px] font-semibold text-textSub">기본 정보를 입력해주세요.</p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input 
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <Input 
             type="text" 
             name="name"
             value={form.name}
             onChange={handleChange}
             placeholder="이름 (실명)" 
-            className="w-full h-[52px] bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+            error={errors.name}
           />
-          <input 
+          <Input 
             type="email" 
             name="email"
             value={form.email}
             onChange={handleChange}
             placeholder="이메일 주소" 
-            className="w-full h-[52px] bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+            error={errors.email}
           />
-          <input 
+          <Input 
             type="password" 
             name="password"
             value={form.password}
             onChange={handleChange}
-            placeholder="비밀번호 (8자 이상)" 
-            className="w-full h-[52px] bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+            placeholder="비밀번호" 
+            error={errors.password}
+            helperText="비밀번호는 8자 이상, 영문과 숫자를 포함해주세요."
           />
-          <input 
+          <Input 
             type="password" 
             name="passwordConfirm"
             value={form.passwordConfirm}
             onChange={handleChange}
             placeholder="비밀번호 확인" 
-            className="w-full h-[52px] bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+            error={errors.passwordConfirm}
           />
           
-          <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto p-6 bg-white border-t border-divider z-20">
-            <PrimaryButton type="submit" disabled={isLoading}>
-              {isLoading ? '가입 중...' : '가입 완료'}
-            </PrimaryButton>
+          <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-background p-5">
+            <label className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setTermsAgreed(!termsAgreed)}
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                  termsAgreed ? 'border-primary bg-primary text-white' : 'border-divider bg-white text-transparent'
+                }`}
+              >
+                <Check size={14} strokeWidth={3} />
+              </button>
+              <div className="flex flex-1 items-center justify-between text-[14px]">
+                <span className="font-semibold text-textMain">[필수] 이용약관 동의</span>
+                <Link to="/settings/terms" className="font-bold text-textMuted underline underline-offset-2 transition-colors active:text-textSub md:hover:text-textSub">보기</Link>
+              </div>
+            </label>
+
+            <label className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setPrivacyAgreed(!privacyAgreed)}
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                  privacyAgreed ? 'border-primary bg-primary text-white' : 'border-divider bg-white text-transparent'
+                }`}
+              >
+                <Check size={14} strokeWidth={3} />
+              </button>
+              <div className="flex flex-1 items-center justify-between text-[14px]">
+                <span className="font-semibold text-textMain">[필수] 개인정보 처리방침 동의</span>
+                <Link to="/settings/privacy" className="font-bold text-textMuted underline underline-offset-2 transition-colors active:text-textSub md:hover:text-textSub">보기</Link>
+              </div>
+            </label>
           </div>
         </form>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-[430px] border-t border-divider bg-white px-6 py-4 pb-safe">
+        <div className="mb-4 flex items-center justify-center gap-4 text-[13px] font-bold">
+          <Link to="/login" className="text-textSub transition-colors active:text-textMain md:hover:text-textMain">이미 계정이 있으신가요? 로그인</Link>
+          <div className="h-3 w-px bg-divider" />
+          <button onClick={handleGuestLogin} className="text-textSub transition-colors active:text-textMain md:hover:text-textMain">가입 없이 둘러보기</button>
+        </div>
+        <PrimaryButton onClick={handleSubmit} disabled={!isValid || isLoading}>
+          {isLoading ? '가입 중...' : '가입 완료'}
+        </PrimaryButton>
       </div>
     </div>
   );

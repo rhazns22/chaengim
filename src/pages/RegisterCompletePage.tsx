@@ -29,7 +29,7 @@ export default function RegisterCompletePage() {
         <Link 
           to="/profile-setup"
           replace
-          className="w-full h-14 flex items-center justify-center text-[15px] font-bold text-textSub hover:text-textMain transition-colors"
+          className="flex h-14 w-full items-center justify-center text-[15px] font-bold text-textSub transition-colors active:text-textMain md:hover:text-textMain"
         >
           건너뛰고 나중에 설정하기
         </Link>

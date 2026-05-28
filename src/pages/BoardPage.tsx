@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import PrimaryButton from '../components/common/PrimaryButton';
 import { calculateDDay, formatDDay } from '../utils/date';
+import AnimatedNumber from '../components/common/AnimatedNumber';
 
 export default function BoardPage() {
   const { savedBenefits, isLoading, fetchSavedBenefits } = useBenefitStore();
@@ -80,7 +81,7 @@ export default function BoardPage() {
                       <div className="mb-4">
                         <div className="flex justify-between text-[12px] font-bold mb-1.5">
                           <span className="text-textSub">서류 준비 <span className="text-primary">{checkedCount}/{checklistCount}</span></span>
-                          <span className="text-textMain">{progress}%</span>
+                          <AnimatedNumber value={progress} suffix="%" className="text-textMain" />
                         </div>
                         <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
                           <motion.div 
@@ -111,8 +112,8 @@ export default function BoardPage() {
             <EmptyState 
               icon={<ClipboardList size={32} />}
               title="아직 저장한 혜택이 없어요"
-              description="관심 있는 혜택을 저장하면 내 보드에서 한 번에 관리할 수 있어요."
-              action={<PrimaryButton onClick={() => navigate('/benefits')} className="mt-4 px-8">혜택 둘러보기</PrimaryButton>}
+              description="관심 있는 혜택을 저장하면 신청 준비 상태와 필요한 서류를 한 곳에서 관리할 수 있어요."
+              action={<PrimaryButton onClick={() => navigate('/benefits')} className="mt-4 px-8">혜택 찾으러 가기</PrimaryButton>}
             />
           )}
         </div>

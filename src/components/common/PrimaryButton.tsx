@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { ReactNode } from 'react';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,11 +7,14 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function PrimaryButton({ children, className = '', loading, disabled, ...props }: Props) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.button
-      whileTap={{ scale: disabled || loading ? 1 : 0.97 }}
+      whileTap={{ scale: disabled || loading || shouldReduceMotion ? 1 : 0.98 }}
+      transition={{ duration: 0.15, ease: 'easeOut' }}
       disabled={disabled || loading}
-      className={`w-full bg-primary text-white text-app-button h-14 rounded-full shadow-soft flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`flex h-14 w-full items-center justify-center rounded-full bg-primary text-app-button text-white shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       {...props as any}
     >
       {loading ? (

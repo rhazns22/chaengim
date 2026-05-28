@@ -43,7 +43,7 @@ export default function NoticesPage() {
                 key={notice.id}
                 type="button"
                 onClick={() => navigate(`/settings/notices/${notice.id}`)}
-                className="flex w-full items-center justify-between border-b border-divider px-6 py-4 text-left hover:bg-gray-50"
+                className="flex w-full items-center justify-between border-b border-divider px-6 py-4 text-left active:bg-gray-50 md:hover:bg-gray-50"
               >
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex items-center gap-2">

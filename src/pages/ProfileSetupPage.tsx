@@ -97,7 +97,8 @@ export default function ProfileSetupPage() {
             나에게 맞는 혜택을<br />찾아드릴게요
           </h2>
           <p className="text-sm font-medium leading-relaxed text-textSub">
-            입력한 정보는 혜택 추천에만 사용됩니다. 실제 자격과 신청 가능 여부는 공식 기관 사이트에서 확인해주세요.
+            입력한 정보는 혜택 조건 매칭에만 사용돼요.<br />
+            챙김은 이 정보를 바탕으로 받을 가능성이 높은 혜택을 먼저 보여줍니다.
           </p>
         </div>
 
@@ -154,7 +155,10 @@ export default function ProfileSetupPage() {
             </div>
           </ProfileQuestionCard>
 
-          <ProfileQuestionCard title="소득 구간">
+          <ProfileQuestionCard 
+            title="소득 구간" 
+            description="정확한 소득 심사는 공식 기관에서 진행됩니다. 추천 필터링을 위한 참고 정보로만 사용돼요."
+          >
             <select
               className="w-full rounded-xl border-none bg-gray-100 p-4 font-bold text-textMain focus:ring-2 focus:ring-primary"
               value={formData.incomeLevel}

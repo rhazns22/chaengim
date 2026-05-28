@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import type { AiRecommendation } from '../../types/aiRecommendation';
+import AnimatedNumber from '../common/AnimatedNumber';
 
 interface Props {
   recommendation: AiRecommendation;
@@ -18,8 +19,8 @@ export default function AiRecommendationCard({ recommendation }: Props) {
           <h3 className="text-lg font-extrabold text-textMain">{benefit.title}</h3>
         </div>
         <div className="flex shrink-0 flex-col items-center rounded-full bg-chipBg px-3 py-1.5 text-sm font-bold text-primary">
-          <span className="mb-0.5 text-[10px] leading-none opacity-80">조건 매칭도</span>
-          <span>{recommendation.score}점</span>
+          <span className="mb-0.5 text-[10px] leading-none opacity-80">조건 매칭 점수</span>
+          <AnimatedNumber value={recommendation.score} suffix="점" />
         </div>
       </div>
 

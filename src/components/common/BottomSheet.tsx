@@ -22,20 +22,21 @@ export default function BottomSheet() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={closeSheet}
-            className="fixed inset-0 bg-textMain/40 z-[100] max-w-[430px] mx-auto"
+            className="fixed inset-0 z-[100] mx-auto w-full max-w-[430px] bg-textMain/40"
           />
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white rounded-t-[44px] z-[101] pb-safe"
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="fixed bottom-0 inset-x-0 z-[101] mx-auto w-full max-w-[430px] rounded-t-[44px] bg-white pb-safe"
           >
-            <div className="w-full flex justify-center py-3">
-              <div className="w-12 h-1.5 bg-divider rounded-full" />
+            <div className="flex w-full justify-center py-3">
+              <div className="h-1.5 w-12 rounded-full bg-divider" />
             </div>
-            <div className="px-6 pb-8 pt-2 max-h-[80vh] overflow-y-auto">
+            <div className="max-h-[80vh] overflow-y-auto px-6 pb-8 pt-2">
               {content}
             </div>
           </motion.div>

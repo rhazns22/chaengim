@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import PrimaryButton from '../components/common/PrimaryButton';
 import { useAuthStore } from '../store/useAuthStore';
 import { useToastStore } from '../store/useToastStore';
+import { useAiRecommendationStore } from '../store/useAiRecommendationStore';
+import AppLogo from '../components/common/AppLogo';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -24,7 +26,14 @@ export default function LoginPage() {
     // Check if login was successful
     const state = useAuthStore.getState();
     if (state.isLoggedIn && !state.error) {
-      navigate('/', { replace: true });
+      await useAiRecommendationStore.getState().fetchProfile();
+      const needsProfile = useAiRecommendationStore.getState().needsProfileSetup;
+      
+      if (needsProfile) {
+        navigate('/profile-setup', { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
     } else if (state.error) {
       showToast(state.error);
       useAuthStore.getState().clearError();
@@ -38,8 +47,11 @@ export default function LoginPage() {
 
   return (
     <div className="w-full min-h-[100dvh] bg-white px-6 py-12 flex flex-col justify-center">
-      <div className="mb-10 text-center">
-        <h1 className="text-[28px] font-extrabold text-textMain mb-2">로그인</h1>
+      <div className="mb-10 flex flex-col items-center text-center">
+        <div className="mb-4">
+          <AppLogo size="lg" />
+        </div>
+        <h1 className="mb-2 text-[28px] font-extrabold text-textMain">로그인</h1>
         <p className="text-[15px] font-semibold text-textSub">놓치기 쉬운 혜택, 알아서 챙겨드릴게요</p>
       </div>
 
@@ -64,9 +76,9 @@ export default function LoginPage() {
       </form>
 
       <div className="flex justify-center items-center gap-4 text-[14px] font-bold mb-8">
-        <Link to="/register" className="text-textSub hover:text-textMain">회원가입</Link>
+        <Link to="/register" className="text-textSub transition-colors active:text-textMain md:hover:text-textMain">회원가입</Link>
         <span className="text-divider">|</span>
-        <button className="text-textSub hover:text-textMain">비밀번호 찾기</button>
+        <button className="text-textSub transition-colors active:text-textMain md:hover:text-textMain">비밀번호 찾기</button>
       </div>
 
       <div className="flex items-center gap-4 mb-8">
@@ -81,7 +93,7 @@ export default function LoginPage() {
       </div>
 
       <div className="text-center mt-auto">
-        <button onClick={handleGuestLogin} className="text-[14px] text-textSub font-bold hover:text-textMain">
+        <button onClick={handleGuestLogin} className="text-[14px] font-bold text-textSub transition-colors active:text-textMain md:hover:text-textMain">
           비회원 둘러보기
         </button>
       </div>

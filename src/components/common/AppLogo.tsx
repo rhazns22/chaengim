@@ -1,4 +1,4 @@
-import { ShieldCheck } from 'lucide-react'; // Fallback
+import logoUrl from '../../assets/logo/logo.png';
 
 interface AppLogoProps {
   className?: string;
@@ -13,18 +13,13 @@ export default function AppLogo({ className = '', size = 'md', white = false }: 
     lg: 'w-12 h-12 text-3xl'
   };
 
-  const containerClasses = `${sizeClasses[size]} rounded-[20px] flex items-center justify-center font-bold flex-shrink-0 ${
+  const containerClasses = `${sizeClasses[size]} flex shrink-0 items-center justify-center overflow-hidden rounded-[10px] font-bold ${
     white ? 'bg-white/20 text-white' : 'bg-primary text-white shadow-sm'
   } ${className}`;
 
   return (
     <div className={containerClasses} aria-hidden="true">
-      {/* 
-        실제 로고 이미지가 있으면 아래 img 태그 사용,
-        현재는 fallback을 위해 텍스트 또는 lucide icon을 사용합니다.
-      */}
-      {/* <img src={logoUrl} alt="챙김 로고" className="w-full h-full object-contain" /> */}
-      <ShieldCheck className="w-3/5 h-3/5" />
+      <img src={logoUrl} alt="챙김 로고" className="h-full w-full object-contain" />
     </div>
   );
 }

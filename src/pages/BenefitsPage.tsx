@@ -8,6 +8,7 @@ import PageTransition from '../components/layout/PageTransition';
 import EmptyState from '../components/common/EmptyState';
 import { SkeletonCard } from '../components/common/Skeleton';
 import { BENEFIT_CATEGORIES } from '../constants/categories';
+import { calculateDDay, formatDDay } from '../utils/date';
 
 const pageSize = 20;
 
@@ -65,7 +66,7 @@ export default function BenefitsPage() {
                   onClick={() => setActiveCat(cat.value)}
                   className={[
                     'shrink-0 rounded-full px-4 py-2.5 text-[13px] font-bold transition-all active:scale-95',
-                    activeCat === cat.value ? 'bg-white text-primary shadow-sm' : 'bg-white/15 text-white/90 hover:bg-white/25',
+                    activeCat === cat.value ? 'bg-white text-primary shadow-sm' : 'bg-white/15 text-white/90 active:scale-[0.98] active:bg-white/25 md:hover:bg-white/25',
                   ].join(' ')}
                 >
                   {cat.label}
@@ -75,7 +76,7 @@ export default function BenefitsPage() {
           </div>
         </div>
 
-        <div className="flex-1 rounded-t-[44px] bg-white px-6 pb-[calc(120px+env(safe-area-inset-bottom))] pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div className="flex-1 rounded-t-[44px] bg-white px-6 pb-[calc(128px+env(safe-area-inset-bottom))] pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           <div className="mb-4 flex items-center justify-between">
             <p className="text-[15px] font-extrabold text-textMain">
               {resultLabel} {benefitTotal.toLocaleString('ko-KR')}개
@@ -109,7 +110,12 @@ export default function BenefitsPage() {
                           </span>
                           <p className="truncate text-[12px] font-semibold text-textSub">{benefit.agency}</p>
                         </div>
-                        <h3 className="line-clamp-2 text-[16px] font-bold leading-snug text-textMain">{benefit.title}</h3>
+                        <h3 className="line-clamp-2 text-[16px] font-bold leading-snug text-textMain mb-1">{benefit.title}</h3>
+                        <p className="text-[12px] font-bold text-primary">
+                          {calculateDDay(benefit.deadline || null) !== null 
+                            ? `${formatDDay(calculateDDay(benefit.deadline || null)!)} 마감 · 온라인 신청 가능` 
+                            : '상시 신청 · 공식 사이트 확인 필요'}
+                        </p>
                       </div>
                     </Link>
                     <button

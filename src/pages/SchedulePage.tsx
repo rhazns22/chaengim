@@ -58,8 +58,8 @@ export default function SchedulePage() {
           ) : (
             <EmptyState 
               icon={<Calendar size={32} />}
-              title="다가오는 마감 일정이 없어요"
-              description="혜택을 저장하면 신청 마감일을 챙겨드릴게요."
+              title="아직 마감 일정이 없어요"
+              description="마감일이 있는 혜택을 저장하면 D-Day 순서로 신청 일정을 확인할 수 있어요."
               action={
                 <motion.button 
                   whileTap={{ scale: 0.97 }}
