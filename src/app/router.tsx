@@ -4,11 +4,12 @@ import { createBrowserRouter } from 'react-router-dom';
 import MobileShell from '../components/layout/MobileShell';
 import SplashPage from '../pages/SplashPage';
 import OnboardingPage from '../pages/OnboardingPage';
-import RegisterTermsPage from '../pages/RegisterTermsPage';
-import RegisterProfilePage from '../pages/RegisterProfilePage';
-import RegisterVerifyPage from '../pages/RegisterVerifyPage';
-import RegisterPasswordPage from '../pages/RegisterPasswordPage';
-import RegisterCompletePage from '../pages/RegisterCompletePage';
+const RegisterNamePage = lazy(() => import('../pages/register/RegisterNamePage'));
+const RegisterEmailPage = lazy(() => import('../pages/register/RegisterEmailPage'));
+const RegisterVerifyPage = lazy(() => import('../pages/register/RegisterVerifyPage'));
+const RegisterPasswordPage = lazy(() => import('../pages/register/RegisterPasswordPage'));
+const RegisterTermsPage = lazy(() => import('../pages/register/RegisterTermsPage'));
+const RegisterCompletePage = lazy(() => import('../pages/RegisterCompletePage'));
 import ProfileSetupPage from '../pages/ProfileSetupPage';
 import { SkeletonCard } from '../components/common/Skeleton';
 import { useAuthStore } from '../store/useAuthStore';
@@ -100,7 +101,6 @@ function AuthGuard() {
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
-const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const BenefitsPage = lazy(() => import('../pages/BenefitsPage'));
 const BenefitDetailPage = lazy(() => import('../pages/BenefitDetailPage'));
 const BoardPage = lazy(() => import('../pages/BoardPage'));
@@ -138,12 +138,12 @@ export const router = createBrowserRouter([
       { path: 'splash', element: <SplashPage /> },
       { path: 'onboarding', element: <OnboardingPage /> },
       { path: 'login', element: lazyPage(<LoginPage />) },
-      { path: 'register', element: lazyPage(<RegisterPage />) },
-      { path: 'register/terms', element: <RegisterTermsPage /> },
-      { path: 'register/profile', element: <RegisterProfilePage /> },
-      { path: 'register/verify', element: <RegisterVerifyPage /> },
-      { path: 'register/password', element: <RegisterPasswordPage /> },
-      { path: 'register/complete', element: <RegisterCompletePage /> },
+      { path: 'register', element: lazyPage(<RegisterNamePage />) },
+      { path: 'register/email', element: lazyPage(<RegisterEmailPage />) },
+      { path: 'register/verify', element: lazyPage(<RegisterVerifyPage />) },
+      { path: 'register/password', element: lazyPage(<RegisterPasswordPage />) },
+      { path: 'register/terms', element: lazyPage(<RegisterTermsPage />) },
+      { path: 'register/complete', element: lazyPage(<RegisterCompletePage />) },
       { index: true, element: lazyPage(<HomePage />) },
       { path: 'benefits', element: lazyPage(<BenefitsPage />) },
       { path: 'benefits/:id', element: lazyPage(<BenefitDetailPage />) },

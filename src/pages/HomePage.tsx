@@ -21,6 +21,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('[Chaengim] iOS safe-area layout patch v5 loaded');
     fetchRecommendedBenefits();
     fetchSavedBenefits();
     if (user) fetchRecommendations();
