@@ -36,7 +36,7 @@ export default function HomePage() {
   return (
     <PageTransition>
       <div className="flex min-h-[100dvh] w-full flex-col bg-primary">
-        <div className="relative h-[360px] px-6 pb-8 pt-14 text-white">
+        <div className="relative pb-8 px-6 text-white" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 24px)' }}>
           <div className="mb-10 flex items-center gap-2">
             <div className="flex h-[40px] w-[40px] items-center justify-center rounded-[16px] bg-white/16">
               <AppLogo white size="md" />
@@ -66,7 +66,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between px-2">
+          <div className="flex items-center justify-between px-2 mt-8">
             <div className="flex items-center gap-1.5">
               <span className="text-[14px] font-semibold text-white/85">추천혜택</span>
               <AnimatedNumber value={recommendedBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />

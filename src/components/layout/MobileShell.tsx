@@ -19,7 +19,7 @@ export default function MobileShell() {
   }, [location.pathname]);
 
   return (
-    <div className="relative mx-auto w-full max-w-[430px] min-h-[100dvh] bg-[#F7F8FC] overflow-x-hidden font-sans">
+    <div className="relative mx-auto w-full md:max-w-[480px] min-h-[100dvh] bg-[#F7F8FC] overflow-x-hidden font-sans md:shadow-[0_0_40px_rgba(0,0,0,0.08)]">
       <main className="min-h-[100dvh] bg-inherit">
         <AnimatePresence mode="wait" initial={false}>
           {element && React.cloneElement(element, { key: location.pathname })}

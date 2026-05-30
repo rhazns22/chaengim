@@ -158,7 +158,7 @@ export default function BenefitDetailPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 z-50 mx-auto w-full max-w-[430px] rounded-t-[32px] border-t border-divider bg-white p-6 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+      <div className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 rounded-t-[32px] border-t border-divider bg-white p-6 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
         <PrimaryButton onClick={handleApply} disabled={!selectedBenefit.applyUrl} className={!selectedBenefit.applyUrl ? 'bg-divider text-textMuted' : ''}>
           {selectedBenefit.applyUrl ? '공식 신청 페이지로 이동' : '공식 링크 준비 중'}
         </PrimaryButton>

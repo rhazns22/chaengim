@@ -23,8 +23,8 @@ export default function BottomNav() {
   }
 
   return (
-    <div className="fixed bottom-0 inset-x-0 mx-auto z-50 w-full max-w-[430px] rounded-t-[32px] border-t border-[#EEF1F7] bg-white shadow-[0_-8px_30px_rgba(91,124,250,0.08)] pb-safe">
-      <nav className="flex justify-around items-center h-[86px] px-2 pb-2">
+    <div className="fixed bottom-0 inset-x-0 mx-auto z-50 w-full md:max-w-[480px] rounded-t-[32px] border-t border-[#EEF1F7] bg-white shadow-[0_-8px_30px_rgba(91,124,250,0.08)]" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      <nav className="flex justify-around items-center h-[86px] px-2">
         {navItems.map((item) => (
           <NavLink
             key={item.path}

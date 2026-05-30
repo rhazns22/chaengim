@@ -183,7 +183,7 @@ export default function ProfileSetupPage() {
           </ProfileQuestionCard>
         </div>
 
-        <div className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 bg-gradient-to-t from-white via-white to-transparent p-6 pb-[calc(24px+env(safe-area-inset-bottom))]">
+        <div className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 bg-gradient-to-t from-white via-white to-transparent p-6 pb-[calc(24px+env(safe-area-inset-bottom))]">
           <PrimaryButton onClick={handleSubmit} loading={isSavingProfile} disabled={!isFormValid}>
             맞춤 추천 확인하기
           </PrimaryButton>

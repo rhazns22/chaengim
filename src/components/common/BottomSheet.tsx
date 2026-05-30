@@ -24,14 +24,14 @@ export default function BottomSheet() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={closeSheet}
-            className="fixed inset-0 z-[100] mx-auto w-full max-w-[430px] bg-textMain/40"
+            className="fixed inset-0 z-[100] mx-auto w-full md:max-w-[480px] bg-textMain/40"
           />
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed bottom-0 inset-x-0 z-[101] mx-auto w-full max-w-[430px] rounded-t-[44px] bg-white pb-safe"
+            className="fixed bottom-0 inset-x-0 z-[101] mx-auto w-full md:max-w-[480px] rounded-t-[44px] bg-white pb-safe"
           >
             <div className="flex w-full justify-center py-3">
               <div className="h-1.5 w-12 rounded-full bg-divider" />
