@@ -36,7 +36,7 @@ export default function BottomSheet() {
             <div className="flex w-full justify-center py-3">
               <div className="h-1.5 w-12 rounded-full bg-divider" />
             </div>
-            <div className="max-h-[80vh] overflow-y-auto px-6 pb-8 pt-2">
+            <div className="max-h-[80vh] overflow-y-auto scrollbar-hide px-6 pb-8 pt-2">
               {content}
             </div>
           </motion.div>
