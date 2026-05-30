@@ -1,344 +1,276 @@
-# 챙김 (Chaengim) — 정부 혜택 탐색 & 신청 준비 관리 PWA
+# 📱 챙김 (Chaengim)
+### **정부 혜택 탐색 & 신청 준비 개인화 PWA 서비스**
 
-> 챙김은 놓치기 쉬운 정부 혜택을 탐색하고, 저장한 혜택의 신청 준비 상태와 마감 일정을 개인화하여 관리할 수 있도록 설계한 모바일 앱형 PWA입니다.
->
-> **이 서비스는 정부 신청을 대행하지 않습니다.** 실제 신청 가능 여부와 최종 자격 확인은 각 공식 기관 사이트에서 진행해야 합니다. AI 추천은 입력 정보를 바탕으로 한 참고용 안내이며, 자격 판정이나 수급 보장을 의미하지 않습니다.
-
----
-
-## 목차
-
-1. [프로젝트 소개](#1-프로젝트-소개)
-2. [기술 스택](#2-기술-스택)
-3. [주요 기능](#3-주요-기능)
-4. [화면 구성](#4-화면-구성)
-5. [API 목록](#5-api-목록)
-6. [데이터 모델](#6-데이터-모델)
-7. [실행 방법](#7-실행-방법)
-8. [디렉토리 구조](#8-디렉토리-구조)
-9. [아키텍처 & 보안](#9-아키텍처--보안)
-10. [QA & 빌드 현황](#10-qa--빌드-현황)
-11. [데이터 정책](#11-데이터-정책)
-12. [한계 및 개선 예정](#12-한계-및-개선-예정)
+<p align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
+  <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Google_Gemini-8E75C2?style=for-the-badge&logo=google-gemini&logoColor=white" alt="Gemini" />
+</p>
 
 ---
 
-## 1. 프로젝트 소개
-
-**챙김(Chaengim)**은 사용자가 놓치기 쉬운 정부 혜택을 탐색하고, 저장한 혜택의 신청 준비 상태와 마감 일정을 관리할 수 있도록 설계한 모바일 앱형 PWA입니다.
-
-이 프로젝트는 단순 혜택 목록 제공을 넘어, 사용자 프로필 기반 조건 매칭, 저장 혜택 보드, 서류 체크리스트, D-Day 일정 관리, AI 추천 이유 생성 기능을 포함한 풀스택 MVP로 구현되었습니다.
-
-추천 기능은 Gemini API에 판단을 전적으로 맡기지 않고, 백엔드에서 Rule-based Scoring으로 추천 후보를 산정한 뒤 Gemini API를 활용해 추천 이유를 생성하는 구조로 설계했습니다.
-
-> 💡 **포트폴리오 안내:** 혜택 목록과 추천 결과는 정적 Mock Data가 아니라, GOV24 공공데이터 API 동기화 후 DB에 저장된 데이터를 기반으로 렌더링됩니다.
+> **챙김은 사용자의 기본 프로필을 바탕으로 정부 혜택을 탐색하고, 관심 혜택의 준비 서류와 마감 일정을 관리할 수 있도록 만든 모바일 우선 PWA 서비스입니다.**
+> 
+> **GOV24 공공데이터를 백엔드에서 동기화하고, React/Vite 프론트엔드와 Express/Prisma/MySQL 백엔드를 연결해 실제 API 기반의 혜택 조회·저장·추천 흐름을 구현했습니다.**
+> 
+> *⚠️ **법적 고지:** 이 서비스는 정부 신청을 대행하지 않으며 공식 대행 기관이 아닙니다. 자격 유무 판정이나 수급 보장을 의미하지 않으므로, 최종 신청 자격은 공식 기관 사이트에서 직접 확인하셔야 합니다.*
 
 ---
 
-## 2. 기술 스택
+## 🗺️ 목차
 
-| 구분 | 기술 |
-|---|---|
-| **Frontend** | React 19, TypeScript, Vite, Tailwind CSS, Zustand, Framer Motion, React Router v7 |
-| **Backend** | Node.js, Express 5, TypeScript, Prisma ORM |
-| **Database** | MySQL |
-| **AI** | Google Gemini Flash API |
-| **Auth** | JWT (jsonwebtoken), bcryptjs |
-| **Dev Tools** | ts-node-dev, tsx, ESLint |
-
----
-
-## 3. 주요 기능
-
-### 혜택 탐색
-- 카테고리 필터 + 키워드 검색 (API 기반)
-- 추천 혜택 우선 노출, 마감임박 D-Day 뱃지
-
-### 내 신청 보드
-- 관심 혜택 저장 및 `준비중 / 신청완료 / 대기중 / 완료` 상태 관리
-- 혜택별 서류 체크리스트 (ChecklistItem)
-- 체크리스트 진행률 Progress Bar
-
-### AI 맞춤 추천
-- 사용자 프로필(출생연도·지역·고용상태·소득수준·가구유형·관심분야) 기반
-- 백엔드에서만 Gemini API 호출 (프론트엔드 키 노출 없음)
-- 추천 점수, 매칭 이유, 주의사항 반환
-
-### 일정 관리
-- 마감일 있는 저장 혜택을 D-Day 순 정렬
-- D-7 이내 항목 강조 표시
-
-### 마이페이지 설정 시스템
-| 기능 | 경로 |
-|---|---|
-| 계정 설정 (이름 변경, 비밀번호 변경) | `/settings/account` |
-| AI 맞춤 프로필 수정 | `/settings/profile` |
-| 알림 설정 (마감 7/3/1일, AI 추천, 공지) | `/settings/notifications` |
-| 공지사항 목록 + 상세 | `/settings/notices`, `/settings/notices/:id` |
-| 이용약관 | `/settings/terms` |
-| 개인정보 처리방침 | `/settings/privacy` |
-| AI 추천 안내 | `/settings/ai-guide` |
-| 회원 탈퇴 | `/settings/withdraw` |
-
-### 인증
-- 이메일/비밀번호 회원가입·로그인
-- 게스트 모드 (탐색만 가능)
-- 소셜 계정 여부 감지 (`hasPassword` 플래그) → 비밀번호 변경 UI 조건부 노출
+1. [✨ 서비스 핵심 기능](#1-서비스-핵심-기능)
+2. [🛠️ 기술 아키텍처 & 스택](#2-기술-아키텍처--스택)
+3. [🚀 주요 보안 설계 (Security Hardening)](#3-주요-보안-설계-security-hardening)
+4. [🎨 기능 및 화면 흐름](#4-기능-및-화면-흐름)
+5. [📑 API 스펙 시트](#5-api-스펙-시트)
+6. [💾 데이터 릴레이션십 모델 (ERD)](#6-데이터-릴레이션십-모델-erd)
+7. [⚙️ 로컬 개발 환경 셋업](#7-로컬-개발-환경-셋업)
+8. [🗂️ 프로젝트 디렉토리 구조](#8-프로젝트-디렉토리-구조)
+9. [📈 최근 업데이트 & 릴리즈 내역](#9-최근-업데이트--릴리즈-내역)
 
 ---
 
-## 4. 화면 구성
+## 1. ✨ 서비스 핵심 기능
 
-| 화면 | 경로 | 설명 |
-|---|---|---|
-| 스플래시 | `/splash` | 앱 진입 로딩 |
-| 온보딩 | `/onboarding` | 최초 가입 안내 |
-| 로그인 | `/login` | JWT 인증 |
-| 회원가입 | `/register` → `/register/*` | 단계별 가입 플로우 |
-| AI 프로필 설정 | `/profile-setup` | 맞춤 추천을 위한 프로필 입력 |
-| 홈 | `/` | 추천 혜택 카드, AI 추천 CTA |
-| 혜택 탐색 | `/benefits` | 카테고리 필터 + 검색 |
-| 혜택 상세 | `/benefits/:id` | 지원내용·서류·신청방법·공식사이트 링크 |
-| 신청 보드 | `/board` | 저장한 혜택 상태 관리 |
-| 일정 | `/schedule` | D-Day 마감 일정 |
-| AI 추천 | `/ai-recommendation` | AI 맞춤 추천 결과 |
-| 마이페이지 | `/mypage` | 계정 정보·메뉴 허브 |
-| 설정 페이지들 | `/settings/*` | 계정·알림·약관·탈퇴 등 |
+*   **맞춤형 추천 필터링**: 사용자 프로필 기반 **Rule-based Scoring** 모델을 결합해 1차 추천 후보군을 산정합니다.
+*   **AI 매칭 이유 제공**: 1차 선별된 후보에 대해 **Google Gemini API**를 활용하여 추천 점수, 매칭 이유, 신청 시 주의사항을 생성하여 제공합니다.
+*   **공공 데이터 연동**: **정부 GOV24 Open API (v3 JSON)**를 동기화하여 실제 수집된 공공 혜택 데이터를 기반으로 작동합니다.
+*   **모바일 최적화 UX**: 다이내믹 아일랜드 및 상태바와 결합되는 **Safe-Area**, 매끄러운 탭바 네비게이션, 모바일 제스처 동작을 구현했습니다.
 
 ---
 
-## 5. API 목록
-
-### 인증 (`/api/auth`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| POST | `/register` | 회원가입 | ✗ |
-| POST | `/login` | 로그인 (JWT 발급) | ✗ |
-| GET | `/me` | 내 정보 조회 (`hasPassword` 포함) | ✅ |
-| PATCH | `/me` | 이름 수정 | ✅ |
-| PATCH | `/password` | 비밀번호 변경 (현재 비밀번호 확인) | ✅ |
-| DELETE | `/me` | 회원 탈퇴 (연관 데이터 전체 삭제) | ✅ |
-
-### 혜택 (`/api/benefits`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| GET | `/` | 혜택 목록 (카테고리·키워드 필터, 페이지네이션) | ✗ |
-| GET | `/:id` | 혜택 상세 | ✗ |
-
-### 저장 혜택 (`/api/me/saved-benefits`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| GET | `/` | 저장한 혜택 목록 | ✅ |
-| POST | `/` | 혜택 저장 | ✅ |
-| DELETE | `/:id` | 저장 혜택 삭제 | ✅ |
-| PATCH | `/:id/status` | 신청 상태 변경 | ✅ |
-| POST | `/:id/checklist` | 체크리스트 항목 추가 | ✅ |
-| PATCH | `/:id/checklist/:itemId` | 체크리스트 항목 수정 | ✅ |
-| DELETE | `/:id/checklist/:itemId` | 체크리스트 항목 삭제 | ✅ |
-
-### AI 프로필 (`/api/me/profile`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| GET | `/` | AI 프로필 조회 | ✅ |
-| PUT | `/` | AI 프로필 저장/수정 (upsert) | ✅ |
-
-### AI 추천 (`/api/ai/recommendations`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| GET | `/` | AI 맞춤 혜택 추천 결과 조회 | ✅ |
-| POST | `/generate` | Gemini API 호출 후 추천 재생성 | ✅ |
-
-### 알림 설정 (`/api/me/notification-settings`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| GET | `/` | 알림 설정 조회 (없으면 기본값 생성) | ✅ |
-| PUT | `/` | 알림 설정 저장 (upsert) | ✅ |
-
-### 공지사항 (`/api/notices`)
-| Method | Path | 설명 | 인증 |
-|---|---|---|---|
-| GET | `/` | 공지 목록 (중요·최신순 정렬) | ✗ |
-| GET | `/:id` | 공지 상세 | ✗ |
-
----
-
-## 6. 데이터 모델
+## 2. 🛠️ 기술 아키텍처 & 스택
 
 ```
-User
-  ├── passwordHash: String?          # nullable (소셜 로그인 대응)
-  ├── SavedBenefit[]                 # onDelete: Cascade
-  │     └── ChecklistItem[]          # onDelete: Cascade
-  ├── UserProfile?                   # onDelete: Cascade
-  ├── AiRecommendation[]             # onDelete: Cascade
-  └── NotificationSetting?           # onDelete: Cascade
-
-Benefit
-  ├── SavedBenefit[]
-  └── AiRecommendation[]
-
-Notice
-  ├── isImportant: Boolean
-  └── category: String
+ ┌────────────────────────────────────────────────────────┐
+ │                      Frontend Client                   │
+ │       (React 19, TypeScript, Zustand, Tailwind CSS)    │
+ └──────────────────────────┬─────────────────────────────┘
+                            │ (HTTPS JWT / CORS)
+ ┌──────────────────────────▼─────────────────────────────┐
+ │                      Backend Server                    │
+ │               (Express 4, TypeScript, Helmet)          │
+ └──────────────────────────┬─────────────────────────────┘
+                            │ (Prisma Client)
+ ┌──────────────────────────▼─────────────────────────────┐
+ │                       MySQL Database                   │
+ │           (Users, Profiles, Benefits, SyncJobs)        │
+ └────────────────────────────────────────────────────────┘
 ```
 
-> **회원 탈퇴 시 삭제 순서:** `ChecklistItem` → `SavedBenefit` → `AiRecommendation` → `NotificationSetting` → `UserProfile` → `User` (명시적 트랜잭션 + Prisma Cascade 이중 보호)
+| 분류 | 세부 스택 기술 |
+| :--- | :--- |
+| **Frontend** | **React 19**, TypeScript, Vite, Vanilla CSS, Tailwind CSS, **Zustand**, Framer Motion, React Router v7 |
+| **Backend** | **Node.js**, **Express 4.18**, TypeScript, **Prisma ORM**, **Helmet**, **express-rate-limit** |
+| **Database** | **MySQL** |
+| **AI Integration** | **Google Gemini Flash API** (Generative AI) |
+| **Authentication** | **JWT (jsonwebtoken)**, **bcryptjs** |
 
 ---
 
-## 7. 실행 방법
+## 3. 🚀 주요 보안 설계 (Security Hardening)
 
-### 사전 준비
-- Node.js 20+
-- MySQL 서버 실행 중
-- Google Gemini API Key
+> **Chaengim은 안정적인 서비스 운영을 위해 기본적인 보안 하드닝(Security Hardening)을 적용하였습니다.**
 
-### 환경 변수 설정
+*   **시크릿 & 환경변수 분리 관리**
+    *   `DATABASE_URL`, `JWT_SECRET`, `GOV24_API_KEY`, `GEMINI_API_KEY` 등 모든 민감 정보는 브라우저(프론트엔드)에 노출되지 않으며 오직 백엔드 환경변수 내에서만 안전하게 관리됩니다.
+    *   `JWT_SECRET`은 32자 이상인 경우에만 구동되도록 서버 부트스트랩 시 검증 로직이 작동합니다.
+*   **환경별 CORS (Cross-Origin Resource Sharing) 강화**
+    *   **운영(Production)**: `https://chaengim.vercel.app` 환경 및 지정된 화이트리스트 외 로컬 접속 차단.
+    *   **개발(Development)**: `localhost:5173`, `localhost:3000` 로컬 프록시 허용.
+    *   허용되지 않은 도메인의 브라우저 요청은 CORS 에러를 반환합니다.
+*   **보안 헤더 & Helmet 적용**
+    *   `helmet()` 보안 미들웨어가 주요 HTTP 응답 헤더를 설정하여 Clickjacking, MIME 스니핑 등 주요 웹 취약점 노출을 방지합니다.
+*   **엔드포인트 Rate Limiting (API 요청 속도 제한)**
+    *   **전역 API** (`/api/*`): 15분당 최대 300회 제한
+    *   **로그인** (`/api/auth/login`): 15분당 최대 10회 제한
+    *   **회원가입** (`/api/auth/register`): 1시간당 최대 10회 제한
+    *   **AI 추천 재생성** (`/api/ai/recommendations`): 1분당 최대 5회 제한
+*   **데이터 소유권 검증 (ID 변조 방지)**
+    *   클라이언트가 전달하는 식별자를 신뢰하지 않고, JWT 토큰 파싱을 통해 확인된 `req.user.id`만을 사용해 Prisma DB 쿼리 필터를 강제 적용합니다.
+
+---
+
+## 4. 🎨 기능 및 화면 흐름
+
+### 📱 챙김 유저 메인 탭
+*   **홈 (`/`)**
+    *   파란색 Hero 섹션과 둥근 오버레이 카드형(`rounded-t-[32px]`) 형태의 콘텐츠 시트 디자인.
+    *   Rule-based 추천 카드 슬라이드 3선 노출 및 AI 가이드 배너.
+*   **혜택 탐색 (`/benefits`)**
+    *   카테고리 칩 선택 가로 스크롤바 제공 및 고속 키워드 검색바 필터링.
+*   **신청 보드 (`/board`)**
+    *   저장한 혜택의 상태별 칸반식 흐름 (`준비중 ➔ 신청완료 ➔ 대기중 ➔ 완료`).
+    *   서류 준비 체크리스트 조작 및 진행 상태 실시간 Progress Bar.
+*   **신청 일정 (`/schedule`)**
+    *   저장 혜택 마감 D-Day 순 정렬 목록. 마감 일주일(`D-7`) 이하 항목 강조 노출.
+
+### 🔑 단계형 UX 온보딩 & 마이페이지
+*   **단계형 회원가입 UX** (`/register/name` ➔ `/register/email` ➔ `/register/verify` ➔ `/register/password` ➔ `/register/terms`)
+    *   단계별 화면 전환 애니메이션.
+    *   `/register/verify` 단계는 베타 단계의 이메일 형식 확인 플로우로 설계되었습니다. (추후 실제 인증 코드 발송 로직 연동 가능)
+    *   모바일 환경(안드로이드/아이폰)의 키보드 활성화 시 스크롤 최적화 및 CTA 버튼 가림 방지.
+*   **보안 계정 설정** (`/settings/account`)
+    *   소셜 연동 계정 여부 감지 기능을 갖춘 패스워드 재설정 로직.
+*   **AI 맞춤 프로필** (`/settings/profile`)
+    *   출생연도, 소득수준, 가구형태, 거주지 등 추천 계산 필터.
+
+---
+
+## 5. 📑 API 스펙 시트
+
+### 🔐 인증 / 계정 관련 (`/api/auth`)
+
+| Method | Endpoint | 설명 | 인증 필요 | Rate Limit |
+| :--- | :--- | :--- | :---: | :---: |
+| **POST** | `/register` | 가입 정보 저장 및 계정 생성 | ✗ | 1시간 10회 |
+| **POST** | `/login` | 로그인 및 JWT 토큰 발급 | ✗ | 15분 10회 |
+| **GET** | `/me` | JWT 세션 조회 및 권한 획득 | ✅ | - |
+| **PATCH**| `/me` | 이름 수정 | ✅ | - |
+| **PATCH**| `/password` | 비밀번호 변경 (현재 비밀번호 대조 검증) | ✅ | 15분 10회 |
+| **DELETE**| `/me` | 탈퇴 처리 및 Cascade 하위 연관 데이터 삭제 | ✅ | - |
+
+### 📂 혜택 / 관리 및 AI (`/api`)
+
+| Method | Endpoint | 설명 | 인증 필요 | Rate Limit |
+| :--- | :--- | :--- | :---: | :---: |
+| **GET** | `/benefits` | 공공 혜택 전체 목록 조회 (조건 필터링) | ✗ | 15분 300회 |
+| **GET** | `/benefits/:id`| 개별 혜택 자격 상세 확인 | ✗ | 15분 300회 |
+| **GET** | `/me/saved-benefits` | 관심 보드에 저장한 혜택 및 서류 상태 로드 | ✅ | 15분 300회 |
+| **POST**| `/me/saved-benefits` | 신규 혜택 저장 | ✅ | 15분 300회 |
+| **DELETE**| `/me/saved-benefits/:id` | 저장 해제 | ✅ | 15분 300회 |
+| **PATCH**| `/me/saved-benefits/:id/status` | 혜택 처리 상태 변경 | ✅ | 15분 300회 |
+| **GET** | `/me/profile` | 내 맞춤 AI 추천 프로필 메타 데이터 로드 | ✅ | 15분 300회 |
+| **PUT** | `/me/profile` | AI 추천 필터 생성 및 갱신 | ✅ | 15분 300회 |
+| **GET** | `/ai/recommendations` | Gemini AI 매칭 혜택 분석 사유 출력 | ✅ | 15분 300회 |
+| **POST**| `/ai/recommendations/generate`| Gemini API를 통한 분석 카드 새로고침 | ✅ | 1분 5회 |
+
+---
+
+## 6. 💾 데이터 릴레이션십 모델 (ERD)
+
+```
+  ┌────────────────────────────────────────────────────────┐
+  │                         User                           │
+  │  - id: UUID (PK)                                       │
+  │  - email: String (Unique)                              │
+  │  - passwordHash: String? (Social User Support)         │
+  └──────────┬──────────────────┬─────────────────┬────────┘
+             │ 1                │ 1               │ 1
+             │                  │                 │
+  ┌──────────▼─────────┐  ┌─────▼───────────────┐ ┌──────▼──────────────┐
+  │    UserProfile     │  │ NotificationSetting │ │   AiRecommendation  │
+  │  - birthYear: Int  │  │ - deadline7D: Bool  │ │ - score: Int        │
+  │  - region: String  │  │ - deadline3D: Bool  │ │ - reason: String    │
+  └────────────────────┘  └─────────────────────┘ └─────────────────────┘
+             │ 1
+  ┌──────────▼─────────┐
+  │    SavedBenefit    │
+  │  - id: UUID (PK)   ├───────┐ 1
+  │  - status: String  │       │
+  └────────────────────┘  ┌────▼──────────────┐
+                          │   ChecklistItem   │
+                          │ - label: String   │
+                          │ - checked: Boolean│
+                          └───────────────────┘
+```
+
+---
+
+## 7. ⚙️ 로컬 개발 환경 셋업
+
+### Prerequisites (사전 준비)
+*   **Node.js v20+**
+*   **MySQL Server** (가동 중이어야 합니다)
+*   **Google Gemini API Key**
+
+### 1단계. 환경 변수 세팅
+프로젝트 최상위 및 백엔드 설정에 환경 파일 생성
 
 **`backend/.env`**
 ```env
-DATABASE_URL="mysql://USER:PASSWORD@localhost:3306/govmate"
-JWT_SECRET="your-secure-jwt-secret"
-GEMINI_API_KEY="your-gemini-api-key"
+DATABASE_URL="mysql://ROOT_USER:PASSWORD@localhost:3306/chaengim"
+JWT_SECRET="YOUR_RANDOM_LONG_STRING_OVER_32_CHARS"
+GOV24_API_KEY="your-gov24-api-key"
+GEMINI_API_KEY="AIzaSyYourGeminiApiKeyHere"
 CORS_ORIGINS="http://localhost:5173"
 PORT=4000
 ```
 
-**`frontend/.env` (선택)**
+*   운영 배포 전 공공데이터포털 인증키(`GOV24_API_KEY`)를 안전하게 재발급하고 Railway 환경변수에만 주입합니다.
+
+**`./.env`**
 ```env
 VITE_API_BASE_URL=http://localhost:4000/api
 ```
 
-### 설치 및 실행
-
+### 2단계. 모듈 다운로드 및 DB 초기 설정
 ```bash
-# 1. 전체 패키지 설치
+# 1. 의존 모듈 패키지 설치
 npm install
 cd backend
 npm install
 cd ..
 
-# 2. DB 스키마 동기화
+# 2. MySQL Prisma 스키마 업로드 및 생성
 cd backend
 npx prisma db push
 
-# 3. 시드 데이터 삽입 (혜택 4종 + 공지 3건)
+# 3. 시드 데이터 삽입 (정부 혜택 4종 및 마감 공지)
 node run-seed.js
 cd ..
+```
 
-# 4. 백엔드 실행 (터미널 1)
+### 3단계. 디버그 서버 실행
+```bash
+# 터미널 A (백엔드 인프라 구동)
 cd backend
 npm run dev
 
-# 5. 프론트엔드 실행 (터미널 2)
+# 터미널 B (Vite 프론트 클라이언트 구동)
 npm run dev
 ```
 
-| 서버 | 주소 |
-|---|---|
-| 프론트엔드 | http://localhost:5173 |
-| 백엔드 API | http://localhost:4000 |
+*   **Frontend Client**: `http://localhost:5173`
+*   **Backend Server**: `http://localhost:4000`
 
 ---
 
-## 8. 디렉토리 구조
+## 8. 🗂️ 프로젝트 디렉토리 구조
 
 ```
-챙김/
+chaengim/ (Frontend Root)
 ├── src/
-│   ├── api/               # httpClient, authApi, benefitApi, aiApi 등
-│   ├── app/               # App.tsx, router.tsx
+│   ├── api/            # 프론트 통신 핵심 httpClient
+│   ├── app/            # SPA Router 및 최상위 컴포넌트 마운트 지점
 │   ├── components/
-│   │   ├── common/        # PrimaryButton, Skeleton, EmptyState, Toast, BottomSheet
-│   │   └── layout/        # MobileShell, BottomNav, PageTransition
-│   ├── constants/         # 카테고리 목록 등 공통 상수
-│   ├── pages/
-│   │   ├── settings/      # AccountSettingsPage, NotificationsPage, WithdrawPage 등 9개
-│   │   └── ...            # HomePage, BenefitsPage, BoardPage 등 주요 화면
-│   ├── store/             # useAuthStore, useBenefitStore, useAiRecommendationStore 등
-│   ├── types/             # User, Benefit, SavedBenefit 등 공통 타입
-│   └── utils/             # date.ts, error.ts 등
+│   │   ├── common/     # UI 뼈대 (PrimaryButton, Skeleton, EmptyState, Toast, BottomSheet)
+│   │   └── layout/     # safe-area 대응 레이아웃 쉘 (MobileShell, BottomNav)
+│   ├── pages/          # 챙김 핵심 기능별 뷰 (HomePage, SchedulePage, BoardPage 등)
+│   ├── store/          # Zustand 전역 영속성 스토어 (useAuthStore, useBenefitStore 등)
+│   ├── types/          # Strict TypeScript 명세 정의
+│   └── utils/          # D-Day 계산 및 공용 에러 헬퍼
 │
-└── backend/
+└── backend/            # Express TypeScript Infrastructure
     ├── src/
-    │   ├── controllers/   # auth, profile, benefit, ai, notification, notice
-    │   ├── routes/        # 라우터 파일
-    │   └── middlewares/   # authMiddleware (JWT 검증)
-    ├── prisma/
-    │   ├── schema.prisma  # 전체 데이터 모델
-    │   └── seed.ts        # 시드 데이터 (혜택 + 공지)
-    └── scripts/           # importBenefits.ts, syncBenefits.ts
+    │   ├── controllers/# 비즈니스 레이어 컨트롤러
+    │   ├── routes/     # 라우트 매핑 모듈
+    │   ├── middlewares/# authMiddleware, rateLimit, validate
+    │   └── services/   # Prisma DB 트랜잭션 및 Gemini AI 연동 엔진
+    └── prisma/
+        └── schema.prisma# DB 테이블 구조 설계도
 ```
 
 ---
 
-## 9. 아키텍처 & 보안
+## 9. 📈 최근 업데이트 & 릴리즈 내역
 
-- **JWT 인증**: 모든 Private API는 `Authorization: Bearer <token>` 헤더 검증
-- **비밀번호**: bcrypt 단방향 해싱, 응답에 `passwordHash` 절대 미포함 (`hasPassword: boolean` 플래그만 반환)
-- **AI API Key**: 백엔드 `.env`에서만 관리, 프론트엔드에 노출 없음
-- **CORS**: 허용 Origin을 `.env`의 `CORS_ORIGINS`로 명시적 관리
-- **회원 탈퇴**: `req.user.id` 기준으로만 처리, 클라이언트 userId 신뢰 금지
-- **소셜 계정 보호**: `passwordHash: null` 사용자는 비밀번호 로그인/변경 API 차단
-
----
-
-## 10. QA & 빌드 현황
-
-### 빌드
-```
-✓ frontend  npm run build    → Exit 0 (Vite, 1.78s)
-✓ backend   npx tsc --noEmit → Exit 0 (TypeScript 에러 없음)
-```
-
-### 모바일 Viewport QA (375px / 390px / 430px)
-| 항목 | 결과 |
-|---|---|
-| 주요 화면 가로 overflow | ✅ 없음 |
-| BottomNav 겹침 (pb 처리) | ✅ 해결 |
-| 설정 화면 8종 스크롤 | ✅ overflow-y-auto 적용 |
-| Benefit Detail CTA 겹침 | ✅ 해결 |
-| 카테고리 칩 가로 스크롤 | ✅ 확인 |
-| safe-area CSS | ✅ 적용 |
-
-> iOS Safari 및 Android Chrome 실기기 검증은 추가 확인 대상입니다.
-
----
-
-## 11. 데이터 정책
-
-- 혜택 데이터는 공식 공공데이터 API 또는 공식 CSV 기반으로 관리합니다.
-- 프론트엔드는 외부 정부 API를 직접 호출하지 않으며, 백엔드 API 응답만 소비합니다.
-- 대량 데이터 적재: `backend/scripts/importBenefits.ts` (CSV import) 또는 `syncBenefits.ts` (공식 API 동기화)
-- `backend/import/benefits.sample.csv`는 파이프라인 검증용 데모 데이터입니다. 실 서비스 전 공식 데이터로 교체 필요.
-
----
-
-## 12. 한계 및 개선 예정
-
-| 구분 | 내용 |
-|---|---|
-| **서비스 책임 한계** | 정부 신청 대행 서비스가 아닙니다. 실제 자격 확인은 공식 기관에서 직접 진행해야 합니다. |
-| **AI 추천 한계** | 입력 프로필 기반 참고용 안내이며, 수급 자격 보장이 아닙니다. |
-| **소셜 로그인** | OAuth(카카오/구글) 플로우 미구현. 소셜 계정 구조(passwordHash nullable)는 준비 완료. |
-| **공지사항 관리** | 어드민 UI 미구현. 현재는 DB 직접 삽입 또는 시드로 관리. |
-| **배포** | CORS 설정 고도화, HTTPS, 환경 변수 분리 등 운영 환경 배포 작업 미완. |
-| **PWA 고도화** | Service Worker, 오프라인 지원, 실제 푸시 알림 연동 미완. |
-
----
-
-## 13. 최근 업데이트 내역 (2026-05-27)
-
-**1. GOV24 공공데이터 API 동기화 고도화**
-- **v3 API 연동:** `https://api.odcloud.kr/api/gov24/v3` 엔드포인트를 적용하고 `returnType=JSON` 및 `searchParams`를 사용하여 400 Bad Request 문제 해결.
-- **한국어 필드명 매핑:** 공공데이터포털 v3 응답의 한국어 키값(`서비스ID`, `서비스명`, `소관기관명` 등)을 최우선으로 매핑하여 `Benefit` DB 생성/수정 실패율 0% 달성.
-- **`SyncJob` 모델 추가:** 동기화 작업의 시작/종료 시간, 상태, 성공/실패 카운트 및 에러 메시지를 DB에 영구 기록하도록 스키마 및 로직 개선.
-- **페이지네이션 제어:** 환경변수(`GOV24_SYNC_MAX_PAGES`, `GOV24_SYNC_PER_PAGE`)로 데이터 인입량 조절 및 무한 루프 방지 로직 구현.
-
-**2. 프론트엔드 라우팅 및 404 오류 해결**
-- **Vercel SPA 라우팅 적용:** `vercel.json`을 추가하여 프론트엔드 SPA 새로고침 시 발생하는 404 오류 해결.
-- **인증 플로우 및 리다이렉트 최적화:** 
-  - 인증 만료 시 잘못된 백엔드 API 경로(`/auth/login`)로 리다이렉트되던 오류를 `/login` 프론트 라우트로 완벽히 수정.
-  - 앱 구동 시 **Splash ➔ (토큰/프로필 검증) ➔ Login / Profile Setup / Home**으로 진입하는 유저 시나리오를 정교하게 구현.
-  - 신규 가입 유저가 홈을 거치지 않고 필수 맞춤 프로필 설정(`Profile Setup`) 화면으로 원활하게 이어지도록 플로우 강제성 부여.
-- **안정적 API Fallback 설정:** `VITE_API_BASE_URL`이 누락될 경우를 대비해 `httpClient.ts`의 기본 주소를 운영 중인 Railway 프로덕션 URL로 안전하게 설정.
+#### **v1.2.0 - UI 레이아웃 및 혜택 일정 고도화 (최신)**
+*   **일정 페이지 카테고리 아이콘화**: 신청 일정 카드(`/schedule`) 내부에 단순 마감 숫자 외에 해당 혜택이 어떠한 범주에 속하는지 한눈에 알려주는 직관적인 `BenefitIcon` 추가 및 가로폭 최적화.
+*   **모바일 레이아웃 Overlap 복구**: HomePage 상단의 시원한 파란 Hero 이미지 밑으로 흰색 콘텐츠 본문 카드가 `-40px` 당겨져 올라오는 둥근 오버레이 카드형(`rounded-t-[32px] shadow`) 디자인 복구.
+*   **스크롤 끝 파란색 유출 차단**: HomePage 최상단 컨테이너 배경 색상을 `bg-white`로 지정하고 bottom padding 중복 계산을 삭제하여, 모바일 디바이스에서 스크롤을 끝까지 내렸을 때 바운스(Overscroll) 영역이 파란색으로 흘러내려 깨지는 상태 개선.
+*   **인증(Auth) 계열 디바이스 스퀴즈 해결**: 로그인(`LoginPage`), 회원가입 단계 뷰(`RegisterStepLayout`), 프로필 상세(`ProfileSetupPage`)의 제목과 버튼이 디바이스의 상단 바 시간/배터리 게이지 아래에 답답하게 들러붙는 현상을 `clamp(56px, calc(env(safe-area-inset-top) + 8vh), 96px)` 및 전용 safe-area 계산식 높이 배치를 적용하여 가독성 있는 모바일 스페이싱 확보 완료.
