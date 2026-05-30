@@ -93,7 +93,10 @@ export default function BenefitDetailPage() {
   };
 
   return (
-    <PageTransition className="relative flex flex-col bg-primary pb-[calc(160px+env(safe-area-inset-bottom))]">
+    <PageTransition 
+      className="relative flex flex-col bg-primary"
+      style={{ paddingBottom: 'calc(96px + max(env(safe-area-inset-bottom), 12px))' }}
+    >
       <div className="sticky top-0 z-10 flex h-14 items-center justify-between px-4 text-white">
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="flex h-11 w-11 items-center justify-center p-2">
           <ChevronLeft size={28} />
@@ -158,7 +161,10 @@ export default function BenefitDetailPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 rounded-t-[32px] border-t border-divider bg-white p-6 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+      <div 
+        className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 rounded-t-[32px] border-t border-divider bg-white px-6 pt-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]"
+        style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+      >
         <PrimaryButton onClick={handleApply} disabled={!selectedBenefit.applyUrl} className={!selectedBenefit.applyUrl ? 'bg-divider text-textMuted' : ''}>
           {selectedBenefit.applyUrl ? '공식 신청 페이지로 이동' : '공식 링크 준비 중'}
         </PrimaryButton>

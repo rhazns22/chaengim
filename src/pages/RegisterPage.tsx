@@ -167,7 +167,10 @@ export default function RegisterPage() {
         </form>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full md:max-w-[480px] border-t border-divider bg-white px-6 py-4 pb-safe">
+      <div 
+        className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full md:max-w-[480px] border-t border-divider bg-white px-6 pt-4"
+        style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+      >
         <div className="mb-4 flex items-center justify-center gap-4 text-[13px] font-bold">
           <Link to="/login" className="text-textSub transition-colors active:text-textMain md:hover:text-textMain">이미 계정이 있으신가요? 로그인</Link>
           <div className="h-3 w-px bg-divider" />

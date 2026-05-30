@@ -82,7 +82,10 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="flex-1 rounded-t-[44px] bg-white px-5 pb-[calc(128px+env(safe-area-inset-bottom))] pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div 
+          className="flex-1 rounded-t-[44px] bg-white px-5 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]"
+          style={{ paddingBottom: 'calc(96px + max(env(safe-area-inset-bottom), 12px))' }}
+        >
           <div className="mb-10 flex gap-3">
             {user ? (
               !needsProfileSetup && aiRecommendations.length > 0 ? (

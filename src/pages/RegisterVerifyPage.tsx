@@ -49,7 +49,10 @@ export default function RegisterVerifyPage() {
         )}
       </div>
 
-      <div className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] p-6 bg-white border-t border-divider">
+      <div 
+        className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] px-6 pt-6 bg-white border-t border-divider"
+        style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+      >
         <PrimaryButton onClick={() => { step === 1 ? setStep(2) : navigate('/register/password') }}>
           {step === 1 ? '인증하기' : '확인 완료'}
         </PrimaryButton>

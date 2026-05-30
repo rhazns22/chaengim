@@ -83,7 +83,10 @@ export default function ProfileSetupPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen w-full bg-gray-50 pb-[calc(120px+env(safe-area-inset-bottom))]">
+      <div 
+        className="min-h-screen w-full bg-gray-50"
+        style={{ paddingBottom: 'calc(96px + max(env(safe-area-inset-bottom), 12px))' }}
+      >
         <div className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-100 bg-white/85 px-4 py-4 backdrop-blur-md">
           <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 text-textMain active:bg-gray-100">
             <ChevronLeft size={24} />
@@ -183,7 +186,10 @@ export default function ProfileSetupPage() {
           </ProfileQuestionCard>
         </div>
 
-        <div className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 bg-gradient-to-t from-white via-white to-transparent p-6 pb-[calc(24px+env(safe-area-inset-bottom))]">
+        <div 
+          className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 bg-gradient-to-t from-white via-white to-transparent px-6 pt-6"
+          style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+        >
           <PrimaryButton onClick={handleSubmit} loading={isSavingProfile} disabled={!isFormValid}>
             맞춤 추천 확인하기
           </PrimaryButton>
