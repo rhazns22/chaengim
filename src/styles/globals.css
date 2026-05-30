@@ -23,13 +23,7 @@
     font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     font-weight: 500;
     color: #33384A;
-    background: linear-gradient(
-      to bottom,
-      #5B7CFA 0%,
-      #5B7CFA 360px,
-      #ffffff 360px,
-      #ffffff 100%
-    );
+    background: #ffffff;
     min-height: 100dvh;
     overflow-x: hidden;
     overscroll-behavior-y: none;

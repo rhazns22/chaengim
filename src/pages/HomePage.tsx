@@ -34,9 +34,17 @@ export default function HomePage() {
     : recommendedBenefits.slice(0, 3);
 
   return (
-    <PageTransition>
-      <div className="flex min-h-[100dvh] w-full flex-col bg-primary">
-        <div className="relative pb-8 px-6 text-white" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 24px)' }}>
+    <PageTransition style={{ paddingBottom: 'calc(112px + max(env(safe-area-inset-bottom), 12px))' }}>
+      <div className="flex min-h-[100dvh] w-full flex-col bg-white overflow-x-hidden relative">
+        {/* iOS status bar background expansion layer */}
+        <div 
+          className="absolute top-0 left-0 right-0 bg-primary pointer-events-none z-0"
+          style={{ height: 'env(safe-area-inset-top)' }}
+        />
+        <div 
+          className="relative pb-8 px-6 text-white bg-primary z-10" 
+          style={{ paddingTop: 'calc(env(safe-area-inset-top) + 24px)' }}
+        >
           <div className="mb-10 flex items-center gap-2">
             <div className="flex h-[40px] w-[40px] items-center justify-center rounded-[16px] bg-white/16">
               <AppLogo white size="md" />
@@ -84,7 +92,7 @@ export default function HomePage() {
 
         <div 
           className="flex-1 rounded-t-[44px] bg-white px-5 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]"
-          style={{ paddingBottom: 'calc(96px + max(env(safe-area-inset-bottom), 12px))' }}
+          style={{ paddingBottom: 'calc(112px + max(env(safe-area-inset-bottom), 12px))' }}
         >
           <div className="mb-10 flex gap-3">
             {user ? (

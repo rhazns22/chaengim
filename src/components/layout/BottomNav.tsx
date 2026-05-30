@@ -23,20 +23,19 @@ export default function BottomNav() {
   }
 
   return (
-    <div 
-      className="fixed bottom-0 inset-x-0 mx-auto z-50 w-full md:max-w-[480px] rounded-t-[32px] border-t border-[#EEF1F7] bg-white shadow-[0_-8px_30px_rgba(91,124,250,0.08)]" 
+    <nav 
+      className="fixed bottom-0 inset-x-0 mx-auto z-50 w-full md:max-w-[480px] bg-white border-t border-[#EEF1F7] shadow-[0_-8px_30px_rgba(91,124,250,0.08)] rounded-t-[28px]" 
       style={{ 
         paddingBottom: 'max(env(safe-area-inset-bottom), 12px)',
-        minHeight: 'calc(68px + max(env(safe-area-inset-bottom), 12px))'
       }}
     >
-      <nav className="flex justify-around items-center h-[68px] px-2">
+      <div className="flex justify-around items-center h-[68px] px-2">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${
+              `flex flex-col items-center justify-center w-full h-full transition-colors ${
                 isActive ? 'text-primary' : 'text-textMuted'
               }`
             }
@@ -45,12 +44,12 @@ export default function BottomNav() {
               <motion.div
                 whileTap={{ scale: 0.94 }}
                 transition={{ duration: 0.15 }}
-                className="flex flex-col items-center"
+                className="flex flex-col items-center justify-center h-[56px] min-w-0 px-1"
               >
                 <motion.div
                   animate={{ scale: isActive ? 1.04 : 1 }}
                   transition={{ duration: 0.16 }}
-                  className="mb-1.5 flex h-[28px] w-[28px] items-center justify-center"
+                  className="mb-1 flex h-[24px] w-[24px] items-center justify-center shrink-0"
                 >
                   <img 
                     src={item.iconSrc} 
@@ -60,12 +59,12 @@ export default function BottomNav() {
                     }`}
                   />
                 </motion.div>
-                <span className={`transition-colors duration-150 text-[12px] ${isActive ? 'font-extrabold text-primary' : 'font-bold text-[#9CA3AF]'}`}>{item.label}</span>
+                <span className={`transition-colors duration-150 text-[10px] sm:text-[11px] leading-none whitespace-nowrap ${isActive ? 'font-extrabold text-primary' : 'font-bold text-[#9CA3AF]'}`}>{item.label}</span>
               </motion.div>
             )}
           </NavLink>
         ))}
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
