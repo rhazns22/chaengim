@@ -10,6 +10,7 @@ interface RegisterStepLayoutProps {
   onBack: () => void;
   bottomButton: ReactNode;
   children: ReactNode;
+  isTerms?: boolean;
 }
 
 export default function RegisterStepLayout({
@@ -20,13 +21,20 @@ export default function RegisterStepLayout({
   onBack,
   bottomButton,
   children,
+  isTerms = false,
 }: RegisterStepLayoutProps) {
   const progressPercent = Math.min((currentStep / totalSteps) * 100, 100);
 
   return (
-    <PageTransition className="w-full min-h-[100dvh] bg-white flex flex-col relative">
+    <PageTransition className="w-full min-h-dvh bg-white flex flex-col relative overflow-x-hidden">
       {/* 상단 네비게이션 헤더 */}
-      <header className="sticky top-0 z-10 flex h-14 items-center justify-between bg-white px-4">
+      <header 
+        className="flex items-center justify-between bg-white px-6 w-full"
+        style={{
+          paddingTop: 'calc(env(safe-area-inset-top) + 16px)',
+          height: 'calc(env(safe-area-inset-top) + 64px)',
+        }}
+      >
         <button 
           onClick={onBack} 
           className="-ml-2 rounded-full p-2 transition-colors active:bg-gray-100"
@@ -37,7 +45,7 @@ export default function RegisterStepLayout({
         </button>
         
         {/* 미니멀한 스텝바 인디케이터 */}
-        <div className="flex flex-col items-end pr-2">
+        <div className="flex flex-col items-end">
           <span className="text-[12px] font-bold text-textSub mb-0.5">
             {currentStep}/{totalSteps}
           </span>
@@ -52,15 +60,18 @@ export default function RegisterStepLayout({
 
       {/* 본문 콘텐츠 스크롤 영역 */}
       <main 
-        className="flex-1 px-6 pt-6 overflow-y-auto scrollbar-hide"
-        style={{ paddingBottom: 'calc(100px + max(env(safe-area-inset-bottom), 12px))' }}
+        className="flex-grow px-6 overflow-y-auto scrollbar-hide"
+        style={{ 
+          paddingTop: isTerms ? '36px' : '56px',
+          paddingBottom: 'calc(140px + max(env(safe-area-inset-bottom), 12px))'
+        }}
       >
-        <div className="mb-8">
-          <h1 className="text-[26px] font-extrabold leading-[1.3] text-textMain tracking-tight whitespace-pre-line">
+        <div className="mb-10">
+          <h1 className="text-[28px] font-extrabold leading-[1.3] text-textMain tracking-tight whitespace-pre-line">
             {title}
           </h1>
           {description && (
-            <p className="mt-2.5 text-[15px] font-semibold text-textSub">
+            <p className="mt-3.5 text-[15px] font-semibold text-textSub">
               {description}
             </p>
           )}

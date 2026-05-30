@@ -90,6 +90,7 @@ export default function RegisterTermsPage() {
     <RegisterStepLayout
       currentStep={5}
       totalSteps={5}
+      isTerms={true}
       title="약관에 동의해 주세요"
       description="서비스 이용을 위해 필수 약관 동의가 필요해요."
       onBack={() => navigate('/register/password')}

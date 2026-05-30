@@ -46,16 +46,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full min-h-[100dvh] bg-white px-6 py-12 flex flex-col justify-center">
-      <div className="mb-10 flex flex-col items-center text-center">
-        <div className="mb-4">
+    <div className="w-full min-h-dvh bg-white px-6 flex flex-col justify-start relative overflow-x-hidden" style={{ paddingTop: 'clamp(56px, calc(env(safe-area-inset-top) + 8vh), 96px)', paddingBottom: 'calc(40px + env(safe-area-inset-bottom))' }}>
+      <div className="mb-12 flex flex-col items-center text-center">
+        <div className="mb-6">
           <AppLogo size="lg" />
         </div>
-        <h1 className="mb-2 text-[28px] font-extrabold text-textMain">로그인</h1>
+        <h1 className="mb-3 text-[30px] font-extrabold text-textMain leading-tight">로그인</h1>
         <p className="text-[15px] font-semibold text-textSub">놓치기 쉬운 혜택, 알아서 챙겨드릴게요</p>
       </div>
 
-      <form onSubmit={handleLogin} className="space-y-4 mb-8">
+      <form onSubmit={handleLogin} className="space-y-4 mb-10">
         <input 
           type="email" 
           placeholder="이메일" 

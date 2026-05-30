@@ -84,22 +84,28 @@ export default function ProfileSetupPage() {
   return (
     <PageTransition>
       <div 
-        className="min-h-screen w-full bg-gray-50"
-        style={{ paddingBottom: 'calc(96px + max(env(safe-area-inset-bottom), 12px))' }}
+        className="min-h-screen w-full bg-gray-50 overflow-x-hidden relative"
+        style={{ paddingBottom: 'calc(112px + max(env(safe-area-inset-bottom), 12px))' }}
       >
-        <div className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-100 bg-white/85 px-4 py-4 backdrop-blur-md">
+        <div 
+          className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-100 bg-white/85 px-6 backdrop-blur-md"
+          style={{
+            paddingTop: 'calc(env(safe-area-inset-top) + 16px)',
+            height: 'calc(env(safe-area-inset-top) + 64px)',
+          }}
+        >
           <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 text-textMain active:bg-gray-100">
             <ChevronLeft size={24} />
           </button>
-          <h1 className="text-lg font-bold text-textMain">맞춤 프로필 설정</h1>
+          <h1 className="text-[17px] font-bold text-textMain">맞춤 프로필 설정</h1>
           <div className="w-10" />
         </div>
 
-        <div className="px-6 pb-4 pt-6">
-          <h2 className="mb-2 text-2xl font-extrabold leading-tight text-textMain">
+        <div className="px-6 pb-6 pt-12">
+          <h2 className="mb-3 text-[28px] font-extrabold leading-[1.3] text-textMain tracking-tight">
             나에게 맞는 혜택을<br />찾아드릴게요
           </h2>
-          <p className="text-sm font-medium leading-relaxed text-textSub">
+          <p className="text-sm font-semibold leading-relaxed text-textSub">
             입력한 정보는 혜택 조건 매칭에만 사용돼요.<br />
             챙김은 이 정보를 바탕으로 받을 가능성이 높은 혜택을 먼저 보여줍니다.
           </p>

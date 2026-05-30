@@ -35,25 +35,30 @@ export default function HomePage() {
     : recommendedBenefits.slice(0, 3);
 
   return (
-    <PageTransition style={{ paddingBottom: 'calc(112px + max(env(safe-area-inset-bottom), 12px))' }}>
-      <div className="flex min-h-[100dvh] w-full flex-col bg-white overflow-x-hidden relative">
+    <PageTransition>
+      <div className="min-h-dvh bg-white overflow-x-hidden relative">
         {/* iOS status bar background expansion layer */}
         <div 
-          className="absolute top-0 left-0 right-0 bg-primary pointer-events-none z-0"
+          className="absolute top-0 left-0 right-0 bg-[#5B7CFA] pointer-events-none z-0"
           style={{ height: 'env(safe-area-inset-top)' }}
         />
-        <div 
-          className="relative pb-8 px-6 text-white bg-primary z-10" 
-          style={{ paddingTop: 'calc(env(safe-area-inset-top) + 24px)' }}
+        
+        {/* 파란색 상단 Hero 섹션 */}
+        <section 
+          className="relative bg-[#5B7CFA] text-white" 
+          style={{ 
+            paddingTop: 'calc(env(safe-area-inset-top) + 24px)',
+            paddingBottom: '72px'
+          }}
         >
-          <div className="mb-10 flex items-center gap-2">
+          <div className="mb-10 flex items-center gap-2 px-6">
             <div className="flex h-[40px] w-[40px] items-center justify-center rounded-[16px] bg-white/16">
               <AppLogo white size="md" />
             </div>
             <span className="text-[22px] font-extrabold tracking-tight text-white">챙김</span>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between">
+          <div className="relative z-10 flex items-center justify-between px-6">
             <div>
               <p className="mb-2 text-[15px] font-semibold text-white/85">
                 {user ? `${user.name}님을 위한 챙김` : '나에게 맞는 혜택 챙김'}
@@ -75,7 +80,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between px-2 mt-8">
+          <div className="flex items-center justify-between px-8 mt-8">
             <div className="flex items-center gap-1.5">
               <span className="text-[14px] font-semibold text-white/85">추천혜택</span>
               <AnimatedNumber value={recommendedBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />
@@ -89,11 +94,15 @@ export default function HomePage() {
               <AnimatedNumber value={savedBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />
             </div>
           </div>
-        </div>
+        </section>
 
-        <div 
-          className="flex-1 rounded-t-[44px] bg-white px-5 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]"
-          style={{ paddingBottom: 'calc(112px + max(env(safe-area-inset-bottom), 12px))' }}
+        {/* 흰색 Rounded 콘텐츠 시트 */}
+        <main 
+          className="relative z-10 bg-white rounded-t-[32px] px-6 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.06)]"
+          style={{ 
+            marginTop: '-40px',
+            paddingBottom: '32px'
+          }}
         >
           <div className="mb-10 flex gap-3">
             {user ? (
@@ -212,7 +221,7 @@ export default function HomePage() {
               </div>
             )}
           </div>
-        </div>
+        </main>
       </div>
     </PageTransition>
   );
