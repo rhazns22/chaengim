@@ -47,6 +47,16 @@ function AuthGuard() {
         try {
           // If already ready, no need to fetch profile on every route change unless we are checking
           if (!isReady) {
+            // Restore user details first via fetchMe
+            await useAuthStore.getState().fetchMe();
+            
+            // Check if token was invalidated during fetchMe
+            const currentUserStore = useAuthStore.getState();
+            if (!currentUserStore.accessToken || !currentUserStore.user) {
+              throw new Error('Session expired');
+            }
+
+            // Then fetch profile details
             await fetchProfile();
           }
           await splashDelay;

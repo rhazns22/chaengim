@@ -28,7 +28,16 @@ export default function SplashPage() {
         }
 
         try {
-          // 프로필 가져오기
+          // 1. JWT 토큰을 기반으로 사용자 정보(me)를 백그라운드에서 조회하여 복원/인증 검사
+          await useAuthStore.getState().fetchMe();
+          
+          // 만약 토큰이 유효하지 않아 fetchMe 호출 도중 accessToken이 날아갔거나 user가 없으면 로그인 유도
+          const currentUserStore = useAuthStore.getState();
+          if (!currentUserStore.accessToken || !currentUserStore.user) {
+            return '/login';
+          }
+
+          // 2. 프로필 가져오기
           await fetchProfile();
           
           // 스토어 갱신된 최신 state로 검사

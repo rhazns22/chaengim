@@ -68,7 +68,7 @@
 | **Backend** | **Node.js**, **Express 4.18**, TypeScript, **Prisma ORM**, **Helmet**, **express-rate-limit** |
 | **Database** | **MySQL** |
 | **AI Integration** | **Google Gemini Flash API** (Generative AI) |
-| **Authentication** | **JWT (jsonwebtoken)**, **bcryptjs** |
+| **Authentication** | **JWT (jsonwebtoken)**, **bcryptjs**, **OAuth 2.0 (Google, Kakao, Naver)** |
 
 ---
 
@@ -129,6 +129,8 @@
 | :--- | :--- | :--- | :---: | :---: |
 | **POST** | `/register` | 가입 정보 저장 및 계정 생성 | ✗ | 1시간 10회 |
 | **POST** | `/login` | 로그인 및 JWT 토큰 발급 | ✗ | 15분 10회 |
+| **POST** | `/kakao` | 카카오 로그인 및 JWT 토큰 발급 | ✗ | 15분 10회 |
+| **POST** | `/naver` | 네이버 로그인 및 JWT 토큰 발급 (CSRF 검증) | ✗ | 15분 10회 |
 | **GET** | `/me` | JWT 세션 조회 및 권한 획득 | ✅ | - |
 | **PATCH**| `/me` | 이름 수정 | ✅ | - |
 | **PATCH**| `/password` | 비밀번호 변경 (현재 비밀번호 대조 검증) | ✅ | 15분 10회 |
@@ -159,6 +161,9 @@
   │  - id: UUID (PK)                                       │
   │  - email: String (Unique)                              │
   │  - passwordHash: String? (Social User Support)         │
+  │  - googleId: String? (Unique)                          │
+  │  - kakaoId: String? (Unique)                           │
+  │  - naverId: String? (Unique)                           │
   └──────────┬──────────────────┬─────────────────┬────────┘
              │ 1                │ 1               │ 1
              │                  │                 │
@@ -269,7 +274,13 @@ chaengim/ (Frontend Root)
 
 ## 9. 📈 최근 업데이트 & 릴리즈 내역
 
-#### **v1.2.0 - UI 레이아웃 및 혜택 일정 고도화 (최신)**
+#### **v1.3.0 - 네이버 소셜 로그인 연동 및 가입자 자동로그인 고도화 (최신)**
+*   **네이버 소셜 로그인 연동 (REST OAuth 2.0):** 네이버 로그인 연동을 위해 backend 컨트롤러, 라우트 및 Prisma `naverId` 모델을 추가하고 frontend `NaverCallbackPage.tsx`를 설계하여 인가 코드 교환, CSRF `state` 검증을 완벽하게 완수했습니다.
+*   **이메일 권한 거부 Fallback & 가상 이메일 마스킹:** 네이버 계정의 이메일 정보 수집 차단 시에도 회원가입이 정상 완료되도록 가상 대체 이메일(`naver_{naverId}@naver.local`) 자동 생성 로직을 도입했으며, 해당 가상 메일 탐지 시 마이페이지 및 계정 설정에서 **"네이버 로그인 연동됨"**으로 수려하게 변환하고 안전 안내 배너를 표출합니다.
+*   **프리미엄 소셜 로그인 버튼 리디자인:** 네이버 공식 브랜드 컬러 `#03C75A`와 둥글기(`24px`), 네이버/카카오/구글 브랜드 공식 로고(SVG)를 버튼 정중앙에 완벽하게 정렬하여 네이티브 앱 수준의 고품격 비주얼을 구축했습니다.
+*   **기존 가입자 세션 자동로그인 안정화:** 브라우저 새로고침이나 앱 재진입 시 `localStorage`에 보관된 JWT를 기반으로 백그라운드 사용자 세션 정보 복구(`fetchMe()`) 프로세스를 전격 고도화하여 로그인 정보 불일치("게스트 님" 오표기) 버그를 영구 박멸하고 세션 만료 시 로그인 창 리다이렉트를 강제했습니다.
+
+#### **v1.2.0 - UI 레이아웃 및 혜택 일정 고도화**
 *   **일정 페이지 카테고리 아이콘화**: 신청 일정 카드(`/schedule`) 내부에 단순 마감 숫자 외에 해당 혜택이 어떠한 범주에 속하는지 한눈에 알려주는 직관적인 `BenefitIcon` 추가 및 가로폭 최적화.
 *   **모바일 레이아웃 Overlap 복구**: HomePage 상단의 시원한 파란 Hero 이미지 밑으로 흰색 콘텐츠 본문 카드가 `-40px` 당겨져 올라오는 둥근 오버레이 카드형(`rounded-t-[32px] shadow`) 디자인 복구.
 *   **스크롤 끝 파란색 유출 차단**: HomePage 최상단 컨테이너 배경 색상을 `bg-white`로 지정하고 bottom padding 중복 계산을 삭제하여, 모바일 디바이스에서 스크롤을 끝까지 내렸을 때 바운스(Overscroll) 영역이 파란색으로 흘러내려 깨지는 상태 개선.
