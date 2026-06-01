@@ -84,7 +84,7 @@ export default function BenefitsPage() {
           </div>
         </div>
 
-        <div className="relative z-10 flex-1 rounded-t-[44px] bg-white px-6 pb-8 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <main className="relative z-10 min-h-[calc(100dvh-260px)] rounded-t-[44px] bg-white px-6 pb-8 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           <div className="mb-4 flex items-center justify-between">
             <p className="text-[15px] font-extrabold text-textMain">
               {resultLabel} {benefitTotal.toLocaleString('ko-KR')}개
@@ -164,7 +164,7 @@ export default function BenefitsPage() {
               description="다른 검색어나 카테고리로 다시 찾아보세요."
             />
           )}
-        </div>
+        </main>
       </div>
     </PageTransition>
   );

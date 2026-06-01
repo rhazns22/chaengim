@@ -45,7 +45,7 @@ export default function SchedulePage() {
           <p className="text-app-body font-semibold text-white/90">놓치기 쉬운 마감일을 챙겨드릴게요.</p>
         </div>
 
-        <div className="relative z-10 flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <main className="relative z-10 min-h-[calc(100dvh-180px)] bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           {isLoading ? (
             <div className="space-y-4"><SkeletonCard /></div>
           ) : deadlineSoonBenefits.length > 0 ? (
@@ -119,7 +119,7 @@ export default function SchedulePage() {
               }
             />
           )}
-        </div>
+        </main>
       </div>
     </PageTransition>
   );

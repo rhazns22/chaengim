@@ -33,6 +33,8 @@
   body {
     overscroll-behavior-y: none;
     background: #ffffff;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   html::-webkit-scrollbar,
   body::-webkit-scrollbar,
@@ -44,6 +46,7 @@
     font-weight: 500;
     color: #33384A;
     min-height: 100dvh;
+    scrollbar-width: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;

@@ -77,17 +77,17 @@ export default function PullToRefresh({
 
   return (
     <div
-      className="relative min-h-[100%] w-full"
+      className="relative w-full max-w-full"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchEnd}
     >
       <div
-        className="pointer-events-none fixed left-0 right-0 z-[99999] flex justify-center transition-transform duration-200"
+        className="pointer-events-none fixed left-0 right-0 z-[60] flex justify-center transition-all duration-200"
         style={{
           top: 'calc(env(safe-area-inset-top) + 12px)',
-          transform: `translateY(${Math.max(pullDistance - 56, -56)}px)`,
+          transform: `translateY(${pullDistance > 0 ? Math.min(pullDistance * 0.5, 48) : -48}px)`,
           opacity: pullDistance > 8 || isRefreshing ? 1 : 0,
         }}
       >
@@ -110,14 +110,7 @@ export default function PullToRefresh({
         </div>
       </div>
 
-      <div
-        className="transition-transform duration-200 w-full min-h-full"
-        style={{
-          transform: `translateY(${isRefreshing ? 0 : pullDistance * 0.25}px)`,
-        }}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

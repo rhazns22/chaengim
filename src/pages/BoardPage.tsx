@@ -53,7 +53,7 @@ export default function BoardPage() {
           <p className="text-app-body font-semibold text-white/90">저장한 혜택과 준비 상태를 관리하세요.</p>
         </div>
 
-        <div className="relative z-10 flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <main className="relative z-10 min-h-[calc(100dvh-180px)] bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           {isLoading ? (
             <div className="space-y-4"><SkeletonCard /><SkeletonCard /></div>
           ) : savedBenefits.length > 0 ? (
@@ -124,7 +124,7 @@ export default function BoardPage() {
               action={<PrimaryButton onClick={() => navigate('/benefits')} className="mt-4 px-8">혜택 찾으러 가기</PrimaryButton>}
             />
           )}
-        </div>
+        </main>
       </div>
     </PageTransition>
   );
