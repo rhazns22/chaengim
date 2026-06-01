@@ -117,6 +117,7 @@ const AiGuidePage = lazy(() => import('../pages/settings/AiGuidePage'));
 const WithdrawPage = lazy(() => import('../pages/settings/WithdrawPage'));
 const AiRecommendationPage = lazy(() => import('../pages/AiRecommendationPage'));
 const KakaoCallbackPage = lazy(() => import('../pages/KakaoCallbackPage'));
+const NaverCallbackPage = lazy(() => import('../pages/NaverCallbackPage'));
 
 function PageLoader() {
   return (
@@ -167,5 +168,9 @@ export const router = createBrowserRouter([
   {
     path: '/auth/kakao/callback',
     element: lazyPage(<KakaoCallbackPage />),
+  },
+  {
+    path: '/auth/naver/callback',
+    element: lazyPage(<NaverCallbackPage />),
   },
 ]);

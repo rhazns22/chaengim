@@ -17,5 +17,9 @@ export const authApi = {
   kakaoLogin: async (code: string) => {
     const res = await httpClient.post<{ user: User; accessToken: string; needsProfileSetup: boolean }>('/auth/kakao', { code });
     return res.data;
+  },
+  naverLogin: async (payload: { code: string; state: string }) => {
+    const res = await httpClient.post<{ user: User; accessToken: string; needsProfileSetup: boolean }>('/auth/naver', payload);
+    return res.data;
   }
 };

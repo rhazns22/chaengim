@@ -65,6 +65,25 @@ export default function LoginPage() {
       `&scope=${encodeURIComponent('profile_nickname,profile_image')}`;
   };
 
+  const handleNaverLogin = () => {
+    const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
+    const NAVER_REDIRECT_URI = import.meta.env.VITE_NAVER_REDIRECT_URI;
+
+    if (!NAVER_CLIENT_ID || !NAVER_REDIRECT_URI) {
+      showToast('네이버 로그인 설정이 완료되지 않았습니다.');
+      return;
+    }
+
+    const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('naver_oauth_state', state);
+
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize` +
+      `?response_type=code` +
+      `&client_id=${encodeURIComponent(NAVER_CLIENT_ID)}` +
+      `&redirect_uri=${encodeURIComponent(NAVER_REDIRECT_URI)}` +
+      `&state=${encodeURIComponent(state)}`;
+  };
+
   return (
     <div
       className="min-h-dvh bg-white overflow-x-hidden px-6 flex flex-col justify-start relative w-full"
@@ -120,6 +139,13 @@ export default function LoginPage() {
           className="w-full h-[52px] bg-[#FEE500] text-black font-bold text-[15px] rounded-[24px] flex items-center justify-center gap-2 active:bg-[#E5CD00] transition-colors"
         >
           카카오로 계속하기
+        </button>
+        <button 
+          type="button" 
+          onClick={handleNaverLogin}
+          className="w-full h-[52px] bg-[#03C75A] text-white font-bold text-[15px] rounded-[24px] flex items-center justify-center gap-2 active:bg-[#02a94c] transition-colors"
+        >
+          네이버로 계속하기
         </button>
         <button type="button" className="w-full h-[52px] bg-white border border-divider text-textMain font-bold text-[15px] rounded-[24px]">구글로 계속하기</button>
       </div>

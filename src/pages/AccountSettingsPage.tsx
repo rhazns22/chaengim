@@ -55,7 +55,11 @@ export default function AccountSettingsPage() {
             </div>
             <h2 className="text-[20px] font-extrabold text-textMain">{user?.name || '게스트'} 님</h2>
             <p className="mt-1 text-[13px] font-semibold text-textSub">
-              {user?.email?.endsWith('@kakao.local') ? '카카오 로그인 연동됨' : (user?.email || '로그인 후 계정 정보를 확인할 수 있습니다.')}
+              {user?.email?.endsWith('@kakao.local')
+                ? '카카오 로그인 연동됨'
+                : user?.email?.endsWith('@naver.local')
+                ? '네이버 로그인 연동됨'
+                : (user?.email || '로그인 후 계정 정보를 확인할 수 있습니다.')}
             </p>
           </div>
 
@@ -66,7 +70,11 @@ export default function AccountSettingsPage() {
                 <h3 className="font-extrabold text-textMain">이메일</h3>
               </div>
               <p className="text-[14px] font-medium text-textSub">
-                {user?.email?.endsWith('@kakao.local') ? '카카오 로그인 연동됨' : (user?.email || '로그인 정보 없음')}
+                {user?.email?.endsWith('@kakao.local')
+                  ? '카카오 로그인 연동됨'
+                  : user?.email?.endsWith('@naver.local')
+                  ? '네이버 로그인 연동됨'
+                  : (user?.email || '로그인 정보 없음')}
               </p>
             </div>
 
