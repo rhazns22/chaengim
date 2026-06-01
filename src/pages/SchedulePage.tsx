@@ -31,21 +31,21 @@ export default function SchedulePage() {
 
   return (
     <PageTransition>
-      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-primary">
+      <div className="relative flex min-h-dvh w-full max-w-full flex-col overflow-x-hidden bg-white">
         <div
-          className="fixed inset-0 -z-10 bg-primary"
+          className="fixed inset-0 z-0 bg-primary"
           aria-hidden="true"
-          style={{ backgroundColor: '#5B7CFA' }}
+          style={{ backgroundColor: '#5B7CFA', height: '50dvh' }}
         />
         <div 
-          className="px-6 pb-8 text-white"
+          className="relative z-10 shrink-0 px-6 pb-8 text-white"
           style={{ paddingTop: 'var(--app-top-normal)' }}
         >
           <h1 className="text-app-page-title text-white mb-2">신청 일정</h1>
           <p className="text-app-body font-semibold text-white/90">놓치기 쉬운 마감일을 챙겨드릴게요.</p>
         </div>
 
-        <main className="relative z-10 min-h-[calc(100dvh-180px)] bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <main className="relative z-10 flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-12px_32px_rgba(15,23,42,0.04)]">
           {isLoading ? (
             <div className="space-y-4"><SkeletonCard /></div>
           ) : deadlineSoonBenefits.length > 0 ? (

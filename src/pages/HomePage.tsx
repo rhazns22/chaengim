@@ -36,16 +36,16 @@ export default function HomePage() {
 
   return (
     <PageTransition>
-      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-primary">
+      <div className="relative flex min-h-dvh w-full max-w-full flex-col overflow-x-hidden bg-white">
         <div
-          className="fixed inset-0 -z-10 bg-primary"
+          className="fixed inset-0 z-0 bg-primary"
           aria-hidden="true"
-          style={{ backgroundColor: '#5B7CFA' }}
+          style={{ backgroundColor: '#5B7CFA', height: '50dvh' }}
         />
 
         {/* 파란색 상단 Hero 섹션 - safe-area를 포함해 status bar까지 직접 덮도록 설정 */}
         <section 
-          className="relative bg-primary text-white z-10 px-6" 
+          className="relative bg-primary text-white z-10 px-6 shrink-0" 
           style={{ 
             paddingTop: 'calc(env(safe-area-inset-top) + 24px)',
             paddingBottom: '72px'
@@ -98,7 +98,7 @@ export default function HomePage() {
 
         {/* 흰색 Rounded 콘텐츠 시트 */}
         <main 
-          className="relative z-20 bg-white rounded-t-[32px] px-6 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.06)]"
+          className="relative z-20 flex-1 bg-white rounded-t-[32px] px-6 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.06)]"
           style={{ 
             marginTop: '-40px',
             paddingBottom: '32px'

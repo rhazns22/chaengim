@@ -125,14 +125,13 @@ export default function MyPage() {
 
   return (
     <PageTransition>
-      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-[#F6F7FB] pb-8">
+      <div className="relative flex min-h-dvh w-full max-w-full flex-col overflow-x-hidden bg-[#F6F7FB]">
         <div
-          className="fixed inset-0 -z-10 bg-[#F6F7FB]"
+          className="fixed inset-0 z-0 bg-[#F6F7FB]"
           aria-hidden="true"
-          style={{ backgroundColor: '#F6F7FB' }}
         />
-        <div 
-          className="px-6 pb-6"
+        <main 
+          className="relative z-10 flex-1 px-6 pb-8"
           style={{ paddingTop: 'var(--app-top-normal)' }}
         >
           <h1 className="mb-4 text-app-page-title text-textMain">마이페이지</h1>
@@ -387,7 +386,7 @@ export default function MyPage() {
             </div>
           )}
 
-        </div>
+        </main>
       </div>
     </PageTransition>
   );
