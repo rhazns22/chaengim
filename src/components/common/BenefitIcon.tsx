@@ -10,10 +10,11 @@ import { Gift, BookOpen, Coins, Rocket, Zap, CreditCard, HeartPulse, BriefcaseBu
 
 interface Props {
   iconType: string;
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
 }
 
-export default function BenefitIcon({ iconType, className = "w-14 h-14 rounded-[20px]" }: Props) {
+export default function BenefitIcon({ iconType, size, className }: Props) {
   const [error, setError] = useState(false);
 
   // Map iconType (which might be an emoji or category string) to specific icon paths
@@ -32,6 +33,28 @@ export default function BenefitIcon({ iconType, className = "w-14 h-14 rounded-[
 
   const src = getIconSource();
 
+  const getCombinedClass = () => {
+    if (className) return className;
+    
+    // Size mapping when no custom className is provided
+    const sizeClasses = {
+      sm: 'w-8 h-8 rounded-[12px] bg-chipBg',
+      md: 'w-12 h-12 rounded-[16px] bg-chipBg',
+      lg: 'w-14 h-14 rounded-[20px] bg-chipBg', // Default matching original w-14 h-14
+    };
+    
+    return sizeClasses[size || 'lg'];
+  };
+
+  const combinedClass = getCombinedClass();
+
+  // Padding inside the icon wrapper
+  const getPaddingClass = () => {
+    if (size === 'sm') return 'p-1';
+    if (size === 'md') return 'p-1.5';
+    return 'p-1.5';
+  };
+
   // Fallback Soft Icon Box
   const renderFallback = () => {
     let FallbackIcon = Gift;
@@ -43,9 +66,11 @@ export default function BenefitIcon({ iconType, className = "w-14 h-14 rounded-[
     if (iconType === 'medical') FallbackIcon = HeartPulse;
     if (iconType === 'employment') FallbackIcon = BriefcaseBusiness;
 
+    const iconSize = size === 'sm' ? 16 : size === 'md' ? 22 : 24;
+
     return (
-      <div className={`${className} bg-chipBg flex items-center justify-center text-primary flex-shrink-0`}>
-        <FallbackIcon size={24} />
+      <div className={`${combinedClass} flex items-center justify-center text-primary flex-shrink-0`}>
+        <FallbackIcon size={iconSize} />
       </div>
     );
   };
@@ -55,12 +80,12 @@ export default function BenefitIcon({ iconType, className = "w-14 h-14 rounded-[
   }
 
   return (
-    <div className={`${className} bg-chipBg flex-shrink-0 overflow-hidden flex items-center justify-center`}>
+    <div className={`${combinedClass} flex-shrink-0 overflow-hidden flex items-center justify-center`}>
       <img 
         src={src} 
-        alt="" 
-        aria-hidden="true"
-        className="w-full h-full p-1.5 object-contain"
+        alt={`${iconType} 카테고리 아이콘`} 
+        aria-hidden="false"
+        className={`w-full h-full object-contain ${getPaddingClass()}`}
         onError={() => setError(true)}
       />
     </div>
