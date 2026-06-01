@@ -65,16 +65,22 @@ export default function KakaoCallbackPage() {
           navigate('/', { replace: true });
         }
       } catch (e: any) {
-        console.error('Kakao callback exchange failed:', e);
-        
-        // Handle 409 Conflict (Local Account Collision) explicitly
-        if (e.response?.status === 409) {
-          showToast(
-            e.response?.data?.message || 
-            '이미 동일한 이메일로 가입된 로컬 계정이 존재합니다. 이메일 로그인을 사용해 주세요.'
-          );
+        const status = e.response?.status;
+        const errCode = e.response?.data?.code;
+        const errMsg = e.response?.data?.message;
+
+        console.error(`Kakao login failed: [${status}] ${errCode || 'UNKNOWN_ERROR'}`);
+
+        if (status === 409 || errCode === 'KAKAO_LOCAL_ACCOUNT_CONFLICT') {
+          showToast(errMsg || '이미 동일한 이메일로 가입된 로컬 계정이 존재합니다. 이메일 로그인으로 먼저 로그인해 주세요.');
+        } else if (errCode === 'KAKAO_EMAIL_REQUIRED') {
+          showToast(errMsg || '카카오 로그인 시 이메일 제공 및 약관 동의가 필수적입니다.');
+        } else if (errCode === 'KAKAO_EMAIL_NOT_VERIFIED') {
+          showToast(errMsg || '인증 완료된 카카오 계정 이메일만 가입에 사용될 수 있습니다.');
+        } else if (errCode === 'KAKAO_TOKEN_EXCHANGE_FAILED' || errCode === 'KAKAO_PROFILE_FETCH_FAILED') {
+          showToast(errMsg || '카카오 서버 연동 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
         } else {
-          showToast(normalizeErrorMessage(e) || '카카오 로그인 처리 중 오류가 발생했습니다.');
+          showToast(errMsg || normalizeErrorMessage(e) || '카카오 로그인 처리 중 오류가 발생했습니다.');
         }
         
         navigate('/login', { replace: true });
