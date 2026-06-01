@@ -105,58 +105,66 @@ export default function SplashPage() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed inset-0 z-[999] flex w-full flex-col items-center justify-center bg-primary overflow-hidden"
+          className="fixed inset-0 z-[999] bg-primary overflow-hidden w-full max-w-full"
         >
-          {/* 중앙 로고 & 타이틀 그룹 */}
-          <div className="flex flex-col items-center select-none">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="flex h-[96px] w-[96px] items-center justify-center rounded-[28px] bg-white/16 backdrop-blur shadow-lg"
-            >
-              <AppLogo white size="lg" />
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 text-[32px] font-extrabold tracking-tight text-white"
-            >
-              챙김
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-2 text-[14px] font-semibold text-white/80"
-            >
-              내게 맞는 정부 혜택을 한눈에
-            </motion.p>
-          </div>
-
-          <div 
-            className="absolute flex gap-1.5 justify-center items-center"
-            style={{ bottom: 'calc(48px + var(--safe-bottom))' }}
+          <div
+            className="flex min-h-dvh flex-col items-center justify-center px-6"
+            style={{
+              paddingTop: 'env(safe-area-inset-top)',
+              paddingBottom: 'max(env(safe-area-inset-bottom), 24px)',
+            }}
           >
-            {[0, 1, 2].map((index) => (
+            {/* 중앙 로고 & 타이틀 그룹 */}
+            <div className="-translate-y-16 flex flex-col items-center select-none">
               <motion.div
-                key={index}
-                className="h-2.5 w-2.5 rounded-full bg-white/40"
-                animate={{
-                  scale: [1, 1.25, 1],
-                  opacity: [0.4, 1, 0.4]
-                }}
-                transition={{
-                  duration: 0.9,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: index * 0.18
-                }}
-              />
-            ))}
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="flex h-[96px] w-[96px] items-center justify-center rounded-[28px] bg-white/16 backdrop-blur shadow-lg"
+              >
+                <AppLogo white size="lg" />
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-6 text-[32px] font-extrabold tracking-tight text-white"
+              >
+                챙김
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-2 text-[14px] font-semibold text-white/80"
+              >
+                내게 맞는 정부 혜택을 한눈에
+              </motion.p>
+            </div>
+
+            <div 
+              className="absolute left-0 right-0 flex justify-center items-center"
+              style={{ bottom: 'calc(56px + max(env(safe-area-inset-bottom), 12px))' }}
+            >
+              {[0, 1, 2].map((index) => (
+                <motion.div
+                  key={index}
+                  className="mx-0.75 h-2.5 w-2.5 rounded-full bg-white/40"
+                  animate={{
+                    scale: [1, 1.25, 1],
+                    opacity: [0.4, 1, 0.4]
+                  }}
+                  transition={{
+                    duration: 0.9,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: index * 0.18
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
       )}

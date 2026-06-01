@@ -93,88 +93,106 @@ export default function BenefitDetailPage() {
   };
 
   return (
-    <PageTransition 
-      className="relative flex flex-col bg-primary"
-      style={{ paddingBottom: 'calc(96px + var(--bottom-safe))' }}
-    >
-      <div 
-        className="sticky top-0 z-10 flex items-center justify-between px-4 text-white bg-primary"
-        style={{
-          paddingTop: 'var(--app-top-compact)',
-          minHeight: 'var(--app-header-height-compact)',
-        }}
+    <div className="min-h-dvh w-full max-w-full overflow-x-hidden bg-white relative">
+      <PageTransition 
+        className="relative flex flex-col bg-primary w-full max-w-full overflow-x-hidden"
+        style={{ paddingBottom: 'calc(116px + var(--bottom-safe))' }}
       >
-        <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="flex h-11 w-11 items-center justify-center p-2">
-          <ChevronLeft size={28} />
-        </motion.button>
-        <button onClick={() => toggleBookmark(selectedBenefit.id)} className="flex h-11 w-11 items-center justify-center p-2">
-          <Bookmark size={28} className={isSaved ? 'fill-white text-white' : 'text-white/50'} />
-        </button>
-      </div>
-
-      <div className="px-6 pb-8 pt-4 text-center text-white">
-        <BenefitIcon iconType={selectedBenefit.iconType} className="mx-auto mb-4 h-20 w-20 rounded-[20px] bg-white/20 text-white" />
-        <span className="mb-3 inline-block rounded-full bg-white/20 px-3 py-1 text-app-chip text-white">
-          {selectedBenefit.categoryLabel}
-        </span>
-        <h1 className="mb-2 text-app-page-title text-white">{selectedBenefit.title}</h1>
-        <p className="text-app-body font-semibold text-white/90">{selectedBenefit.agency}</p>
-      </div>
-
-      <div className="flex-1 rounded-t-[44px] bg-white px-6 pt-10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
-        <div className="mb-8 space-y-6">
-          <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">이 혜택은 뭔가요?</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.description || selectedBenefit.title}</p>
-          </section>
-          <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">내가 대상인가요?</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.target}</p>
-          </section>
-          <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">무엇을 지원받나요?</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.supportContent}</p>
-          </section>
-          <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">언제까지 신청하나요?</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.deadline || '상시 신청 (공식 사이트 확인 필요)'}</p>
-          </section>
-          <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">어디서 신청하나요?</h3>
-            <p className="text-app-body text-textMain">{selectedBenefit.applyMethod}</p>
-            {selectedBenefit.documents && (
-              <div className="mt-4 pt-4 border-t border-divider">
-                <h4 className="mb-2 text-[14px] font-bold text-textSub">필요 서류</h4>
-                <p className="text-[14px] font-medium text-textMain">{selectedBenefit.documents}</p>
-              </div>
-            )}
-          </section>
-          <section className="rounded-[24px] bg-background p-5">
-            <h3 className="mb-2 text-app-card text-primary">데이터 출처</h3>
-            <p className="text-app-body text-textMain">
-              출처: {selectedBenefit.officialSiteName || sourceLabel[selectedBenefit.source || 'manual'] || selectedBenefit.source}
-            </p>
-            <p className="mt-1 text-[13px] font-semibold text-textSub">
-              데이터 기준: {sourceLabel[selectedBenefit.source || 'manual'] || selectedBenefit.source || '수동 등록'}
-            </p>
-            <p className="mt-1 text-[13px] font-semibold text-textSub">
-              마지막 업데이트: {formatDate(selectedBenefit.updatedAt)}
-            </p>
-            <p className="mt-3 text-[13px] leading-relaxed text-textSub">
-              챙김은 신청을 대행하지 않습니다. 실제 지급 여부와 최신 조건은 반드시 공식 기관 사이트에서 확인하세요.
-            </p>
-          </section>
+        <div 
+          className="sticky top-0 z-10 flex items-center justify-between px-4 text-white bg-primary w-full max-w-full"
+          style={{
+            paddingTop: 'var(--app-top-compact)',
+            minHeight: 'var(--app-header-height-compact)',
+          }}
+        >
+          <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="flex h-11 w-11 items-center justify-center p-2">
+            <ChevronLeft size={28} />
+          </motion.button>
+          <button onClick={() => toggleBookmark(selectedBenefit.id)} className="flex h-11 w-11 items-center justify-center p-2">
+            <Bookmark size={28} className={isSaved ? 'fill-white text-white' : 'text-white/50'} />
+          </button>
         </div>
-      </div>
 
-      <div 
-        className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 rounded-t-[32px] border-t border-divider bg-white px-6 pt-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]"
+        <div className="px-6 pb-8 pt-4 text-center text-white w-full max-w-full">
+          <BenefitIcon iconType={selectedBenefit.iconType} className="mx-auto mb-4 h-20 w-20 rounded-[20px] bg-white/20 text-white" />
+          <span className="mb-3 inline-block rounded-full bg-white/20 px-3 py-1 text-app-chip text-white">
+            {selectedBenefit.categoryLabel}
+          </span>
+          <h1 className="mb-2 text-app-page-title text-white break-keep">{selectedBenefit.title}</h1>
+          <p className="text-app-body font-semibold text-white/90 break-keep">{selectedBenefit.agency}</p>
+        </div>
+
+        <main className="w-full max-w-full px-5 pb-[120px] rounded-t-[44px] bg-white pt-10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+          <div className="space-y-6 w-full max-w-full">
+            <section className="w-full max-w-full rounded-[28px] bg-slate-50 p-5">
+              <h3 className="mb-2 text-app-card text-primary font-extrabold">이 혜택은 뭔가요?</h3>
+              <div className="min-w-0 flex-1 w-full max-w-full">
+                <p className="break-keep text-app-body text-textMain leading-relaxed">{selectedBenefit.description || selectedBenefit.title}</p>
+              </div>
+            </section>
+            <section className="w-full max-w-full rounded-[28px] bg-slate-50 p-5">
+              <h3 className="mb-2 text-app-card text-primary font-extrabold">내가 대상인가요?</h3>
+              <div className="min-w-0 flex-1 w-full max-w-full">
+                <p className="break-keep text-app-body text-textMain leading-relaxed">{selectedBenefit.target}</p>
+              </div>
+            </section>
+            <section className="w-full max-w-full rounded-[28px] bg-slate-50 p-5">
+              <h3 className="mb-2 text-app-card text-primary font-extrabold">무엇을 지원받나요?</h3>
+              <div className="min-w-0 flex-1 w-full max-w-full">
+                <p className="break-keep text-app-body text-textMain leading-relaxed">{selectedBenefit.supportContent}</p>
+              </div>
+            </section>
+            <section className="w-full max-w-full rounded-[28px] bg-slate-50 p-5">
+              <h3 className="mb-2 text-app-card text-primary font-extrabold">언제까지 신청하나요?</h3>
+              <div className="min-w-0 flex-1 w-full max-w-full">
+                <p className="break-keep text-app-body text-textMain leading-relaxed">{selectedBenefit.deadline || '상시 신청 (공식 사이트 확인 필요)'}</p>
+              </div>
+            </section>
+            <section className="w-full max-w-full rounded-[28px] bg-slate-50 p-5">
+              <h3 className="mb-2 text-app-card text-primary font-extrabold">어디서 신청하나요?</h3>
+              <div className="min-w-0 flex-1 w-full max-w-full">
+                <p className="break-keep text-app-body text-textMain leading-relaxed">{selectedBenefit.applyMethod}</p>
+                {selectedBenefit.documents && (
+                  <div className="mt-4 pt-4 border-t border-divider">
+                    <h4 className="mb-2 text-[14px] font-bold text-textSub">필요 서류</h4>
+                    <p className="break-keep text-[14px] font-medium text-textMain leading-relaxed">{selectedBenefit.documents}</p>
+                  </div>
+                )}
+              </div>
+            </section>
+            <section className="w-full max-w-full rounded-[28px] bg-slate-50 p-5">
+              <h3 className="mb-2 text-app-card text-primary font-extrabold">데이터 출처</h3>
+              <div className="min-w-0 flex-1 w-full max-w-full">
+                <p className="break-keep text-app-body text-textMain">
+                  출처: {selectedBenefit.officialSiteName || sourceLabel[selectedBenefit.source || 'manual'] || selectedBenefit.source}
+                </p>
+                <p className="mt-1 text-[13px] font-semibold text-textSub">
+                  데이터 기준: {sourceLabel[selectedBenefit.source || 'manual'] || selectedBenefit.source || '수동 등록'}
+                </p>
+                <p className="mt-1 text-[13px] font-semibold text-textSub">
+                  마지막 업데이트: {formatDate(selectedBenefit.updatedAt)}
+                </p>
+                <p className="mt-3 break-keep text-[13px] leading-relaxed text-textSub">
+                  챙김은 신청을 대행하지 않습니다. 실제 지급 여부와 최신 조건은 반드시 공식 기관 사이트에서 확인하세요.
+                </p>
+              </div>
+            </section>
+          </div>
+        </main>
+      </PageTransition>
+
+      <footer 
+        className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-divider px-5 pt-4 backdrop-blur shadow-[0_-12px_32px_rgba(15,23,42,0.08)] rounded-t-[32px]"
         style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
       >
-        <PrimaryButton onClick={handleApply} disabled={!selectedBenefit.applyUrl} className={!selectedBenefit.applyUrl ? 'bg-divider text-textMuted' : ''}>
+        <PrimaryButton 
+          onClick={handleApply} 
+          disabled={!selectedBenefit.applyUrl} 
+          className={`h-14 w-full max-w-full rounded-[24px] font-bold ${!selectedBenefit.applyUrl ? 'bg-divider text-textMuted' : ''}`}
+        >
           {selectedBenefit.applyUrl ? '공식 신청 페이지로 이동' : '공식 링크 준비 중'}
         </PrimaryButton>
-      </div>
-    </PageTransition>
+      </footer>
+    </div>
   );
 }
