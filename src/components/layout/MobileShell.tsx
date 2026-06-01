@@ -25,11 +25,27 @@ export default function MobileShell() {
     const path = location.pathname;
     try {
       if (path === '/') {
-        await Promise.all([
-          useBenefitStore.getState().fetchRecommendedBenefits(),
-          useBenefitStore.getState().fetchSavedBenefits(),
-          useAuthStore.getState().user ? useAiRecommendationStore.getState().fetchRecommendations() : Promise.resolve(),
-        ]);
+        if (useAuthStore.getState().user) {
+          await useAiRecommendationStore.getState().fetchProfile();
+          const profile = useAiRecommendationStore.getState().profile;
+          if (profile) {
+            await Promise.all([
+              useBenefitStore.getState().fetchRecommendedBenefits(),
+              useBenefitStore.getState().fetchSavedBenefits(),
+              useAiRecommendationStore.getState().fetchRecommendations(),
+            ]);
+          } else {
+            await Promise.all([
+              useBenefitStore.getState().fetchRecommendedBenefits(),
+              useBenefitStore.getState().fetchSavedBenefits(),
+            ]);
+          }
+        } else {
+          await Promise.all([
+            useBenefitStore.getState().fetchRecommendedBenefits(),
+            useBenefitStore.getState().fetchSavedBenefits(),
+          ]);
+        }
       } else if (path === '/benefits') {
         await useBenefitStore.getState().fetchBenefits({ page: 1, limit: 20, category: 'all', q: '' });
       } else if (path === '/board') {

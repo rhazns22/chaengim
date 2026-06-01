@@ -54,8 +54,19 @@ export default function ProfileSetupPage() {
   };
 
   const handleSubmit = async () => {
-    if (formData.interests.length === 0) {
-      showToast('관심 분야를 1개 이상 선택해주세요.');
+    if (!formData.region) {
+      showToast('거주 지역을 선택해주세요.');
+      return;
+    }
+    const hasRecommendationCondition =
+      formData.interests.length > 0 ||
+      Boolean(formData.employmentStatus) ||
+      Boolean(formData.incomeLevel) ||
+      Boolean(formData.householdType) ||
+      Boolean(formData.birthYear);
+
+    if (!hasRecommendationCondition) {
+      showToast('최소 1개 이상의 추천 조건을 입력하거나 선택해주세요.');
       return;
     }
 
@@ -68,10 +79,18 @@ export default function ProfileSetupPage() {
     if (formData.householdType) payload.householdType = formData.householdType;
 
     await saveProfile(payload);
+    await useAiRecommendationStore.getState().fetchProfile();
+    await useAiRecommendationStore.getState().fetchRecommendations();
     navigate('/', { replace: true });
   };
 
-  const isFormValid = formData.interests.length > 0;
+  const isFormValid =
+    Boolean(formData.region) &&
+    (formData.interests.length > 0 ||
+     Boolean(formData.employmentStatus) ||
+     Boolean(formData.incomeLevel) ||
+     Boolean(formData.householdType) ||
+     Boolean(formData.birthYear));
 
   if (isProfileLoading) {
     return (

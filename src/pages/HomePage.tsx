@@ -17,22 +17,65 @@ import AnimatedNumber from '../components/common/AnimatedNumber';
 export default function HomePage() {
   const { recommendedBenefits, deadlineSoonBenefits, savedBenefits, isLoading, fetchRecommendedBenefits, fetchSavedBenefits } = useBenefitStore();
   const { user } = useAuthStore();
-  const { recommendations: aiRecommendations, fetchRecommendations, needsProfileSetup } = useAiRecommendationStore();
+  const {
+    profile,
+    recommendations: aiRecommendations,
+    isProfileLoading,
+    fetchProfile,
+    fetchRecommendations,
+  } = useAiRecommendationStore();
   const navigate = useNavigate();
+
+  const hasCompletedProfile =
+    profile !== null &&
+    Boolean(profile.region) &&
+    (Boolean(profile.employmentStatus) ||
+     Boolean(profile.incomeLevel) ||
+     Boolean(profile.householdType) ||
+     Boolean(profile.birthYear) ||
+     (Array.isArray(profile.interests) && profile.interests.length > 0));
 
   useEffect(() => {
     console.log('[Chaengim] iOS safe-area layout patch v5 loaded');
     fetchRecommendedBenefits();
     fetchSavedBenefits();
-    if (user) fetchRecommendations();
-  }, [fetchRecommendedBenefits, fetchSavedBenefits, fetchRecommendations, user]);
+    
+    if (user) {
+      const loadHomeData = async () => {
+        await fetchProfile();
+        const currentProfile = useAiRecommendationStore.getState().profile;
+        const currentHasCompletedProfile =
+          currentProfile !== null &&
+          Boolean(currentProfile.region) &&
+          (Boolean(currentProfile.employmentStatus) ||
+           Boolean(currentProfile.incomeLevel) ||
+           Boolean(currentProfile.householdType) ||
+           Boolean(currentProfile.birthYear) ||
+           (Array.isArray(currentProfile.interests) && currentProfile.interests.length > 0));
+        
+        if (currentHasCompletedProfile) {
+          await fetchRecommendations();
+        }
+      };
+      loadHomeData();
+    }
+  }, [fetchRecommendedBenefits, fetchSavedBenefits, fetchProfile, fetchRecommendations, user]);
 
-  const homeRecommendations = aiRecommendations.length > 0
+  if (import.meta.env.DEV) {
+    console.log('[Home] user:', user?.id);
+    console.log('[Home] profile:', profile);
+    console.log('[Home] hasCompletedProfile:', hasCompletedProfile);
+    console.log('[Home] recommendations:', aiRecommendations);
+  }
+
+  const homeRecommendations = (hasCompletedProfile && aiRecommendations.length > 0)
     ? aiRecommendations
       .map((recommendation) => recommendation.benefit)
       .filter((benefit): benefit is Benefit => Boolean(benefit))
       .slice(0, 3)
     : recommendedBenefits.slice(0, 3);
+
+  const isHomeLoading = isLoading || isProfileLoading;
 
   return (
     <PageTransition>
@@ -106,7 +149,7 @@ export default function HomePage() {
         >
           <div className="mb-10 flex gap-3">
             {user ? (
-              !needsProfileSetup && aiRecommendations.length > 0 ? (
+              hasCompletedProfile ? (
                 <>
                   <motion.button
                     whileTap={{ scale: 0.97 }}
@@ -163,28 +206,44 @@ export default function HomePage() {
 
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h2 className="text-[22px] font-extrabold text-textMain">{aiRecommendations.length > 0 ? '맞춤 추천' : '추천 혜택'}</h2>
+              <h2 className="text-[22px] font-extrabold text-textMain">{hasCompletedProfile && aiRecommendations.length > 0 ? '맞춤 추천' : '추천 혜택'}</h2>
               <AnimatedNumber
-                value={homeRecommendations.length}
+                value={hasCompletedProfile && aiRecommendations.length > 0 ? aiRecommendations.slice(0, 3).length : recommendedBenefits.slice(0, 3).length}
                 className="flex h-7 items-center justify-center rounded-full bg-chipBg px-3 text-[14px] font-bold text-primary"
               />
             </div>
             <Link to="/benefits" className="text-[14px] font-semibold text-textSub transition-colors active:text-textMain md:hover:text-textMain">전체보기</Link>
           </div>
 
-          {aiRecommendations.length > 0 && (
+          {hasCompletedProfile && aiRecommendations.length > 0 && (
             <p className="mb-5 rounded-[18px] bg-background px-4 py-3 text-[12px] font-semibold leading-relaxed text-textSub">
               입력한 프로필과 혜택 조건의 일치도를 기준으로 계산한 참고 점수입니다. 최종 자격은 공식 기관에서 확인하세요.
             </p>
           )}
 
           <div className="flex flex-col gap-4">
-            {isLoading ? (
+            {isHomeLoading ? (
               <>
                 <SkeletonCard />
                 <SkeletonCard />
                 <SkeletonCard />
               </>
+            ) : hasCompletedProfile && aiRecommendations.length === 0 ? (
+              <div className="mt-12 flex flex-col items-center justify-center text-center">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-[22px] bg-chipBg text-primary">
+                  <Inbox size={32} />
+                </div>
+                <h3 className="mb-2 text-[16px] font-bold text-textMain">조건에 맞는 추천 혜택을 아직 찾지 못했어요.</h3>
+                <p className="mb-6 text-[14px] font-medium text-textSub px-6 leading-relaxed">혜택 조건은 계속 업데이트될 수 있어요. 전체 혜택에서 직접 찾아볼 수도 있습니다.</p>
+                <div className="flex gap-3 w-full justify-center">
+                  <Link to="/benefits" className="rounded-full bg-primary px-5 py-3 text-[14px] font-bold text-white shadow-soft">
+                    전체 혜택 보기
+                  </Link>
+                  <Link to="/profile-setup" className="rounded-full bg-chipBg px-5 py-3 text-[14px] font-bold text-primary">
+                    조건 다시 수정하기
+                  </Link>
+                </div>
+              </div>
             ) : homeRecommendations.length > 0 ? (
               homeRecommendations.map((benefit) => (
                 <motion.div key={benefit.id} whileTap={{ scale: 0.985 }} transition={{ duration: 0.16 }}>
