@@ -116,6 +116,7 @@ const PrivacyPage = lazy(() => import('../pages/settings/PrivacyPage'));
 const AiGuidePage = lazy(() => import('../pages/settings/AiGuidePage'));
 const WithdrawPage = lazy(() => import('../pages/settings/WithdrawPage'));
 const AiRecommendationPage = lazy(() => import('../pages/AiRecommendationPage'));
+const KakaoCallbackPage = lazy(() => import('../pages/KakaoCallbackPage'));
 
 function PageLoader() {
   return (
@@ -162,5 +163,9 @@ export const router = createBrowserRouter([
       { path: 'profile-setup', element: <ProfileSetupPage /> },
       { path: 'ai-recommendation', element: lazyPage(<AiRecommendationPage />) },
     ],
+  },
+  {
+    path: '/auth/kakao/callback',
+    element: lazyPage(<KakaoCallbackPage />),
   },
 ]);

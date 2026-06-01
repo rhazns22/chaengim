@@ -13,5 +13,9 @@ export const authApi = {
   getMe: async () => {
     const res = await httpClient.get<User>('/auth/me');
     return res.data;
+  },
+  kakaoLogin: async (code: string) => {
+    const res = await httpClient.post<{ user: User; accessToken: string; needsProfileSetup: boolean }>('/auth/kakao', { code });
+    return res.data;
   }
 };

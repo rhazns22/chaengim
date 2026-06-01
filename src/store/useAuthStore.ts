@@ -14,6 +14,7 @@ interface AuthState {
   
   register: (data: any) => Promise<void>;
   login: (data: any) => Promise<void>;
+  loginWithKakao: (code: string) => Promise<{ needsProfileSetup: boolean } | undefined>;
   fetchMe: () => Promise<void>;
   guestLogin: () => void;
   logout: () => void;
@@ -59,6 +60,24 @@ export const useAuthStore = create<AuthState>()(
           });
         } catch (e: unknown) {
           set({ error: normalizeErrorMessage(e), isLoading: false });
+        }
+      },
+
+      loginWithKakao: async (code) => {
+        set({ isLoading: true, error: null });
+        try {
+          const res = await authApi.kakaoLogin(code);
+          set({ 
+            user: res.user, 
+            accessToken: res.accessToken, 
+            isLoggedIn: true, 
+            isGuest: false, 
+            isLoading: false 
+          });
+          return { needsProfileSetup: res.needsProfileSetup };
+        } catch (e: unknown) {
+          set({ error: normalizeErrorMessage(e), isLoading: false });
+          throw e;
         }
       },
 

@@ -45,6 +45,21 @@ export default function LoginPage() {
     navigate('/', { replace: true });
   };
 
+  const handleKakaoLogin = () => {
+    const KAKAO_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+    const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+
+    if (!KAKAO_KEY || !REDIRECT_URI) {
+      showToast('카카오 로그인 설정이 완료되지 않았습니다.');
+      return;
+    }
+
+    const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('kakao_oauth_state', state);
+
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${state}`;
+  };
+
   return (
     <div
       className="min-h-dvh bg-white overflow-x-hidden px-6 flex flex-col justify-start relative w-full"
@@ -94,7 +109,13 @@ export default function LoginPage() {
       </div>
 
       <div className="flex flex-col gap-3 mb-6">
-        <button type="button" className="w-full h-[52px] bg-[#FEE500] text-black font-bold text-[15px] rounded-[24px]">카카오로 계속하기</button>
+        <button 
+          type="button" 
+          onClick={handleKakaoLogin}
+          className="w-full h-[52px] bg-[#FEE500] text-black font-bold text-[15px] rounded-[24px] flex items-center justify-center gap-2 active:bg-[#E5CD00] transition-colors"
+        >
+          카카오로 계속하기
+        </button>
         <button type="button" className="w-full h-[52px] bg-white border border-divider text-textMain font-bold text-[15px] rounded-[24px]">구글로 계속하기</button>
       </div>
 
