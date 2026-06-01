@@ -62,7 +62,7 @@ export default function LoginPage() {
       `&client_id=${encodeURIComponent(KAKAO_KEY)}` +
       `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
       `&state=${encodeURIComponent(state)}` +
-      `&scope=${encodeURIComponent('account_email,profile_nickname,profile_image')}`;
+      `&scope=${encodeURIComponent('profile_nickname,profile_image')}`;
   };
 
   return (

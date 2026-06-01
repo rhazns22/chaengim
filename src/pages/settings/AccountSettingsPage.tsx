@@ -86,9 +86,14 @@ export default function AccountSettingsPage() {
               <label className="mb-1 block text-[13px] text-textSub">이메일</label>
               <input
                 disabled
-                value={user?.email || ''}
+                value={user?.email?.endsWith('@kakao.local') ? '카카오 로그인 연동됨' : (user?.email || '')}
                 className="w-full rounded-[16px] border border-divider bg-gray-50 px-4 py-3 text-[15px] text-textMuted outline-none"
               />
+              {user?.email?.endsWith('@kakao.local') && (
+                <p className="mt-1.5 text-[11px] font-semibold text-primary leading-normal">
+                  카카오 계정으로 가입되었습니다. 알림이나 계정 복구를 위해 이메일을 직접 등록할 수 있습니다.
+                </p>
+              )}
             </div>
             <div className="mb-4">
               <label className="mb-1 block text-[13px] text-textSub">이름</label>

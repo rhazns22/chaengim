@@ -177,7 +177,14 @@ export default function MyPage() {
                       일반 회원
                     </span>
                   </div>
-                  <p className="truncate text-[13px] font-semibold text-textSub">{user?.email}</p>
+                  <p className="truncate text-[13px] font-semibold text-textSub">
+                    {user?.email?.endsWith('@kakao.local') ? '카카오 로그인 연동됨' : user?.email}
+                  </p>
+                  {user?.email?.endsWith('@kakao.local') && (
+                    <p className="mt-1.5 text-[11px] font-semibold text-primary leading-normal max-w-[240px]">
+                      카카오 계정으로 가입되었습니다. 알림이나 계정 복구를 위해 이메일을 직접 등록할 수 있습니다.
+                    </p>
+                  )}
                   <button
                     onClick={() => navigate('/settings/account')}
                     className="mt-3 rounded-full border border-divider px-3 py-1.5 text-[12px] font-bold text-textMain active:bg-gray-50"

@@ -54,7 +54,9 @@ export default function AccountSettingsPage() {
               <UserRound size={30} />
             </div>
             <h2 className="text-[20px] font-extrabold text-textMain">{user?.name || '게스트'} 님</h2>
-            <p className="mt-1 text-[13px] font-semibold text-textSub">{user?.email || '로그인 후 계정 정보를 확인할 수 있습니다.'}</p>
+            <p className="mt-1 text-[13px] font-semibold text-textSub">
+              {user?.email?.endsWith('@kakao.local') ? '카카오 로그인 연동됨' : (user?.email || '로그인 후 계정 정보를 확인할 수 있습니다.')}
+            </p>
           </div>
 
           <div className="mb-5 flex flex-col gap-3">
@@ -63,7 +65,9 @@ export default function AccountSettingsPage() {
                 <Mail className="text-textSub" size={22} />
                 <h3 className="font-extrabold text-textMain">이메일</h3>
               </div>
-              <p className="text-[14px] font-medium text-textSub">{user?.email || '로그인 정보 없음'}</p>
+              <p className="text-[14px] font-medium text-textSub">
+                {user?.email?.endsWith('@kakao.local') ? '카카오 로그인 연동됨' : (user?.email || '로그인 정보 없음')}
+              </p>
             </div>
 
             <div className="rounded-[24px] border border-divider bg-white p-5 shadow-sm">
