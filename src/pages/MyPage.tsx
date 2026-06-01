@@ -125,7 +125,12 @@ export default function MyPage() {
 
   return (
     <PageTransition>
-      <div className="flex min-h-[100dvh] w-full flex-col bg-[#F6F7FB] pb-8">
+      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-[#F6F7FB] pb-8">
+        <div
+          className="fixed inset-0 -z-10 bg-[#F6F7FB]"
+          aria-hidden="true"
+          style={{ backgroundColor: '#F6F7FB' }}
+        />
         <div 
           className="px-6 pb-6"
           style={{ paddingTop: 'var(--app-top-normal)' }}

@@ -39,7 +39,12 @@ export default function BenefitsPage() {
 
   return (
     <PageTransition>
-      <div className="flex min-h-[100dvh] w-full flex-col bg-primary">
+      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-primary">
+        <div
+          className="fixed inset-0 -z-10 bg-primary"
+          aria-hidden="true"
+          style={{ backgroundColor: '#5B7CFA' }}
+        />
         <div 
           className="px-6 pb-8 text-white"
           style={{ paddingTop: 'var(--app-top-normal)' }}
@@ -79,7 +84,7 @@ export default function BenefitsPage() {
           </div>
         </div>
 
-        <div className="flex-1 rounded-t-[44px] bg-white px-6 pb-8 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div className="relative z-10 flex-1 rounded-t-[44px] bg-white px-6 pb-8 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           <div className="mb-4 flex items-center justify-between">
             <p className="text-[15px] font-extrabold text-textMain">
               {resultLabel} {benefitTotal.toLocaleString('ko-KR')}개

@@ -31,7 +31,12 @@ export default function SchedulePage() {
 
   return (
     <PageTransition>
-      <div className="flex w-full flex-col min-h-dvh bg-primary">
+      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-primary">
+        <div
+          className="fixed inset-0 -z-10 bg-primary"
+          aria-hidden="true"
+          style={{ backgroundColor: '#5B7CFA' }}
+        />
         <div 
           className="px-6 pb-8 text-white"
           style={{ paddingTop: 'var(--app-top-normal)' }}
@@ -40,7 +45,7 @@ export default function SchedulePage() {
           <p className="text-app-body font-semibold text-white/90">놓치기 쉬운 마감일을 챙겨드릴게요.</p>
         </div>
 
-        <div className="flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8">
+        <div className="relative z-10 flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           {isLoading ? (
             <div className="space-y-4"><SkeletonCard /></div>
           ) : deadlineSoonBenefits.length > 0 ? (

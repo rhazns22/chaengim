@@ -105,17 +105,24 @@ export default function SplashPage() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed inset-0 z-[999] bg-primary overflow-hidden w-full max-w-full"
+          className="fixed inset-0 z-[9999] overflow-hidden bg-primary w-full h-full"
         >
           <div
-            className="flex min-h-dvh flex-col items-center justify-center px-6"
+            className="absolute inset-0 bg-primary"
+            aria-hidden="true"
+          />
+
+          <div
+            className="relative z-10 flex h-[100svh] min-h-[100svh] w-full flex-col items-center justify-center px-6"
             style={{
+              minHeight: '100dvh',
               paddingTop: 'env(safe-area-inset-top)',
               paddingBottom: 'max(env(safe-area-inset-bottom), 24px)',
+              backgroundColor: '#5B7CFA',
             }}
           >
             {/* 중앙 로고 & 타이틀 그룹 */}
-            <div className="-translate-y-16 flex flex-col items-center select-none">
+            <div className="-translate-y-20 flex flex-col items-center select-none">
               <motion.div
                 initial={{ opacity: 0, scale: 0.94 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -145,13 +152,13 @@ export default function SplashPage() {
             </div>
 
             <div 
-              className="absolute left-0 right-0 flex justify-center items-center"
+              className="absolute left-0 right-0 flex gap-1.5 justify-center items-center"
               style={{ bottom: 'calc(56px + max(env(safe-area-inset-bottom), 12px))' }}
             >
               {[0, 1, 2].map((index) => (
                 <motion.div
                   key={index}
-                  className="mx-0.75 h-2.5 w-2.5 rounded-full bg-white/40"
+                  className="h-2.5 w-2.5 rounded-full bg-white/40"
                   animate={{
                     scale: [1, 1.25, 1],
                     opacity: [0.4, 1, 0.4]

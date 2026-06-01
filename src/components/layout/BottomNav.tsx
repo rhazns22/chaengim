@@ -24,12 +24,12 @@ export default function BottomNav() {
 
   return (
     <nav 
-      className="fixed bottom-0 inset-x-0 mx-auto z-50 w-full md:max-w-[480px] bg-white border-t border-[#EEF1F7] shadow-[0_-8px_30px_rgba(91,124,250,0.08)] rounded-t-[28px]" 
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#EEF1F7] shadow-[0_-8px_24px_rgba(15,23,42,0.06)]"
       style={{ 
-        paddingBottom: 'var(--bottom-safe)',
+        paddingBottom: 'max(env(safe-area-inset-bottom), 12px)',
       }}
     >
-      <div className="flex justify-around items-center h-[68px] px-2">
+      <div className="mx-auto flex h-[68px] w-full max-w-[480px] items-center justify-around px-4">
         {navItems.map((item) => (
           <NavLink
             key={item.path}

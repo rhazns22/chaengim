@@ -36,23 +36,29 @@ export default function HomePage() {
 
   return (
     <PageTransition>
-      <div className="min-h-dvh bg-white overflow-x-hidden relative">
+      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-primary">
+        <div
+          className="fixed inset-0 -z-10 bg-primary"
+          aria-hidden="true"
+          style={{ backgroundColor: '#5B7CFA' }}
+        />
+
         {/* 파란색 상단 Hero 섹션 - safe-area를 포함해 status bar까지 직접 덮도록 설정 */}
         <section 
-          className="relative bg-[#5B7CFA] text-white" 
+          className="relative bg-primary text-white z-10 px-6" 
           style={{ 
-            paddingTop: 'var(--app-top-normal)',
+            paddingTop: 'calc(env(safe-area-inset-top) + 24px)',
             paddingBottom: '72px'
           }}
         >
-          <div className="mb-10 flex items-center gap-2 px-6">
+          <div className="mb-10 flex items-center gap-2">
             <div className="flex h-[40px] w-[40px] items-center justify-center rounded-[16px] bg-white/16">
               <AppLogo white size="md" />
             </div>
             <span className="text-[22px] font-extrabold tracking-tight text-white">챙김</span>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between px-6">
+          <div className="relative z-10 flex items-center justify-between">
             <div>
               <p className="mb-2 text-[15px] font-semibold text-white/85">
                 {user ? `${user.name}님을 위한 챙김` : '나에게 맞는 혜택 챙김'}
@@ -74,7 +80,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between px-8 mt-8">
+          <div className="flex items-center justify-between px-2 mt-8">
             <div className="flex items-center gap-1.5">
               <span className="text-[14px] font-semibold text-white/85">추천혜택</span>
               <AnimatedNumber value={recommendedBenefits.length} suffix="건" className="text-[18px] font-extrabold text-white" />
@@ -92,7 +98,7 @@ export default function HomePage() {
 
         {/* 흰색 Rounded 콘텐츠 시트 */}
         <main 
-          className="relative z-10 bg-white rounded-t-[32px] px-6 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.06)]"
+          className="relative z-20 bg-white rounded-t-[32px] px-6 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.06)]"
           style={{ 
             marginTop: '-40px',
             paddingBottom: '32px'

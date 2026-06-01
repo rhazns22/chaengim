@@ -39,7 +39,12 @@ export default function BoardPage() {
 
   return (
     <PageTransition>
-      <div className="flex w-full flex-col min-h-[100dvh] bg-primary">
+      <div className="relative min-h-dvh w-full max-w-full overflow-x-hidden bg-primary">
+        <div
+          className="fixed inset-0 -z-10 bg-primary"
+          aria-hidden="true"
+          style={{ backgroundColor: '#5B7CFA' }}
+        />
         <div 
           className="px-6 pb-8 text-white"
           style={{ paddingTop: 'var(--app-top-normal)' }}
@@ -48,7 +53,7 @@ export default function BoardPage() {
           <p className="text-app-body font-semibold text-white/90">저장한 혜택과 준비 상태를 관리하세요.</p>
         </div>
 
-        <div className="flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8">
+        <div className="relative z-10 flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           {isLoading ? (
             <div className="space-y-4"><SkeletonCard /><SkeletonCard /></div>
           ) : savedBenefits.length > 0 ? (
