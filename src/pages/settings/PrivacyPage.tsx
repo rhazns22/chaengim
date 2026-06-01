@@ -59,6 +59,9 @@ export default function PrivacyPage() {
                       <li>거주 지역, 연령대, 관심 혜택 태그 필터</li>
                       <li>주거, 소득 분위, 고용 환경 등 혜택 자격 매치용 임시 선택 조건</li>
                       <li>회원이 직접 담아서 저장해 둔 혜택 리스트, 신청 체크리스트, 일정 일정 관리 내역</li>
+                      <li><strong>알림 설정 정보, 알림 수신 여부 동의 내역, 기기 내 알림 예약 시점 정보</strong></li>
+                      <li><strong>스마트폰 로컬 및 푸시 알림 수신을 위한 알림 토큰(Push Token) 또는 기기 식별값</strong></li>
+                      <li><strong>알림 클릭 및 알림창 수신 상태 분석 정보</strong></li>
                     </ul>
                   </div>
 
@@ -76,9 +79,12 @@ export default function PrivacyPage() {
                 <ul className="list-disc pl-5 space-y-1">
                   <li><strong>가입자 식별 및 보안 인증:</strong> 본인 연동 식별자 검증 및 중복 회원가입 억제, 부정 권한 방지</li>
                   <li><strong>사용자 맞춤형 정보 송출:</strong> 프로필 조건과 공공데이터를 대조 연산하여 지능형 혜택 정보 정밀 매칭</li>
-                  <li><strong>사용자 주도 저장 관리:</strong> 신청 보드, 체크리스트, D-Day 알림 제공을 위한 DB 유지보수</li>
+                  <li><strong>사용자 주도 저장 관리 및 알림 발송:</strong> 신청 보드, 체크리스트 진행 내역, <strong>저장한 혜택의 마감일 안내 및 신청 준비 상태 리마인더 알림 발송</strong></li>
+                  <li><strong>중요 서비스 고지:</strong> 서비스 공지사항 전달 및 필수 점검 내용 고지</li>
+                  <li><strong>마케팅 정보 전달:</strong> 이용자가 <strong>별도로 사전에 명시 동의한 경우에 한하여</strong> 광고성/이벤트 혜택 정보 알림 발송</li>
                   <li><strong>서비스 보강 및 오류 해결:</strong> 디버깅 분석을 통한 서비스 고도화 및 고객센터 의견 대응</li>
                 </ul>
+                <p className="mt-2 text-[12px] text-textSub">※ 모든 알림 기능은 사용자의 전적인 선택에 따라 개방되며, 앱 내 알림 설정 또는 스마트폰 OS 알림 관리 시스템에서 언제든지 수신을 거부하거나 해제하실 수 있습니다.</p>
               </section>
 
               <section>
@@ -90,7 +96,9 @@ export default function PrivacyPage() {
                   <p><strong>[2] Railway (Back-end 서버):</strong> 백엔드 API 처리 서비스 컨테이너 구동</p>
                   <p><strong>[3] MySQL (데이터베이스 서버):</strong> 암호화 암호 및 서비스 연동 데이터의 안전한 실시간 관리</p>
                   <p><strong>[4] Google OAuth / Kakao OAuth / Naver OAuth:</strong> 각 소셜 제공사를 통한 본인 식별 키 수신</p>
+                  <p><strong>[5] Android / Google Play / OS 알림 시스템:</strong> 스마트폰 OS 알림 센터를 통한 로컬 알림 예약 및 푸시 메시지 발송 처리</p>
                 </div>
+                <p className="mt-2 text-[12px] text-textSub">※ 별도의 푸시 발송 서드파티 중개사를 경유하지 않으며, 현재 사용 중인 기기(Device)의 로컬 스케줄링 리소스를 활용하여 직접 리마인더를 예약하고 작동하도록 안전하게 설계되었습니다.</p>
               </section>
 
               <section>
@@ -105,7 +113,23 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h3 className="mb-2 text-[15px] font-bold text-textMain">6. 계정 및 데이터 삭제 (Google Play 정책 만족 안내)</h3>
+                <h3 className="mb-2 text-[15px] font-bold text-textMain">6. 영업양도·인수·합병 등에 따른 개인정보 이전</h3>
+                <p className="mb-2">서비스는 향후 운영자의 사정, 서비스 확장, 사업 양도, 인수, 합병, 분할, 자산 이전, 운영 주체 변경 등의 사유로 개인정보가 새로운 운영자 또는 인수자에게 이전될 수 있습니다.</p>
+                <p className="mb-2">이 경우 서비스는 관련 법령에 따라 개인정보 이전 사실을 사전에 안내합니다. 안내에는 다음 사항이 포함될 수 있습니다.</p>
+                <ul className="list-disc pl-5 mb-2 text-[13px] space-y-0.5 text-textSub">
+                  <li>개인정보를 이전하려는 사실</li>
+                  <li>개인정보를 이전받는 자의 성명 또는 명칭</li>
+                  <li>개인정보를 이전받는 자의 주소, 전화번호, 이메일 등 연락처</li>
+                  <li>개인정보 이전을 원하지 않는 경우 조치할 수 있는 방법과 절차</li>
+                  <li>계정 삭제 또는 개인정보 삭제 요청 방법</li>
+                </ul>
+                <p className="mb-2">이용자는 고지된 기간 내에 개인정보 이전 거부 또는 계정 및 데이터 삭제를 요청할 수 있습니다.</p>
+                <p className="mb-2 font-semibold text-primary">개인정보 이전을 원하지 않는 경우 앱 내 회원 탈퇴 기능, 계정 및 데이터 삭제 안내 페이지, 또는 문의 이메일을 통해 삭제를 요청할 수 있습니다.</p>
+                <p>개인정보를 이전받은 자는 이전 당시의 본래 수집·이용 목적 범위 내에서만 개인정보를 이용할 수 있으며, 다른 목적으로 이용하려는 경우 관련 법령에 따른 별도 동의 또는 법적 근거가 필요합니다.</p>
+              </section>
+
+              <section>
+                <h3 className="mb-2 text-[15px] font-bold text-textMain">7. 계정 및 데이터 삭제 (Google Play 정책 만족 안내)</h3>
                 <p className="mb-2">Google Play 콘솔 및 모바일 데이터 세이프티 정책 가이드라인에 따라 앱을 탈퇴하고자 하거나, 앱을 미설치한 상태에서도 데이터를 철회하고자 하는 분들을 위해 <strong>이중 삭제 경로</strong>를 개방하고 있습니다.</p>
                 
                 <div className="space-y-2 text-[13px] text-textSub pl-4 border-l-2 border-divider">
@@ -115,12 +139,12 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h3 className="mb-2 text-[15px] font-bold text-textMain">7. 이용자의 권리 및 거부권</h3>
+                <h3 className="mb-2 text-[15px] font-bold text-textMain">8. 이용자의 권리 및 거부권</h3>
                 <p>이용자는 개인정보 보호책임자인 운영자에게 언제든 본인의 개인정보 기록의 조회, 오기 정보 정정, 동의 철회 및 삭제를 요구할 수 있습니다. 개인정보 처리에 관한 거부 의사를 표시할 권리가 있으며, 동의 거부 시 맞춤 추천 혜택 알림 및 일정 관리 등의 계정 관련 서비스의 이용이 제한될 수 있습니다.</p>
               </section>
 
               <section>
-                <h3 className="mb-2 text-[15px] font-bold text-textMain">8. 개인정보 보호를 위한 대표 기술 조치</h3>
+                <h3 className="mb-2 text-[15px] font-bold text-textMain">9. 개인정보 보호를 위한 대표 기술 조치</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li><strong>비밀번호 암호화 저장:</strong> 이용자의 패스워드는 단방향 해시 함수로 난독화하여 보관</li>
                   <li><strong>JWT 인증 보안 통신:</strong> 인가된 사용자 계정 토큰만 사용하도록 REST API 세션 보호</li>

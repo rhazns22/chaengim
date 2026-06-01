@@ -41,8 +41,11 @@ export default function AccountDeletionPage() {
                 <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#5B7CFA]" />
                 <div>
                   <h4 className="text-[14px] font-bold text-[#5B7CFA] mb-1">삭제 처리 시 완전히 삭제되는 정보</h4>
-                  <p className="text-[12px] text-textMain leading-relaxed">
-                    이메일 주소, 가입 연동 식별값, 닉네임, 프로필 이미지 정보, 관심 혜택 목록, 신청 보드 저장 데이터, 체크리스트 진행 내역, D-Day 알림 설정 등의 모든 고유 개인 식별 데이터가 MySQL 영구 삭제(Hard Delete) 조치됩니다.
+                  <p className="text-[12px] text-textMain leading-relaxed space-y-1.5">
+                    <span>이메일 주소, 가입 연동 식별값, 닉네임, 프로필 이미지 정보, 관심 혜택 목록, 신청 보드 저장 데이터, 체크리스트 진행 내역 및 <strong>알림 설정 정보, 푸시 알림 토큰 또는 기기 알림 식별 정보, 예약된 알림 세부 데이터</strong>가 완전히 파기됩니다.</span>
+                    <span className="block mt-1 bg-white/50 p-2 rounded-lg border border-primary/10 text-[11px] text-textSub">
+                      ⚠️ <strong>로컬 기기 알림 안내:</strong> 회원 탈퇴 시 계정과 연결된 온라인 알림 설정 및 푸시 알림 토큰은 즉시 영구 말소되나, 이용 중이던 기기 내부에 예약 큐(Queue)로 물리적으로 남아 있는 로컬 알림의 경우 기기 OS 메모리에 남아 있을 수 있습니다. 완벽한 수신 중단을 위하여 앱 설정 또는 단말기 알림 설정에서 직접 해제해 주시기 바랍니다.
+                    </span>
                   </p>
                 </div>
               </div>
@@ -82,7 +85,15 @@ export default function AccountDeletionPage() {
               </section>
 
               <section>
-                <h3 className="mb-2 text-[15px] font-bold text-textMain">3. 데이터 보존 예외 요건</h3>
+                <h3 className="mb-2 text-[15px] font-bold text-textMain">3. 서비스 양도 또는 운영 주체 변경 시 삭제 요청</h3>
+                <p className="mb-2">서비스의 양도, 인수, 합병, 운영 주체 변경 등으로 개인정보가 새로운 운영자에게 이전될 수 있는 경우, 서비스는 관련 법령에 따라 이전 사실과 삭제 요청 방법을 안내합니다.</p>
+                <p className="mb-2">운영 주체 변경 또는 개인정보 이전 안내를 받은 이용자는 안내된 기간 내에 계정 및 데이터 삭제를 요청할 수 있습니다.</p>
+                <p className="mb-2 font-semibold text-primary">삭제 요청이 완료된 계정의 개인정보는 새로운 운영자에게 이전되지 않습니다. 단, 법령상 보관이 필요한 정보는 관련 법령에 따라 일정 기간 보관될 수 있습니다.</p>
+                <p>앱을 설치하지 않았거나 로그인할 수 없는 경우에도 공개된 계정 및 데이터 삭제 안내 페이지 또는 문의 이메일을 통해 삭제를 요청할 수 있습니다.</p>
+              </section>
+
+              <section>
+                <h3 className="mb-2 text-[15px] font-bold text-textMain">4. 데이터 보존 예외 요건</h3>
                 <p className="mb-2">사용자가 삭제를 요청할 경우 즉시 데이터를 파기하는 것이 원칙이나, 통신비밀보호법 또는 전자상거래법 등 국가 법령의 의무 기록 기간 및 불합리한 반복 탈퇴/재가입 등의 서비스 부정 이용 방지를 위한 부트스트랩 체크용 세션에 한해 암호화된 식별자가 극히 제한된 기간 동안 법적으로 격리 보관될 수 있습니다.</p>
               </section>
 
