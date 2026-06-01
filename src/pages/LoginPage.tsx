@@ -46,7 +46,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full min-h-dvh bg-white px-6 flex flex-col justify-start relative overflow-x-hidden" style={{ paddingTop: 'clamp(56px, calc(env(safe-area-inset-top) + 8vh), 96px)', paddingBottom: 'calc(40px + env(safe-area-inset-bottom))' }}>
+    <div
+      className="min-h-dvh bg-white overflow-x-hidden px-6 flex flex-col justify-start relative w-full"
+      style={{
+        paddingTop: 'clamp(56px, calc(var(--safe-top) + 8vh), 96px)',
+        paddingBottom: 'calc(32px + var(--bottom-safe))',
+      }}
+    >
       <div className="mb-12 flex flex-col items-center text-center">
         <div className="mb-6">
           <AppLogo size="lg" />

@@ -95,9 +95,15 @@ export default function BenefitDetailPage() {
   return (
     <PageTransition 
       className="relative flex flex-col bg-primary"
-      style={{ paddingBottom: 'calc(96px + max(env(safe-area-inset-bottom), 12px))' }}
+      style={{ paddingBottom: 'calc(96px + var(--bottom-safe))' }}
     >
-      <div className="sticky top-0 z-10 flex h-14 items-center justify-between px-4 text-white">
+      <div 
+        className="sticky top-0 z-10 flex items-center justify-between px-4 text-white bg-primary"
+        style={{
+          paddingTop: 'var(--app-top-compact)',
+          minHeight: 'var(--app-header-height-compact)',
+        }}
+      >
         <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="flex h-11 w-11 items-center justify-center p-2">
           <ChevronLeft size={28} />
         </motion.button>

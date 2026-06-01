@@ -10,7 +10,7 @@ export default function RegisterVerifyPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full min-h-[100dvh] bg-white flex flex-col relative pb-24">
+    <div className="w-full min-h-dvh bg-white flex flex-col relative pb-24">
       <div className="flex items-center h-14 px-4 sticky top-0 bg-white z-10">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2">
           <ChevronLeft size={28} className="text-textMain" />
@@ -51,7 +51,7 @@ export default function RegisterVerifyPage() {
 
       <div 
         className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] px-6 pt-6 bg-white border-t border-divider"
-        style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+        style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
       >
         <PrimaryButton onClick={() => { step === 1 ? setStep(2) : navigate('/register/password') }}>
           {step === 1 ? '인증하기' : '확인 완료'}

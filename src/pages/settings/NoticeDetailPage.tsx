@@ -29,7 +29,13 @@ export default function NoticeDetailPage() {
   return (
     <PageTransition>
       <div className="flex min-h-[100dvh] flex-col bg-white">
-        <header className="sticky top-0 z-50 flex h-14 items-center border-b border-divider bg-white px-4">
+        <header 
+          className="sticky top-0 z-50 flex items-center border-b border-divider bg-white px-4"
+          style={{
+            paddingTop: 'var(--app-top-compact)',
+            minHeight: 'var(--app-header-height-compact)',
+          }}
+        >
           <button onClick={() => navigate(-1)} className="p-2">
             <ChevronLeft size={24} />
           </button>

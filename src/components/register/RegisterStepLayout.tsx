@@ -31,8 +31,8 @@ export default function RegisterStepLayout({
       <header 
         className="flex items-center justify-between bg-white px-6 w-full"
         style={{
-          paddingTop: 'calc(env(safe-area-inset-top) + 16px)',
-          height: 'calc(env(safe-area-inset-top) + 64px)',
+          paddingTop: 'var(--app-top-step-layout)',
+          minHeight: 'var(--app-header-height-step-layout)',
         }}
       >
         <button 
@@ -63,7 +63,7 @@ export default function RegisterStepLayout({
         className="flex-grow px-6 overflow-y-auto scrollbar-hide"
         style={{ 
           paddingTop: isTerms ? '36px' : '56px',
-          paddingBottom: 'calc(140px + max(env(safe-area-inset-bottom), 12px))'
+          paddingBottom: 'calc(140px + var(--bottom-safe))'
         }}
       >
         <div className="mb-10">
@@ -85,7 +85,7 @@ export default function RegisterStepLayout({
       {/* 하단 고정 CTA 버튼 영역 */}
       <footer 
         className="fixed bottom-0 inset-x-0 mx-auto z-20 w-full md:max-w-[480px] bg-white border-t border-divider px-6 pt-4"
-        style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+        style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
       >
         {bottomButton}
       </footer>

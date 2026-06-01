@@ -125,8 +125,11 @@ export default function MyPage() {
 
   return (
     <PageTransition>
-      <div className="flex min-h-[100dvh] w-full flex-col bg-[#F6F7FB] pb-[calc(128px+env(safe-area-inset-bottom))]">
-        <div className="px-6 pb-6 pt-14">
+      <div className="flex min-h-[100dvh] w-full flex-col bg-[#F6F7FB] pb-8">
+        <div 
+          className="px-6 pb-6"
+          style={{ paddingTop: 'var(--app-top-normal)' }}
+        >
           <h1 className="mb-4 text-app-page-title text-textMain">마이페이지</h1>
 
           {/* 1. 사용자 프로필/게스트 로그인 카드 */}

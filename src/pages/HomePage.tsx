@@ -37,17 +37,11 @@ export default function HomePage() {
   return (
     <PageTransition>
       <div className="min-h-dvh bg-white overflow-x-hidden relative">
-        {/* iOS status bar background expansion layer */}
-        <div 
-          className="absolute top-0 left-0 right-0 bg-[#5B7CFA] pointer-events-none z-0"
-          style={{ height: 'env(safe-area-inset-top)' }}
-        />
-        
-        {/* 파란색 상단 Hero 섹션 */}
+        {/* 파란색 상단 Hero 섹션 - safe-area를 포함해 status bar까지 직접 덮도록 설정 */}
         <section 
           className="relative bg-[#5B7CFA] text-white" 
           style={{ 
-            paddingTop: 'calc(env(safe-area-inset-top) + 24px)',
+            paddingTop: 'var(--app-top-normal)',
             paddingBottom: '72px'
           }}
         >

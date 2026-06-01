@@ -45,7 +45,7 @@ export default function AiRecommendationPage() {
 
   if (!profile || needsProfileSetup) {
     return (
-      <PageTransition className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-6">
+      <PageTransition className="flex min-h-dvh flex-col items-center justify-center bg-gray-50 p-6">
         <EmptyState
           icon={<AlertCircle size={32} />}
           title="프로필 정보가 없습니다"
@@ -58,8 +58,14 @@ export default function AiRecommendationPage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen w-full bg-gray-50 pb-[calc(120px+env(safe-area-inset-bottom))]">
-        <div className="sticky top-0 z-40 flex items-center justify-between border-b border-gray-100 bg-white/85 px-4 py-4 backdrop-blur-md">
+      <div className="min-h-dvh w-full bg-gray-50 pb-[calc(120px+var(--bottom-safe))]">
+        <div 
+          className="sticky top-0 z-40 flex items-center justify-between border-b border-gray-100 bg-white/85 px-4 backdrop-blur-md"
+          style={{
+            paddingTop: 'var(--app-top-compact)',
+            minHeight: 'var(--app-header-height-compact)',
+          }}
+        >
           <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 text-textMain active:bg-gray-100">
             <ChevronLeft size={24} />
           </button>

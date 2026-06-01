@@ -128,8 +128,10 @@ export default function SplashPage() {
             </motion.p>
           </div>
 
-          {/* 하단 점 3개 Pulse 로딩 애니메이션 */}
-          <div className="absolute bottom-[calc(48px+env(safe-area-inset-bottom))] flex gap-1.5 justify-center items-center">
+          <div 
+            className="absolute flex gap-1.5 justify-center items-center"
+            style={{ bottom: 'calc(48px + var(--safe-bottom))' }}
+          >
             {[0, 1, 2].map((index) => (
               <motion.div
                 key={index}

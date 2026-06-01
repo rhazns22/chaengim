@@ -40,7 +40,10 @@ export default function BenefitsPage() {
   return (
     <PageTransition>
       <div className="flex min-h-[100dvh] w-full flex-col bg-primary">
-        <div className="px-6 pb-8 pt-14 text-white">
+        <div 
+          className="px-6 pb-8 text-white"
+          style={{ paddingTop: 'var(--app-top-normal)' }}
+        >
           <h1 className="mb-2 text-app-page-title text-white">혜택 찾기</h1>
           <p className="mb-6 text-app-body font-semibold text-white/90">
             조건에 맞는 정부 혜택을 검색하고 공식 신청 경로를 확인하세요.
@@ -76,7 +79,7 @@ export default function BenefitsPage() {
           </div>
         </div>
 
-        <div className="flex-1 rounded-t-[44px] bg-white px-6 pb-[calc(128px+env(safe-area-inset-bottom))] pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+        <div className="flex-1 rounded-t-[44px] bg-white px-6 pb-8 pt-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
           <div className="mb-4 flex items-center justify-between">
             <p className="text-[15px] font-extrabold text-textMain">
               {resultLabel} {benefitTotal.toLocaleString('ko-KR')}개

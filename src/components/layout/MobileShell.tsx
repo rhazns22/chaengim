@@ -18,12 +18,12 @@ export default function MobileShell() {
   }, [location.pathname]);
 
   return (
-    <div className="relative mx-auto w-full md:max-w-[480px] min-h-[100dvh] bg-[#F7F8FC] overflow-x-hidden font-sans md:shadow-[0_0_40px_rgba(0,0,0,0.08)]" style={{ marginTop: 0 }}>
+    <div className="relative mx-auto w-full md:max-w-[480px] min-h-dvh bg-[#F7F8FC] overflow-x-hidden font-sans md:shadow-[0_0_40px_rgba(0,0,0,0.08)]" style={{ marginTop: 0 }}>
       {isTabRoute ? (
         <>
           <main 
-            className="min-h-[100dvh] bg-white overflow-y-auto overflow-x-hidden scrollbar-hide"
-            style={{ paddingBottom: 'calc(88px + max(env(safe-area-inset-bottom), 12px))' }}
+            className="min-h-dvh bg-white overflow-y-auto overflow-x-hidden scrollbar-hide"
+            style={{ paddingBottom: 'calc(88px + var(--bottom-safe))' }}
           >
             <AnimatePresence mode="wait" initial={false}>
               {element && React.cloneElement(element, { key: location.pathname })}
@@ -32,7 +32,7 @@ export default function MobileShell() {
           <BottomNav />
         </>
       ) : (
-        <main className="min-h-[100dvh] bg-white overflow-y-auto overflow-x-hidden scrollbar-hide">
+        <main className="min-h-dvh bg-white overflow-y-auto overflow-x-hidden scrollbar-hide">
           <AnimatePresence mode="wait" initial={false}>
             {element && React.cloneElement(element, { key: location.pathname })}
           </AnimatePresence>

@@ -84,14 +84,14 @@ export default function ProfileSetupPage() {
   return (
     <PageTransition>
       <div 
-        className="min-h-screen w-full bg-gray-50 overflow-x-hidden relative"
-        style={{ paddingBottom: 'calc(112px + max(env(safe-area-inset-bottom), 12px))' }}
+        className="min-h-dvh w-full bg-gray-50 overflow-x-hidden relative"
+        style={{ paddingBottom: 'calc(112px + var(--bottom-safe))' }}
       >
         <div 
           className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-100 bg-white/85 px-6 backdrop-blur-md"
           style={{
-            paddingTop: 'calc(env(safe-area-inset-top) + 16px)',
-            height: 'calc(env(safe-area-inset-top) + 64px)',
+            paddingTop: 'var(--app-top-step-layout)',
+            minHeight: 'var(--app-header-height-step-layout)',
           }}
         >
           <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 text-textMain active:bg-gray-100">
@@ -194,7 +194,7 @@ export default function ProfileSetupPage() {
 
         <div 
           className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 bg-gradient-to-t from-white via-white to-transparent px-6 pt-6"
-          style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+          style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
         >
           <PrimaryButton onClick={handleSubmit} loading={isSavingProfile} disabled={!isFormValid}>
             맞춤 추천 확인하기

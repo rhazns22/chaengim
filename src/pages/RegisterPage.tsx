@@ -80,7 +80,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-[100dvh] w-full flex-col bg-white pb-[140px]">
+    <div className="flex min-h-dvh w-full flex-col bg-white pb-[140px]">
       <div className="sticky top-0 z-10 flex h-14 items-center bg-white/90 px-4 backdrop-blur-md">
         <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 transition-colors active:bg-gray-100">
           <ChevronLeft size={28} className="text-textMain" />
@@ -169,7 +169,7 @@ export default function RegisterPage() {
 
       <div 
         className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full md:max-w-[480px] border-t border-divider bg-white px-6 pt-4"
-        style={{ paddingBottom: 'calc(16px + max(env(safe-area-inset-bottom), 12px))' }}
+        style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
       >
         <div className="mb-4 flex items-center justify-center gap-4 text-[13px] font-bold">
           <Link to="/login" className="text-textSub transition-colors active:text-textMain md:hover:text-textMain">이미 계정이 있으신가요? 로그인</Link>

@@ -40,12 +40,15 @@ export default function BoardPage() {
   return (
     <PageTransition>
       <div className="flex w-full flex-col min-h-[100dvh] bg-primary">
-        <div className="px-6 pt-14 pb-8 text-white">
+        <div 
+          className="px-6 pb-8 text-white"
+          style={{ paddingTop: 'var(--app-top-normal)' }}
+        >
           <h1 className="text-app-page-title text-white mb-2">내 신청 보드</h1>
           <p className="text-app-body font-semibold text-white/90">저장한 혜택과 준비 상태를 관리하세요.</p>
         </div>
 
-        <div className="flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-[calc(120px+env(safe-area-inset-bottom))]">
+        <div className="flex-1 bg-white rounded-t-[44px] px-6 pt-8 pb-8">
           {isLoading ? (
             <div className="space-y-4"><SkeletonCard /><SkeletonCard /></div>
           ) : savedBenefits.length > 0 ? (
