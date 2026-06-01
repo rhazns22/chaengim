@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import { useToastStore } from '../store/useToastStore';
 import { useAiRecommendationStore } from '../store/useAiRecommendationStore';
-import { normalizeErrorMessage } from '../utils/error';
 
 export default function KakaoCallbackPage() {
   const navigate = useNavigate();
@@ -64,25 +63,14 @@ export default function KakaoCallbackPage() {
           showToast('성공적으로 로그인되었습니다.');
           navigate('/', { replace: true });
         }
-      } catch (e: any) {
-        const status = e.response?.status;
-        const errCode = e.response?.data?.code;
-        const errMsg = e.response?.data?.message;
+      } catch (error: any) {
+        const status = error.response?.status;
+        const code = error.response?.data?.code ?? 'UNKNOWN_ERROR';
+        const message = error.response?.data?.message ?? '카카오 로그인에 실패했습니다.';
 
-        console.error(`Kakao login failed: [${status}] ${errCode || 'UNKNOWN_ERROR'}`);
+        console.warn(`Kakao login failed: [${status}] ${code}`);
 
-        if (status === 409 || errCode === 'KAKAO_LOCAL_ACCOUNT_CONFLICT') {
-          showToast(errMsg || '이미 동일한 이메일로 가입된 로컬 계정이 존재합니다. 이메일 로그인으로 먼저 로그인해 주세요.');
-        } else if (errCode === 'KAKAO_EMAIL_REQUIRED') {
-          showToast(errMsg || '카카오 로그인 시 이메일 제공 및 약관 동의가 필수적입니다.');
-        } else if (errCode === 'KAKAO_EMAIL_NOT_VERIFIED') {
-          showToast(errMsg || '인증 완료된 카카오 계정 이메일만 가입에 사용될 수 있습니다.');
-        } else if (errCode === 'KAKAO_TOKEN_EXCHANGE_FAILED' || errCode === 'KAKAO_PROFILE_FETCH_FAILED') {
-          showToast(errMsg || '카카오 서버 연동 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-        } else {
-          showToast(errMsg || normalizeErrorMessage(e) || '카카오 로그인 처리 중 오류가 발생했습니다.');
-        }
-        
+        showToast(message);
         navigate('/login', { replace: true });
       }
     };

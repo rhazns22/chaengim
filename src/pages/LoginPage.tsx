@@ -57,7 +57,12 @@ export default function LoginPage() {
     const state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     sessionStorage.setItem('kakao_oauth_state', state);
 
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${state}`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize` +
+      `?response_type=code` +
+      `&client_id=${encodeURIComponent(KAKAO_KEY)}` +
+      `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+      `&state=${encodeURIComponent(state)}` +
+      `&scope=${encodeURIComponent('account_email,profile_nickname,profile_image')}`;
   };
 
   return (
