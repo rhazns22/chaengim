@@ -151,6 +151,25 @@ export default function AccountSettingsPage() {
               </>
             )}
           </div>
+
+          {/* 계정 관리 */}
+          <div className="mt-10 border-t border-divider pt-6">
+            <h2 className="mb-4 text-[16px] font-bold text-textMain">계정 관리</h2>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => navigate('/settings/account-deletion')}
+                className="w-full rounded-[16px] bg-[#F6F7FB] py-3.5 text-[14px] font-bold text-textMain active:opacity-75"
+              >
+                계정 및 데이터 삭제 안내
+              </button>
+              <button
+                onClick={() => navigate('/settings/withdraw')}
+                className="w-full rounded-[16px] border border-danger/30 bg-transparent py-3.5 text-[14px] font-bold text-danger active:bg-danger/5"
+              >
+                회원 탈퇴
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </PageTransition>

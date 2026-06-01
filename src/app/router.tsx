@@ -123,6 +123,7 @@ const SettingsProfilePage = lazy(() => import('../pages/settings/SettingsProfile
 const NotificationSettingsPage = lazy(() => import('../pages/settings/NotificationSettingsPage'));
 const TermsPage = lazy(() => import('../pages/settings/TermsPage'));
 const PrivacyPage = lazy(() => import('../pages/settings/PrivacyPage'));
+const AccountDeletionPage = lazy(() => import('../pages/settings/AccountDeletionPage'));
 const AiGuidePage = lazy(() => import('../pages/settings/AiGuidePage'));
 const WithdrawPage = lazy(() => import('../pages/settings/WithdrawPage'));
 const AiRecommendationPage = lazy(() => import('../pages/AiRecommendationPage'));
@@ -169,6 +170,7 @@ export const router = createBrowserRouter([
       { path: 'settings/notices/:id', element: lazyPage(<NoticeDetailPage />) },
       { path: 'settings/terms', element: lazyPage(<TermsPage />) },
       { path: 'settings/privacy', element: lazyPage(<PrivacyPage />) },
+      { path: 'settings/account-deletion', element: lazyPage(<AccountDeletionPage />) },
       { path: 'settings/ai-guide', element: lazyPage(<AiGuidePage />) },
       { path: 'settings/withdraw', element: lazyPage(<WithdrawPage />) },
       { path: 'profile-setup', element: <ProfileSetupPage /> },
@@ -182,5 +184,17 @@ export const router = createBrowserRouter([
   {
     path: '/auth/naver/callback',
     element: lazyPage(<NaverCallbackPage />),
+  },
+  {
+    path: '/terms',
+    element: lazyPage(<TermsPage />),
+  },
+  {
+    path: '/privacy',
+    element: lazyPage(<PrivacyPage />),
+  },
+  {
+    path: '/account-deletion',
+    element: lazyPage(<AccountDeletionPage />),
   },
 ]);

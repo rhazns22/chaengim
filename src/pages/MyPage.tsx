@@ -21,11 +21,13 @@ const MAIN_SETTINGS = [
 const SERVICE_INFO = [
   { icon: FileText, label: '공지사항', desc: '서비스 업데이트와 안내를 확인해요', path: '/settings/notices' },
   { icon: FileText, label: 'AI 추천 안내', desc: '챙김의 AI 추천 방식과 한계를 확인해요', path: '/settings/ai-guide' },
+  { icon: FileText, label: '계정 및 데이터 삭제 안내', desc: '계정과 수집된 데이터를 직접 삭제 요청해요', path: '/settings/account-deletion' },
 ];
 
 const POLICIES = [
   { icon: FileText, label: '이용약관', desc: '서비스 이용 기준을 확인해요', path: '/settings/terms' },
   { icon: FileText, label: '개인정보 처리방침', desc: '개인정보 수집과 이용 방식을 확인해요', path: '/settings/privacy' },
+  { icon: FileText, label: '계정 및 데이터 삭제 안내', desc: '계정과 수집된 데이터를 직접 삭제 요청해요', path: '/settings/account-deletion' },
 ];
 
 export default function MyPage() {
