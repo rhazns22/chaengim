@@ -5,12 +5,16 @@ import PrimaryButton from '../../components/common/PrimaryButton';
 import Input from '../../components/common/Input';
 import { useRegisterDraftStore } from '../../store/useRegisterDraftStore';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useToastStore } from '../../store/useToastStore';
+import { authApi } from '../../api/authApi';
 
 export default function RegisterEmailPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
   const { draft, setField } = useRegisterDraftStore();
+  const { showToast } = useToastStore();
   const [email, setEmail] = useState(draft.email);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -24,13 +28,23 @@ export default function RegisterEmailPage() {
 
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!isValid) return;
-    setField('email', email.trim());
-    
-    // TODO: 백엔드 이메일 중복 확인 API가 연동될 경우 여기에 호출부를 구성합니다.
-    // 현재는 이메일 중복이 없는 것으로 가정하고 인증코드 화면으로 이동합니다.
-    navigate('/register/verify');
+    const trimmedEmail = email.trim().toLowerCase();
+    setField('email', trimmedEmail);
+    sessionStorage.setItem('pendingVerificationEmail', trimmedEmail);
+
+    try {
+      setIsLoading(true);
+      await authApi.sendEmailVerification(trimmedEmail);
+      showToast('인증번호를 발송했습니다.');
+      navigate('/register/verify');
+    } catch (error: any) {
+      const msg = error.response?.data?.error || error.message || '인증번호 발송에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+      showToast(msg);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,8 +55,8 @@ export default function RegisterEmailPage() {
       description="로그인할 때 사용할 이메일이에요."
       onBack={() => navigate('/register')}
       bottomButton={
-        <PrimaryButton onClick={handleNext} disabled={!isValid}>
-          다음
+        <PrimaryButton onClick={handleNext} disabled={!isValid || isLoading}>
+          {isLoading ? '발송 중...' : '다음'}
         </PrimaryButton>
       }
     >

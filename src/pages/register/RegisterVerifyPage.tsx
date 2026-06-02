@@ -5,24 +5,31 @@ import PrimaryButton from '../../components/common/PrimaryButton';
 import Input from '../../components/common/Input';
 import { useRegisterDraftStore } from '../../store/useRegisterDraftStore';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useToastStore } from '../../store/useToastStore';
+import { authApi } from '../../api/authApi';
 
 export default function RegisterVerifyPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
-  const { draft, setField } = useRegisterDraftStore();
+  const { setField } = useRegisterDraftStore();
+  const { showToast } = useToastStore();
   const [code, setCode] = useState('');
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const email = sessionStorage.getItem('pendingVerificationEmail') || '';
 
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/', { replace: true });
       return;
     }
-    if (!draft.email) {
+    if (!email) {
+      showToast('인증할 이메일 정보를 찾을 수 없습니다. 다시 입력해 주세요.');
       navigate('/register/email', { replace: true });
     }
-  }, [isLoggedIn, draft.email, navigate]);
+  }, [isLoggedIn, email, navigate, showToast]);
 
   useEffect(() => {
     if (timer <= 0) {
@@ -35,20 +42,60 @@ export default function RegisterVerifyPage() {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handleResend = () => {
-    if (!canResend) return;
-    setTimer(60);
-    setCanResend(false);
-    // TODO: 실제 백엔드에 이메일 발송 API 연동 시 호출 부를 구성합니다.
+  const handleResend = async () => {
+    console.log('[RegisterVerify] resend clicked', { hasEmail: Boolean(email) });
+
+    if (!email) {
+      showToast('이메일 정보를 찾을 수 없습니다.');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await authApi.sendEmailVerification(email);
+      setTimer(60);
+      setCanResend(false);
+      showToast('인증번호를 다시 보냈습니다.');
+    } catch (error: any) {
+      const msg = error.response?.data?.error || error.message || '인증번호 재전송에 실패했습니다.';
+      showToast(msg);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleNext = () => {
-    if (code.length !== 6) return;
-    
-    // TODO: 백엔드에 실제 이메일 발송 및 인증 확인 API가 추가되면 검증 로직을 도입해야 합니다.
-    // 현재 베타 모드 상태에서는 임의의 숫자 6자리 입력 시 형식 단계 통과로 간주합니다.
-    setField('isEmailVerified', true);
-    navigate('/register/password');
+  const handleVerify = async () => {
+    if (!email) {
+      showToast('인증할 이메일 정보를 찾을 수 없습니다. 다시 입력해 주세요.');
+      navigate('/register/email', { replace: true });
+      return;
+    }
+
+    if (!/^\d{6}$/.test(code)) {
+      showToast('6자리 인증번호를 입력해 주세요.');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await authApi.verifyEmail(email, code);
+
+      if (!response.ok) {
+        showToast(response.message || '인증번호가 올바르지 않습니다.');
+        return;
+      }
+
+      setField('isEmailVerified', true);
+      sessionStorage.removeItem('pendingVerificationEmail');
+      showToast('이메일 인증이 완료되었습니다.');
+      navigate('/register/password', { replace: true });
+    } catch (error: any) {
+      const msg = error.response?.data?.error || error.message || '인증번호가 올바르지 않거나 만료되었습니다.';
+      showToast(msg);
+      return;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -56,17 +103,17 @@ export default function RegisterVerifyPage() {
       currentStep={3}
       totalSteps={5}
       title="이메일 확인 단계"
-      description={`입력하신 이메일(${draft.email || ''})이 올바른지 확인해 주세요.`}
+      description={`입력하신 이메일(${email || ''})로 전송된 인증번호를 확인해 주세요.`}
       onBack={() => navigate('/register/email')}
       bottomButton={
-        <PrimaryButton onClick={handleNext} disabled={code.length !== 6}>
-          다음
+        <PrimaryButton onClick={handleVerify} disabled={code.length !== 6 || isLoading}>
+          {isLoading ? '확인 중...' : '다음'}
         </PrimaryButton>
       }
     >
       <div className="flex flex-col gap-4">
         <p className="text-[14px] font-semibold text-textSub px-2 leading-relaxed">
-          베타 서비스 기간 동안에는 이메일 형식 확인만 진행하며, 아래 입력 칸에 <strong>임의의 숫자 6자리</strong>를 입력하시면 즉시 다음 단계로 이동합니다.
+          챙김의 안전한 서비스 이용을 위해 수신하신 <strong>6자리 인증번호</strong>를 입력해 주세요.
         </p>
 
         <Input
@@ -91,9 +138,9 @@ export default function RegisterVerifyPage() {
           <button
             type="button"
             onClick={handleResend}
-            disabled={!canResend}
+            disabled={!canResend || isLoading}
             className={`font-extrabold underline underline-offset-2 transition-colors ${
-              canResend ? 'text-primary' : 'text-textMuted cursor-default'
+              canResend && !isLoading ? 'text-primary' : 'text-textMuted cursor-default'
             }`}
           >
             확인 메일 재요청
