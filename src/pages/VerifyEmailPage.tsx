@@ -16,16 +16,20 @@ export default function VerifyEmailPage() {
   const [canResend, setCanResend] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const pendingEmail = sessionStorage.getItem('pendingVerificationEmail');
+  const authEmail = user?.email;
+  const email = pendingEmail || authEmail;
+
   // Use a ref to prevent double sending on mount in React 18 StrictMode
   const sentOnMount = useRef(false);
 
   useEffect(() => {
-    if (!user) {
+    if (!email) {
       navigate('/login', { replace: true });
       return;
     }
 
-    if (user.emailVerified || user.email.endsWith('.local')) {
+    if (email.endsWith('.local')) {
       navigate('/', { replace: true });
       return;
     }
@@ -35,7 +39,7 @@ export default function VerifyEmailPage() {
       if (sentOnMount.current) return;
       sentOnMount.current = true;
       try {
-        await sendEmailVerification(user.email);
+        await sendEmailVerification(email);
         showToast('인증 메일을 발송했습니다.');
       } catch (err: any) {
         setErrorMessage(err.response?.data?.error || err.message || '인증 메일 발송에 실패했습니다.');
@@ -44,7 +48,7 @@ export default function VerifyEmailPage() {
 
     triggerAutoSend();
     clearError();
-  }, [user, navigate, sendEmailVerification, showToast, clearError]);
+  }, [email, navigate, sendEmailVerification, showToast, clearError]);
 
   // Timer Countdown Logic
   useEffect(() => {
@@ -59,12 +63,12 @@ export default function VerifyEmailPage() {
   }, [timer]);
 
   const handleResend = async () => {
-    if (!canResend || !user) return;
+    if (!canResend || !email) return;
     try {
       setErrorMessage(null);
       setTimer(60);
       setCanResend(false);
-      await sendEmailVerification(user.email);
+      await sendEmailVerification(email);
       showToast('인증번호를 다시 전송했습니다.');
     } catch (err: any) {
       setCanResend(true);
@@ -73,10 +77,11 @@ export default function VerifyEmailPage() {
   };
 
   const handleVerify = async () => {
-    if (code.length !== 6 || !user) return;
+    if (code.length !== 6 || !email) return;
     try {
       setErrorMessage(null);
-      await verifyEmail(user.email, code);
+      await verifyEmail(email, code);
+      sessionStorage.removeItem('pendingVerificationEmail');
       showToast('이메일 인증이 완료되었습니다!');
       navigate('/', { replace: true });
     } catch (err: any) {
@@ -86,6 +91,7 @@ export default function VerifyEmailPage() {
   };
 
   const handleLogout = () => {
+    sessionStorage.removeItem('pendingVerificationEmail');
     logout();
     navigate('/login', { replace: true });
   };
@@ -104,7 +110,7 @@ export default function VerifyEmailPage() {
           </p>
           <div className="mt-4 px-4 py-2 bg-white rounded-full border border-divider shadow-sm inline-flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-primary"></span>
-            <span className="text-[14px] font-bold text-textMain">{user?.email}</span>
+            <span className="text-[14px] font-bold text-textMain">{email}</span>
           </div>
         </div>
 

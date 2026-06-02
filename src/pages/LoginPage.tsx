@@ -26,6 +26,7 @@ export default function LoginPage() {
     // Check if login was successful
     const state = useAuthStore.getState();
     if (state.isLoggedIn && !state.error) {
+      sessionStorage.setItem('pendingVerificationEmail', email);
       await useAiRecommendationStore.getState().fetchProfile();
       const needsProfile = useAiRecommendationStore.getState().needsProfileSetup;
       

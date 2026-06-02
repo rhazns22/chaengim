@@ -72,6 +72,7 @@ export default function RegisterPage() {
     
     const state = useAuthStore.getState();
     if (state.isLoggedIn && !state.error) {
+      sessionStorage.setItem('pendingVerificationEmail', form.email);
       navigate('/register/complete', { replace: true });
     } else if (state.error) {
       showToast(state.error);
