@@ -47,6 +47,9 @@ export default function RegisterEmailPage() {
       }
     >
       <Input
+        id="email"
+        name="email"
+        autoComplete="email"
         type="email"
         placeholder="example@email.com"
         value={email}

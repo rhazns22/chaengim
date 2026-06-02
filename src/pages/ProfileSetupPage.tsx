@@ -133,6 +133,9 @@ export default function ProfileSetupPage() {
         <div className="flex flex-col gap-2 px-6">
           <ProfileQuestionCard title="출생연도">
             <input
+              id="birthYear"
+              name="birthYear"
+              autoComplete="bday-year"
               type="number"
               inputMode="numeric"
               className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain placeholder:text-textSub outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
@@ -143,6 +146,8 @@ export default function ProfileSetupPage() {
 
           <ProfileQuestionCard title="거주 지역">
             <select
+              id="region"
+              name="region"
               className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.region}
               onChange={(event) => setFormData({ ...formData, region: event.target.value })}
@@ -188,6 +193,8 @@ export default function ProfileSetupPage() {
             description="정확한 소득 심사는 공식 기관에서 진행됩니다. 추천 필터링을 위한 참고 정보로만 사용돼요."
           >
             <select
+              id="incomeLevel"
+              name="incomeLevel"
               className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.incomeLevel}
               onChange={(event) => setFormData({ ...formData, incomeLevel: event.target.value })}
@@ -200,6 +207,8 @@ export default function ProfileSetupPage() {
 
           <ProfileQuestionCard title="가구 형태">
             <select
+              id="householdType"
+              name="householdType"
               className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.householdType}
               onChange={(event) => setFormData({ ...formData, householdType: event.target.value })}

@@ -54,6 +54,9 @@ export default function RegisterPasswordPage() {
       <div className="flex flex-col gap-5">
         <div className="relative w-full">
           <Input
+            id="new-password"
+            name="password"
+            autoComplete="new-password"
             type={showPassword ? 'text' : 'password'}
             placeholder="비밀번호"
             value={password}
@@ -71,6 +74,9 @@ export default function RegisterPasswordPage() {
         </div>
 
         <Input
+          id="new-password-confirm"
+          name="passwordConfirm"
+          autoComplete="new-password"
           type={showPassword ? 'text' : 'password'}
           placeholder="비밀번호 확인"
           value={passwordConfirm}

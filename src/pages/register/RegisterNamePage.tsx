@@ -40,6 +40,9 @@ export default function RegisterNamePage() {
       }
     >
       <Input
+        id="name"
+        name="name"
+        autoComplete="name"
         type="text"
         placeholder="이름"
         value={name}

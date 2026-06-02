@@ -129,8 +129,11 @@ export default function VerifyEmailPage() {
         {/* Input Card */}
         <div className="bg-white rounded-3xl p-6 border border-divider shadow-sm flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <label className="text-[14px] font-bold text-textSub px-1">인증번호 6자리</label>
+            <label htmlFor="email-verification-code" className="text-[14px] font-bold text-textSub px-1">인증번호 6자리</label>
             <Input
+              id="email-verification-code"
+              name="verificationCode"
+              autoComplete="one-time-code"
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"

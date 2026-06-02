@@ -103,6 +103,9 @@ export default function LoginPage() {
 
       <form onSubmit={handleLogin} className="space-y-4 mb-10">
         <input 
+          id="email"
+          name="email"
+          autoComplete="email"
           type="email" 
           placeholder="이메일" 
           value={email}
@@ -110,6 +113,9 @@ export default function LoginPage() {
           className="w-full h-[52px] bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
         />
         <input 
+          id="password"
+          name="password"
+          autoComplete="current-password"
           type="password" 
           placeholder="비밀번호" 
           value={password}

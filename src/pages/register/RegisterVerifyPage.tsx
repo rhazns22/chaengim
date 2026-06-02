@@ -70,6 +70,9 @@ export default function RegisterVerifyPage() {
         </p>
 
         <Input
+          id="email-verification-code"
+          name="verificationCode"
+          autoComplete="one-time-code"
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
