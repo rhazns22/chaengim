@@ -25,6 +25,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     if (!email) {
+      showToast('인증할 이메일 정보를 찾을 수 없습니다. 다시 로그인해 주세요.');
       navigate('/login', { replace: true });
       return;
     }
@@ -63,11 +64,22 @@ export default function VerifyEmailPage() {
   }, [timer]);
 
   const handleResend = async () => {
-    if (!canResend || !email) return;
+    const maskedEmailLog = email ? `${email.substring(0, 3)}***@***` : 'none';
+    console.log('[VerifyEmail] resend clicked', {
+      email: maskedEmailLog,
+      emailSource: pendingEmail ? 'sessionStorage' : user?.email ? 'authStore' : 'none',
+    });
+
+    if (!canResend || !email) {
+      console.warn('[VerifyEmail] resend blocked', { canResend, hasEmail: Boolean(email) });
+      return;
+    }
+
     try {
       setErrorMessage(null);
       setTimer(60);
       setCanResend(false);
+      console.log('[VerifyEmail] calling sendEmailVerification');
       await sendEmailVerification(email);
       showToast('인증번호를 다시 전송했습니다.');
     } catch (err: any) {

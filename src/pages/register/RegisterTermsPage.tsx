@@ -77,6 +77,7 @@ export default function RegisterTermsPage() {
 
     const state = useAuthStore.getState();
     if (state.isLoggedIn && !state.error) {
+      sessionStorage.setItem('pendingVerificationEmail', trimmedEmail);
       clearDraft(); // 가입 성공 후 임시 임포트 정보 정리
       await useAiRecommendationStore.getState().fetchProfile();
       navigate('/register/complete', { replace: true });
