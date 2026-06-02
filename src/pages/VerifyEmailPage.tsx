@@ -68,10 +68,25 @@ export default function VerifyEmailPage() {
     console.log('[VerifyEmail] resend clicked', {
       email: maskedEmailLog,
       emailSource: pendingEmail ? 'sessionStorage' : user?.email ? 'authStore' : 'none',
+      canResend,
+      timer,
+      isLoading,
     });
 
-    if (!canResend || !email) {
-      console.warn('[VerifyEmail] resend blocked', { canResend, hasEmail: Boolean(email) });
+    if (!email) {
+      showToast('인증할 이메일 정보를 찾을 수 없습니다. 다시 로그인해 주세요.');
+      console.warn('[VerifyEmail] resend blocked: email is missing');
+      return;
+    }
+
+    if (!canResend) {
+      showToast(`재전송 대기 시간입니다. ${timer}초 후에 다시 시도해 주세요.`);
+      console.warn('[VerifyEmail] resend blocked: cooldown active', { timer });
+      return;
+    }
+
+    if (isLoading) {
+      console.warn('[VerifyEmail] resend blocked: loading');
       return;
     }
 
@@ -160,9 +175,8 @@ export default function VerifyEmailPage() {
             <button
               type="button"
               onClick={handleResend}
-              disabled={!canResend || isLoading}
               className={`font-bold flex items-center gap-1.5 underline underline-offset-2 transition-colors ${
-                canResend && !isLoading ? 'text-primary hover:text-primaryDark' : 'text-textMuted cursor-default'
+                canResend && !isLoading ? 'text-primary hover:text-primaryDark' : 'text-textMuted'
               }`}
             >
               <RefreshCw size={12} className={isLoading ? 'animate-spin' : ''} />
