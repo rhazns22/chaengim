@@ -46,6 +46,7 @@ export default function PrivacyPage() {
                     <h4 className="font-semibold text-textMain">[1] 회원가입 및 로그인에 필요한 정보</h4>
                     <ul className="list-disc pl-5 text-[13px] space-y-0.5 text-textSub">
                       <li>이메일 주소 및 암호화된 비밀번호 값 (자체 이메일 가입 시)</li>
+                      <li>이메일 인증 관련 정보 (인증 코드의 일방향 SHA-256 해시값, 발송 시각 및 인증 만료 시각, 인증 시도 및 실패 횟수)</li>
                       <li>Google, Kakao, Naver 제공자 식별 키(ID)</li>
                       <li>이름, 닉네임 및 프로필 이미지 파일의 URL</li>
                     </ul>

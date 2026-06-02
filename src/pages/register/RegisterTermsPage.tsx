@@ -111,7 +111,7 @@ export default function RegisterTermsPage() {
           className={`flex items-center gap-4 w-full p-5 border rounded-[24px] transition-colors text-left ${
             allAgreed 
               ? 'border-primary bg-chipBg text-primary' 
-              : 'border-divider bg-background text-textMain'
+              : 'border-divider bg-white text-textMain shadow-sm'
           }`}
         >
           <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-all ${

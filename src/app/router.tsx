@@ -62,16 +62,24 @@ function AuthGuard() {
           await splashDelay;
           if (!isMounted) return;
           
-          const hasCompletedProfile = !useAiRecommendationStore.getState().needsProfileSetup;
+          const currentUser = useAuthStore.getState().user;
+          const needsVerification = currentUser && !isGuest && !currentUser.emailVerified && !currentUser.email.endsWith('.local');
           setIsReady(true);
 
-          if (!hasCompletedProfile) {
-            if (location.pathname !== '/profile-setup') {
-              navigate('/profile-setup', { replace: true });
+          if (needsVerification) {
+            if (location.pathname !== '/verify-email') {
+              navigate('/verify-email', { replace: true });
             }
           } else {
-            if (['/login', '/splash', '/register/complete'].includes(location.pathname)) {
-              navigate('/', { replace: true });
+            const hasCompletedProfile = !useAiRecommendationStore.getState().needsProfileSetup;
+            if (!hasCompletedProfile) {
+              if (location.pathname !== '/profile-setup') {
+                navigate('/profile-setup', { replace: true });
+              }
+            } else {
+              if (['/login', '/splash', '/register/complete', '/verify-email'].includes(location.pathname)) {
+                navigate('/', { replace: true });
+              }
             }
           }
         } catch (err) {
@@ -129,6 +137,7 @@ const WithdrawPage = lazy(() => import('../pages/settings/WithdrawPage'));
 const AiRecommendationPage = lazy(() => import('../pages/AiRecommendationPage'));
 const KakaoCallbackPage = lazy(() => import('../pages/KakaoCallbackPage'));
 const NaverCallbackPage = lazy(() => import('../pages/NaverCallbackPage'));
+const VerifyEmailPage = lazy(() => import('../pages/VerifyEmailPage'));
 
 function PageLoader() {
   return (
@@ -175,6 +184,7 @@ export const router = createBrowserRouter([
       { path: 'settings/withdraw', element: lazyPage(<WithdrawPage />) },
       { path: 'profile-setup', element: <ProfileSetupPage /> },
       { path: 'ai-recommendation', element: lazyPage(<AiRecommendationPage />) },
+      { path: 'verify-email', element: lazyPage(<VerifyEmailPage />) },
     ],
   },
   {

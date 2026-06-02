@@ -58,7 +58,7 @@ export default function RegisterPasswordPage() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setLocalPassword(e.target.value)}
-            className="w-full h-14 bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain pr-12"
+            className="w-full h-14 bg-white border border-divider rounded-2xl px-4 text-[16px] font-medium text-textMain placeholder:text-textSub outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 pr-12"
             autoFocus
           />
           <button
@@ -75,7 +75,7 @@ export default function RegisterPasswordPage() {
           placeholder="비밀번호 확인"
           value={passwordConfirm}
           onChange={(e) => setLocalPasswordConfirm(e.target.value)}
-          className="w-full h-14 bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+          className="w-full h-14 bg-white border border-divider rounded-2xl px-4 text-[16px] font-medium text-textMain placeholder:text-textSub outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
         />
 
         <div className="flex flex-col gap-2.5 px-2 text-[13px] font-bold mt-1">

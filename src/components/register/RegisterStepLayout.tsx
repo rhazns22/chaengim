@@ -26,10 +26,10 @@ export default function RegisterStepLayout({
   const progressPercent = Math.min((currentStep / totalSteps) * 100, 100);
 
   return (
-    <PageTransition className="w-full min-h-dvh bg-white flex flex-col relative overflow-x-hidden">
+    <PageTransition className="w-full min-h-dvh bg-[#F6F7FB] flex flex-col relative overflow-x-hidden">
       {/* 상단 네비게이션 헤더 */}
       <header 
-        className="flex items-center justify-between bg-white px-6 w-full"
+        className="flex items-center justify-between bg-[#F6F7FB] px-6 w-full"
         style={{
           paddingTop: 'var(--app-top-step-layout)',
           minHeight: 'var(--app-header-height-step-layout)',
@@ -82,9 +82,8 @@ export default function RegisterStepLayout({
         </div>
       </main>
 
-      {/* 하단 고정 CTA 버튼 영역 */}
       <footer 
-        className="fixed bottom-0 inset-x-0 mx-auto z-20 w-full md:max-w-[480px] bg-white border-t border-divider px-6 pt-4"
+        className="fixed bottom-0 inset-x-0 mx-auto z-20 w-full md:max-w-[480px] bg-[#F6F7FB] px-6 pt-4"
         style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
       >
         {bottomButton}

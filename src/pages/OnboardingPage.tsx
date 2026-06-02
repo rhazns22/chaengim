@@ -4,7 +4,7 @@ import PageTransition from '../components/layout/PageTransition';
 
 export default function OnboardingPage() {
   return (
-    <PageTransition className="w-full min-h-screen bg-white flex flex-col items-center justify-center px-6 relative pb-12">
+    <PageTransition className="w-full min-h-dvh bg-white flex flex-col items-center justify-center px-6 relative pb-12">
       <div className="flex-1 flex flex-col items-center justify-center text-center mt-20">
         <h1 className="text-[28px] font-extrabold text-textMain mb-4 leading-tight">
           놓치기 쉬운 혜택,<br/>알아서 챙겨드릴게요

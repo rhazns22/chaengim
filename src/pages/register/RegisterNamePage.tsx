@@ -44,7 +44,7 @@ export default function RegisterNamePage() {
         placeholder="이름"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="w-full h-14 bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+        className="w-full h-14 bg-white border border-divider rounded-2xl px-4 text-[16px] font-medium text-textMain placeholder:text-textSub outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
         autoFocus
       />
     </RegisterStepLayout>

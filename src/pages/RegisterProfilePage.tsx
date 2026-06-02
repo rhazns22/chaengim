@@ -6,8 +6,8 @@ export default function RegisterProfilePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full min-h-dvh bg-white flex flex-col relative pb-24">
-      <div className="flex items-center h-14 px-4 sticky top-0 bg-white z-10">
+    <div className="w-full min-h-dvh bg-[#F6F7FB] flex flex-col relative pb-24">
+      <div className="flex items-center h-14 px-4 sticky top-0 bg-[#F6F7FB] z-10">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2">
           <ChevronLeft size={28} className="text-textMain" />
         </button>
@@ -22,12 +22,12 @@ export default function RegisterProfilePage() {
         <input 
           type="text" 
           placeholder="이름 입력" 
-          className="w-full h-14 bg-background border border-divider rounded-[20px] px-4 text-[15px] font-semibold focus:outline-none focus:border-primary transition-colors text-textMain"
+          className="w-full h-14 bg-white border border-divider rounded-2xl px-4 text-[16px] font-medium text-textMain placeholder:text-textSub outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
         />
       </div>
 
       <div 
-        className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] px-6 pt-6 bg-white border-t border-divider"
+        className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] px-6 pt-6 bg-[#F6F7FB]"
         style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
       >
         <PrimaryButton onClick={() => navigate('/register/verify')}>입력 완료</PrimaryButton>

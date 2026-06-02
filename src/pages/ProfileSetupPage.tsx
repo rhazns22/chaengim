@@ -94,7 +94,7 @@ export default function ProfileSetupPage() {
 
   if (isProfileLoading) {
     return (
-      <PageTransition className="flex h-screen items-center justify-center font-bold text-textSub">
+      <PageTransition className="flex min-h-dvh items-center justify-center font-bold text-textSub bg-[#F6F7FB]">
         프로필을 불러오는 중...
       </PageTransition>
     );
@@ -103,11 +103,11 @@ export default function ProfileSetupPage() {
   return (
     <PageTransition>
       <div 
-        className="min-h-dvh w-full bg-gray-50 overflow-x-hidden relative"
+        className="min-h-dvh w-full bg-[#F6F7FB] overflow-x-hidden relative"
         style={{ paddingBottom: 'calc(112px + var(--bottom-safe))' }}
       >
         <div 
-          className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-100 bg-white/85 px-6 backdrop-blur-md"
+          className="sticky top-0 z-50 flex items-center justify-between bg-[#F6F7FB]/90 px-6 backdrop-blur-md"
           style={{
             paddingTop: 'var(--app-top-step-layout)',
             minHeight: 'var(--app-header-height-step-layout)',
@@ -135,7 +135,7 @@ export default function ProfileSetupPage() {
             <input
               type="number"
               inputMode="numeric"
-              className="w-full rounded-xl border-none bg-gray-100 p-4 font-bold text-textMain focus:ring-2 focus:ring-primary"
+              className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain placeholder:text-textSub outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.birthYear}
               onChange={(event) => setFormData({ ...formData, birthYear: Number(event.target.value) })}
             />
@@ -143,7 +143,7 @@ export default function ProfileSetupPage() {
 
           <ProfileQuestionCard title="거주 지역">
             <select
-              className="w-full rounded-xl border-none bg-gray-100 p-4 font-bold text-textMain focus:ring-2 focus:ring-primary"
+              className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.region}
               onChange={(event) => setFormData({ ...formData, region: event.target.value })}
             >
@@ -188,7 +188,7 @@ export default function ProfileSetupPage() {
             description="정확한 소득 심사는 공식 기관에서 진행됩니다. 추천 필터링을 위한 참고 정보로만 사용돼요."
           >
             <select
-              className="w-full rounded-xl border-none bg-gray-100 p-4 font-bold text-textMain focus:ring-2 focus:ring-primary"
+              className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.incomeLevel}
               onChange={(event) => setFormData({ ...formData, incomeLevel: event.target.value })}
             >
@@ -200,7 +200,7 @@ export default function ProfileSetupPage() {
 
           <ProfileQuestionCard title="가구 형태">
             <select
-              className="w-full rounded-xl border-none bg-gray-100 p-4 font-bold text-textMain focus:ring-2 focus:ring-primary"
+              className="w-full rounded-2xl border border-divider bg-white px-4 py-4 text-[16px] font-medium text-textMain outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
               value={formData.householdType}
               onChange={(event) => setFormData({ ...formData, householdType: event.target.value })}
             >
@@ -212,7 +212,7 @@ export default function ProfileSetupPage() {
         </div>
 
         <div 
-          className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 bg-gradient-to-t from-white via-white to-transparent px-6 pt-6"
+          className="fixed bottom-0 inset-x-0 mx-auto w-full md:max-w-[480px] z-50 bg-[#F6F7FB] px-6 pt-6"
           style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
         >
           <PrimaryButton onClick={handleSubmit} loading={isSavingProfile} disabled={!isFormValid}>

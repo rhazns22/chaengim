@@ -17,6 +17,8 @@ interface AuthState {
   loginWithKakao: (code: string) => Promise<{ needsProfileSetup: boolean } | undefined>;
   loginWithNaver: (payload: { code: string; state: string }) => Promise<{ needsProfileSetup: boolean } | undefined>;
   fetchMe: () => Promise<void>;
+  sendEmailVerification: (email: string) => Promise<void>;
+  verifyEmail: (email: string, code: string) => Promise<void>;
   guestLogin: () => void;
   logout: () => void;
   clearError: () => void;
@@ -110,6 +112,36 @@ export const useAuthStore = create<AuthState>()(
         } catch (e: unknown) {
           // fetchMe는 백그라운드 갱신이므로 에러 시 조용히 로그아웃 상태로 전환
           set({ user: null, accessToken: null, isLoggedIn: false });
+        }
+      },
+
+      sendEmailVerification: async (email) => {
+        set({ isLoading: true, error: null });
+        try {
+          await authApi.sendEmailVerification(email);
+          set({ isLoading: false });
+        } catch (e: unknown) {
+          set({ error: normalizeErrorMessage(e), isLoading: false });
+          throw e;
+        }
+      },
+
+      verifyEmail: async (email, code) => {
+        set({ isLoading: true, error: null });
+        try {
+          await authApi.verifyEmail(email, code);
+          const currentUser = get().user;
+          if (currentUser) {
+            set({
+              user: { ...currentUser, emailVerified: true },
+              isLoading: false
+            });
+          } else {
+            set({ isLoading: false });
+          }
+        } catch (e: unknown) {
+          set({ error: normalizeErrorMessage(e), isLoading: false });
+          throw e;
         }
       },
 

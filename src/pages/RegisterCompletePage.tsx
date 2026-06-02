@@ -9,7 +9,7 @@ export default function RegisterCompletePage() {
   };
 
   return (
-    <div className="w-full min-h-dvh bg-white px-6 py-12 flex flex-col items-center justify-center">
+    <div className="w-full min-h-dvh bg-[#F6F7FB] px-6 py-12 flex flex-col items-center justify-center">
       <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-8">
         <span className="text-4xl">🎉</span>
       </div>

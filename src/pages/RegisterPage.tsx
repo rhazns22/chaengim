@@ -80,8 +80,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-dvh w-full flex-col bg-white pb-[140px]">
-      <div className="sticky top-0 z-10 flex h-14 items-center bg-white/90 px-4 backdrop-blur-md">
+    <div className="flex min-h-dvh w-full flex-col bg-[#F6F7FB] pb-[140px]">
+      <div className="sticky top-0 z-10 flex h-14 items-center bg-[#F6F7FB]/90 px-4 backdrop-blur-md">
         <button onClick={() => navigate(-1)} className="-ml-2 rounded-full p-2 transition-colors active:bg-gray-100">
           <ChevronLeft size={28} className="text-textMain" />
         </button>
@@ -131,7 +131,7 @@ export default function RegisterPage() {
             error={errors.passwordConfirm}
           />
           
-          <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-background p-5">
+          <div className="mt-4 flex flex-col gap-3 rounded-2xl bg-white shadow-sm p-5">
             <label className="flex items-center gap-3">
               <button
                 type="button"
@@ -168,7 +168,7 @@ export default function RegisterPage() {
       </div>
 
       <div 
-        className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full md:max-w-[480px] border-t border-divider bg-white px-6 pt-4"
+        className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full md:max-w-[480px] bg-[#F6F7FB] px-6 pt-4"
         style={{ paddingBottom: 'calc(16px + var(--bottom-safe))' }}
       >
         <div className="mb-4 flex items-center justify-center gap-4 text-[13px] font-bold">

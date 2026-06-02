@@ -57,6 +57,11 @@
   * {
     -webkit-overflow-scrolling: touch;
   }
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 @layer components {
   .text-app-hero {

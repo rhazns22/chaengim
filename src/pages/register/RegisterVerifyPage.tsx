@@ -77,7 +77,7 @@ export default function RegisterVerifyPage() {
           placeholder="000000"
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/[^0-9]/g, ''))}
-          className="w-full h-14 bg-background border border-divider rounded-[20px] px-4 text-[18px] focus:outline-none focus:border-primary transition-colors text-textMain text-center tracking-widest font-extrabold"
+          className="w-full h-14 bg-white border border-divider rounded-2xl px-4 text-[18px] text-textMain text-center tracking-widest font-extrabold outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
           autoFocus
         />
 

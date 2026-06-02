@@ -3,4 +3,6 @@ export interface User {
   name: string;
   email: string;
   phone?: string;
+  emailVerified?: boolean;
+  provider?: string;
 }

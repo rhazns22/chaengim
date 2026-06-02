@@ -21,5 +21,13 @@ export const authApi = {
   naverLogin: async (payload: { code: string; state: string }) => {
     const res = await httpClient.post<{ user: User; accessToken: string; needsProfileSetup: boolean }>('/auth/naver', payload);
     return res.data;
+  },
+  sendEmailVerification: async (email: string) => {
+    const res = await httpClient.post<{ ok: boolean; message: string }>('/auth/send-email-verification', { email });
+    return res.data;
+  },
+  verifyEmail: async (email: string, code: string) => {
+    const res = await httpClient.post<{ ok: boolean; message: string }>('/auth/verify-email', { email, code });
+    return res.data;
   }
 };
