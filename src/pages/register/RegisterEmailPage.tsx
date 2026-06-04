@@ -29,7 +29,8 @@ export default function RegisterEmailPage() {
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleNext = async () => {
-    if (!isValid) return;
+    if (isLoading || !isValid) return;
+
     const trimmedEmail = email.trim().toLowerCase();
     setField('email', trimmedEmail);
     sessionStorage.setItem('pendingVerificationEmail', trimmedEmail);
