@@ -11,25 +11,31 @@ import { authApi } from '../../api/authApi';
 export default function RegisterVerifyPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
-  const { setField } = useRegisterDraftStore();
+  const { draft, setField } = useRegisterDraftStore();
   const { showToast } = useToastStore();
   const [code, setCode] = useState('');
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const email = sessionStorage.getItem('pendingVerificationEmail') || '';
+  const email =
+    (sessionStorage.getItem('pendingVerificationEmail') || draft.email || '').trim().toLowerCase();
 
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/', { replace: true });
       return;
     }
+    if (email) {
+      sessionStorage.setItem('pendingVerificationEmail', email);
+      setField('email', email);
+      return;
+    }
     if (!email) {
       showToast('인증할 이메일 정보를 찾을 수 없습니다. 다시 입력해 주세요.');
       navigate('/register/email', { replace: true });
     }
-  }, [isLoggedIn, email, navigate, showToast]);
+  }, [isLoggedIn, email, navigate, setField, showToast]);
 
   useEffect(() => {
     if (timer <= 0) {
